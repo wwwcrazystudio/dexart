@@ -1,0 +1,21 @@
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1247px,
+);
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+@import 'sass-rem/rem';
+@import 'variables';
+@import 'buttons';
+
+@mixin unlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+

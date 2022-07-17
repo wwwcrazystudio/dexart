@@ -1,0 +1,55 @@
+h1 {
+    font-weight: 900;
+    font-size: rem(64px);
+    line-height: 120%;
+    letter-spacing: -0.005em;
+    font-family: 'StyreneAWeb', sans-serif;
+
+    @include media-breakpoint-down(lg) {
+        font-size: rem(38px);
+    }
+}
+
+h2 {
+    font-weight: 900;
+    font-size: rem(48px);
+    line-height: 120%;
+    letter-spacing: -0.005em;
+    font-family: 'StyreneAWeb', sans-serif;
+
+    @include media-breakpoint-down(lg) {
+        font-size: rem(32px);
+    }
+}
+
+h3 {
+    font-weight: 900;
+    font-size: rem(36px);
+    line-height: 120%;
+    letter-spacing: -0.005em;
+    font-family: 'StyreneAWeb', sans-serif;
+
+    @include media-breakpoint-down(lg) {
+        font-size: rem(26px);
+    }
+}
+
+h4 {
+    font-weight: 900;
+    font-size: rem(24px);
+    line-height: 130%;
+    letter-spacing: 0.01em;
+    font-family: 'StyreneAWeb', sans-serif;
+
+    @include media-breakpoint-down(lg) {
+        font-size: rem(22px);
+    }
+}
+
+h5 {
+    font-weight: 900;
+    font-size: rem(20px);
+    line-height: 130%;
+    letter-spacing: 0.01em;
+    font-family: 'StyreneAWeb', sans-serif;
+}
