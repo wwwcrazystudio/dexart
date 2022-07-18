@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import FollowUs from './FollowUs.vue'
-import LangSwitch from './Langswitch.vue'
+import LangSwitch from './LangSwitch.vue'
 
 const links = [
     {
