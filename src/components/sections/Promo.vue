@@ -18,13 +18,13 @@
     &__wrap {
         height: 100vh;
         background-image: url('@/assets/placeholder/promo.jpg');
+        background-size: cover;
         position: relative;
         padding: rem(64px 0);
     }
 
     &__heading {
         color: #fff;
-        font-weight: 700;
         max-width: 470px;
 
         span {
@@ -63,6 +63,7 @@
         bottom: 0;
         right: 0;
         margin: auto;
+        transition: 350ms;
 
         &::before {
             content: '';
@@ -84,6 +85,12 @@
                 top: -7.5%;
                 transition: 350ms;
             }
+        }
+
+        &:active {
+            width: 120px;
+            height: 120px;
+            transition: 350ms;
         }
     }
 }

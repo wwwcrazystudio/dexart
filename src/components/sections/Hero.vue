@@ -28,6 +28,7 @@
             #0c0316 67.57%
         );
         background-image: url('@/assets/placeholder/herobg.png');
+        background-size: cover;
     }
 
     &__heading {
@@ -55,8 +56,7 @@
         font-size: rem(28px);
         line-height: 130%;
         letter-spacing: 0.01em;
-        max-width: 660px;
-        letter-spacing: 0.01em;
+        max-width: 520px;
     }
 }
 </style>

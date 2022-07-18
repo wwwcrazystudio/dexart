@@ -87,6 +87,7 @@ const links = [
         font-size: rem(18px);
         color: #d7b2ff;
         text-decoration: none;
+        font-family: 'StyreneAWeb', sans-serif;
 
         &:hover {
             color: #e9d4ff;

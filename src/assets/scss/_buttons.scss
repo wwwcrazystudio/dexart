@@ -1,11 +1,13 @@
 %btn {
-    padding: rem(14px 20px);
-    font-weight: 600;
+    padding: rem(20px 64px);
+    font-family: 'StyreneAWeb', sans-serif;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    border-radius: 24px;
+    font-size: rem(20px);
+    line-height: 1;
 
     @media (max-width: 1600px) {
         padding: rem(12px 18px);
@@ -19,73 +21,42 @@
 
 %btn-accent {
     @extend %btn;
-    background-color: $accent;
+    background: linear-gradient(
+        90deg,
+        #7c1dd3 2.02%,
+        #912eef 49.93%,
+        #ee40ff 96.86%
+    );
+    box-shadow: inset -1px 2px 8px #ece7fa;
+    border-radius: 50px;
     color: #fff;
-}
-
-%btn-light {
-    @extend %btn;
-    background-color: $graylight;
-    color: $dark;
-    transition: 350ms;
-
-    &:disabled {
-        color: #d6dbe2;
-        transition: 350ms
-    }
-}
-
-%btn-white {
-    @extend %btn;
-
-    background: #ffffff;
-    color: #714cdd;
-}
-
-%carousel-control {
-    width: 50px;
-    height: 50px;
-    background: #fff;
-    border-radius: 50%;
-    z-index: 10;
-    box-shadow: -3px -2px 10px -5px rgba(69, 79, 132, 0.4);
-    transition: 350ms;
     position: relative;
-
-    img {
-        width: 90%;
-        height: 90%;
-        max-width: 24px;
-        max-height: 24px;
-    }
+    z-index: 10;
 
     &::before {
         content: '';
+        width: 100%;
+        height: 100%;
         position: absolute;
-        width: calc(100% + 8px);
-        height: calc(100% + 8px);
-        left: -4px;
-        top: -4px;
-        border-radius: 50%;
-        background-color: #fff;
-        z-index: -1;
-        pointer-events: none;
+        left: 0;
+        top: 0;
+        background: linear-gradient(
+            90deg,
+            #7c1dd3 2.02%,
+            #bb73ff 49.93%,
+            #ee40ff 96.86%
+        );
+        box-shadow: inset -1px 2px 8px #ece7fa;
+        border-radius: 50px;
         opacity: 0;
         transition: 350ms;
-        border: 4px solid #dde5ec;
+        z-index: -1;
     }
 
     &:hover {
-        transition: 350ms;
-
         &::before {
             opacity: 1;
             transition: 350ms;
         }
-    }
-
-    @include media-breakpoint-down(lg) {
-        width: 35px;
-        height: 35px;
     }
 }

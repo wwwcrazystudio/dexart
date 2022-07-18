@@ -29,13 +29,13 @@
     &__wrap {
         height: 100vh;
         background-image: url('@/assets/placeholder/world.jpg');
+        background-size: cover;
         position: relative;
         padding: rem(128px 0);
     }
 
     &__heading {
         color: #fff;
-        font-weight: 700;
         max-width: 470px;
         margin-bottom: rem(32px);
 

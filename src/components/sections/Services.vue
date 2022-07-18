@@ -6,32 +6,37 @@
                     What you can <span>do in DEXART:</span>
                 </h2>
 
-                <ul class="services__list">
-                    <li
-                        class="services__service-item service-item"
-                        v-for="item in services"
-                        :key="item.title"
-                    >
-                        <div class="service-item__wrap">
-                            <h3 class="service-item__heading">
-                                {{ item.title }}
-                            </h3>
-                            <div class="service-item__text">
-                                {{ item.text }}
+                <div class="services__carousel swiper" ref="carousel">
+                    <ul class="services__list swiper-wrapper">
+                        <li
+                            class="services__service-item service-item swiper-slide"
+                            v-for="item in services"
+                            :key="item.title"
+                        >
+                            <div class="service-item__wrap">
+                                <h3 class="service-item__heading">
+                                    {{ item.title }}
+                                </h3>
+                                <div class="service-item__text">
+                                    {{ item.text }}
+                                </div>
+                                <div class="service-item__img">
+                                    <img :src="item.img" alt="" />
+                                </div>
                             </div>
-
-                            <div class="service-item__img">
-                                <img :src="item.img" alt="" />
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import Swiper from 'swiper'
+import 'swiper/css'
+
 import service1 from '@/assets/services/service1.svg'
 import service2 from '@/assets/services/service2.svg'
 import service3 from '@/assets/services/service3.svg'
@@ -71,6 +76,22 @@ const services = [
         text: 'Show your talent and monetize your art',
     },
 ]
+
+const carousel = ref<HTMLElement>()
+
+onMounted(() => {
+    if (carousel.value) {
+        new Swiper(carousel.value, {
+            slidesPerView: 1,
+            spaceBetween: 64,
+            loop: true,
+            autoplay: {
+                delay: 1500,
+            },
+            direction: 'vertical',
+        })
+    }
+})
 </script>
 
 <style scoped lang="scss">
@@ -78,6 +99,7 @@ const services = [
     &__wrap {
         height: 100vh;
         background-image: url('@/assets/placeholder/servicesbg.jpg');
+        background-size: cover;
         padding-top: rem(130px);
     }
 
@@ -86,11 +108,11 @@ const services = [
         justify-content: space-between;
         max-width: 1350px;
         margin: auto;
+        height: 100%;
     }
 
     &__heading {
         color: #fff;
-        font-weight: 700;
         max-width: 470px;
 
         span {
@@ -106,12 +128,16 @@ const services = [
         }
     }
 
+    &__carousel {
+        max-width: 720px;
+        margin-right: 0;
+        padding-top: rem(130px);
+        margin-top: rem(-130px);
+        cursor: pointer;
+    }
+
     &__list {
         @include unlist;
-
-        max-width: 720px;
-        display: grid;
-        gap: rem(64px);
     }
 }
 

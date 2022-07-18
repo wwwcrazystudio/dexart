@@ -30,6 +30,7 @@
     &__wrap {
         background: #130b1a;
         background-image: url('@/assets/placeholder/aboutbg.png');
+        background-size: cover;
         height: 100vh;
         display: flex;
         align-items: center;
@@ -42,9 +43,7 @@
 
     &__heading {
         color: #fff;
-        font-weight: 700;
         max-width: 470px;
-        margin-bottom: rem(24px);
 
         span {
             display: block;

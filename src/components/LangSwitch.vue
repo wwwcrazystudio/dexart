@@ -60,6 +60,7 @@ const lang = ref<string>('en')
         font-size: rem(18px);
         opacity: 0.5;
         text-transform: uppercase;
+        font-family: 'StyreneAWeb', sans-serif;
 
         &--active {
             font-weight: 700;

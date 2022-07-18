@@ -80,6 +80,7 @@ const showDropdown = ref<boolean>(false)
     &__wrap {
         position: relative;
         z-index: 10;
+        font-family: 'StyreneAWeb', sans-serif;
     }
 
     &__btn {
