@@ -78,6 +78,11 @@ const handleInput = (e: Event) => {
         width: 100%;
         transition: 350ms;
 
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+            padding: rem(17px 12px);
+        }
+
         &:hover {
             background: rgba(87, 25, 138, 0.8);
             transition: 350ms;

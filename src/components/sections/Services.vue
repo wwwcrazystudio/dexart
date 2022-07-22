@@ -14,14 +14,14 @@
                             :key="item.title"
                         >
                             <div class="service-item__wrap">
+                                <div class="service-item__img">
+                                    <img :src="item.img" alt="" />
+                                </div>
                                 <h3 class="service-item__heading">
                                     {{ item.title }}
                                 </h3>
                                 <div class="service-item__text">
                                     {{ item.text }}
-                                </div>
-                                <div class="service-item__img">
-                                    <img :src="item.img" alt="" />
                                 </div>
                             </div>
                         </li>
@@ -101,19 +101,39 @@ onMounted(() => {
         background-image: url('@/assets/placeholder/servicesbg.jpg');
         background-size: cover;
         padding-top: rem(130px);
+
+        @include media-breakpoint-down(md) {
+            padding-top: 0;
+        }
     }
 
     &__content {
         display: flex;
         justify-content: space-between;
         max-width: 1350px;
+        width: calc(100% - 64px);
         margin: auto;
         height: 100%;
+
+        @include media-breakpoint-down(lg) {
+            max-width: 720px;
+        }
+
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            max-width: 540px;
+        }
     }
 
     &__heading {
         color: #fff;
         max-width: 470px;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(38px);
+            margin-bottom: rem(40px);
+            font-weight: 700;
+        }
 
         span {
             display: block;
@@ -130,10 +150,17 @@ onMounted(() => {
 
     &__carousel {
         max-width: 720px;
+        width: 50%;
         margin-right: 0;
         padding-top: rem(130px);
         margin-top: rem(-130px);
         cursor: pointer;
+
+        @include media-breakpoint-down(md) {
+            margin-top: 0;
+            padding-top: 0;
+            width: 100%;
+        }
     }
 
     &__list {
@@ -145,19 +172,33 @@ onMounted(() => {
     &__wrap {
         padding-right: 35%;
         position: relative;
+
+        @include media-breakpoint-down(md) {
+            padding-right: 0;
+        }
     }
 
     &__heading {
         font-weight: 900;
         color: #fff;
         margin-bottom: rem(16px);
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(22px);
+            margin-bottom: rem(8px);
+            max-width: 80%;
+        }
     }
 
     &__text {
-        font-size: rem(28px);
-        line-height: 130%;
-        letter-spacing: 0.01em;
+        @include p_type_3;
+
         color: #d7b2ff;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(16px);
+            max-width: 90%;
+        }
     }
 
     &__img {
@@ -168,6 +209,14 @@ onMounted(() => {
         margin: auto;
         max-width: 45%;
         height: fit-content;
+
+        @include media-breakpoint-down(md) {
+            position: static;
+            width: 120px;
+            height: 120px;
+            margin: 0;
+            transform: translateX(-20px);
+        }
 
         img {
             width: 100%;

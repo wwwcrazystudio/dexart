@@ -9,23 +9,28 @@
                         <span>opportunities</span>
                     </h2>
 
-                    <ul class="advantages__list">
-                        <li
-                            class="advantages__advantage-item"
-                            v-for="item in advantages"
-                            :key="item.title"
-                        >
-                            <div class="advantage-item__icon">
-                                <img :src="item.icon" alt="" />
-                            </div>
-                            <div class="advantage-item__title">
-                                {{ item.title }}
-                            </div>
-                            <div class="advantage-item__text" v-if="item.text">
-                                {{ item.text }}
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="advantages__carousel swiper" ref="carousel">
+                        <ul class="advantages__list swiper-wrapper">
+                            <li
+                                class="advantages__advantage-item swiper-slide"
+                                v-for="item in advantages"
+                                :key="item.title"
+                            >
+                                <div class="advantage-item__icon">
+                                    <img :src="item.icon" alt="" />
+                                </div>
+                                <div class="advantage-item__title">
+                                    {{ item.title }}
+                                </div>
+                                <div
+                                    class="advantage-item__text"
+                                    v-if="item.text"
+                                >
+                                    {{ item.text }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <SignupBanner class="advantages__signup-banner" />
             </div>
@@ -34,6 +39,10 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import Swiper from 'swiper'
+import 'swiper/css'
+
 import MapBanner from '@/components/banners/MapBanner.vue'
 import SignupBanner from '@/components/banners/SignupBanner.vue'
 import advantage1 from '@/assets/advantages/advantage1.svg'
@@ -63,6 +72,30 @@ const advantages = [
         title: 'Decentralization & DAO',
     },
 ]
+
+const carousel = ref<HTMLElement>()
+
+onMounted(() => {
+    if (carousel.value) {
+        new Swiper(carousel.value, {
+            slidesPerView: 1.3,
+            spaceBetween: 36,
+            loop: true,
+            breakpoints: {
+                568: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 24,
+                    loop: false,
+                },
+                991: {
+                    spaceBetween: 32,
+                    slidesPerView: 4,
+                    loop: false,
+                },
+            },
+        })
+    }
+})
 </script>
 
 <style scoped lang="scss">
@@ -71,17 +104,29 @@ const advantages = [
         background-image: url('@/assets/placeholder/advantages.jpg');
         padding-top: rem(64px);
         padding-bottom: rem(142px);
+
+        @include media-breakpoint-down(md) {
+            padding: rem(124px 0);
+        }
     }
 
     &__content {
         margin-top: rem(190px);
         margin-bottom: rem(220px);
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(120px);
+        }
     }
 
     &__heading {
         color: #fff;
         max-width: 595px;
         margin-bottom: rem(124px);
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(64px);
+        }
 
         span {
             display: block;
@@ -96,12 +141,12 @@ const advantages = [
         }
     }
 
+    &__carousel {
+        overflow: visible;
+    }
+
     &__list {
         @include unlist;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: rem(32px);
     }
 }
 
@@ -125,6 +170,11 @@ const advantages = [
         color: #faf5ff;
         margin-bottom: rem(16px);
         font-family: 'StyreneAWeb', sans-serif;
+
+        @include media-breakpoint-down(md) {
+            height: 50px;
+            font-size: rem(20px);
+        }
     }
 
     &__text {
@@ -133,6 +183,10 @@ const advantages = [
         line-height: 120%;
         font-family: 'StyreneAWeb', sans-serif;
         color: #d7b2ff;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+        }
     }
 }
 </style>

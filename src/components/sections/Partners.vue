@@ -25,24 +25,35 @@
     &__wrap {
         background: linear-gradient(
                 180deg,
-                #080f22 0%,
-                #080f22 0.01%,
-                rgba(54, 20, 96, 0) 100%
+                rgba(#0b0e28, 0.6) 16.57%,
+                rgba(#381665, 0.8) 74.36%
             ),
-            linear-gradient(180deg, transparent 75%, #57198a 100%),
             url('@/assets/partnersbg.jpg') center;
 
         padding: rem(112px 0);
         background-repeat: no-repeat;
+
+        @include media-breakpoint-down(md) {
+            padding: rem(64px 0);
+            height: 100vh;
+        }
     }
 
     &__content {
         display: flex;
         justify-content: space-between;
+
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+        }
     }
 
     &__heading {
         color: #fff;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(32px);
+        }
     }
 
     &__description {
@@ -50,9 +61,8 @@
     }
 
     &__text {
-        font-size: rem(32px);
-        line-height: 130%;
-        letter-spacing: -0.005em;
+        @include p_type_1;
+
         color: #faf5ff;
     }
 
@@ -60,6 +70,10 @@
         @extend %btn-accent;
 
         margin-top: rem(48px);
+
+        @include media-breakpoint-down(md) {
+            margin-top: rem(64px);
+        }
     }
 }
 </style>

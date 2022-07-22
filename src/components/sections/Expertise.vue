@@ -1,9 +1,20 @@
 <template>
     <div class="expertise">
         <div class="expertise__wrap">
+            <img
+                class="expertise__blur expertise__blur--1"
+                src="@/assets/expertiseBlur1.svg"
+                alt=""
+            />
+            <img
+                class="expertise__blur expertise__blur--2"
+                src="@/assets/expertiseBlur2.svg"
+                alt=""
+            />
             <div class="container">
                 <h2 class="expertise__heading">Expertise</h2>
-
+            </div>
+            <div class="expertise__list-wrap">
                 <div class="expertise__list">
                     <div
                         class="expertise__item"
@@ -65,6 +76,52 @@ const expertise = [
         padding-bottom: rem(200px);
         position: relative;
 
+        @include media-breakpoint-down(md) {
+            padding-bottom: rem(128px);
+        }
+    }
+
+    &__blur {
+        position: absolute;
+
+        &--1 {
+            left: 40%;
+            top: -20%;
+            width: 40%;
+
+            @include media-breakpoint-down(md) {
+                width: 100%;
+                left: 30%;
+                top: 0%;
+            }
+        }
+
+        &--2 {
+            left: 20%;
+            top: -30%;
+            width: 30%;
+
+            @include media-breakpoint-down(md) {
+                width: 110%;
+                left: -50%;
+                top: -50%;
+            }
+        }
+    }
+
+    &__heading {
+        margin-bottom: rem(64px);
+        color: #fff;
+        position: relative;
+        z-index: 10;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(38px);
+            margin-bottom: rem(40px);
+        }
+    }
+
+    &__list-wrap {
         &::before {
             content: '';
             background-image: url("data:image/svg+xml,%3Csvg width='1818' height='331' viewBox='0 0 1818 331' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1817.5 203.398C1733.5 273.731 1543.4 389.898 1455 291.898C1344.5 169.398 1314 8.69141 1221 1.19141C1128 -6.30859 1040.5 208.898 913 215.898C785.5 222.898 750.5 116.191 574 116.191C421.31 116.191 457.5 291.898 369 291.898C280.5 291.898 268.5 178.898 158 178.898C69.6 178.898 16.5 203.565 1 215.898' stroke='%23BF81FF'/%3E%3C/svg%3E%0A");
@@ -78,6 +135,13 @@ const expertise = [
             left: 0;
             right: 0;
             margin: auto;
+
+            @include media-breakpoint-down(sm) {
+                background-size: contain;
+                height: 190px;
+                top: -60px;
+                background-image: url("data:image/svg+xml,%3Csvg width='375' height='188' viewBox='0 0 375 188' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M444 23.0782C422.215 59.7712 421.439 93.1045 375.753 87.2329C328.955 81.2184 344.778 0.675365 305 1.49998C265.222 2.3246 297 179.5 253 179.5C195.672 179.5 192.299 63.5 165 63.5C141.211 63.5 96.1346 186.973 47.3867 186.973C24.4347 186.973 38.3748 122.905 9.71713 122.905C-13.209 122.905 -26.9802 135.773 -31 142.208' stroke='%23BF81FF'/%3E%3C/svg%3E%0A");
+            }
         }
 
         &::after {
@@ -94,18 +158,37 @@ const expertise = [
             right: 0;
             margin: auto;
             z-index: -1;
-        }
-    }
+            
 
-    &__heading {
-        margin-bottom: rem(64px);
-        color: #fff;
+            @include media-breakpoint-down(sm) {
+                background-size: contain;
+                height: 140px;
+                top: -40px;
+                background-image: url("data:image/svg+xml,%3Csvg width='375' height='139' viewBox='0 0 375 139' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-96 59.4321C-68.0694 22.9566 -66.5744 82.7697 -16 52.9493C95 -12.4999 138.5 138 160.5 138C214.729 138 152.5 6.00956 211 1.00021C253.395 -2.63005 258 100.143 311.488 100.143C331.937 100.143 356.21 13.5353 385.637 13.5353C415.064 13.5353 419.054 72.1378 455.796 72.1378C485.19 72.1378 502.846 59.3455 508 52.9493' stroke='%236A1DAC'/%3E%3C/svg%3E%0A");
+            }
+        }
     }
 
     &__list {
         position: relative;
         height: 460px;
-        width: 110%;
+        width: calc(110% - 64px);
+        z-index: 10;
+        max-width: 1360px;
+        margin: auto;
+
+        @include media-breakpoint-down(xxl) {
+            width: calc(100% - 64px);
+        }
+
+        @include media-breakpoint-down(lg) {
+            height: 300px;
+        }
+
+        @include media-breakpoint-down(md) {
+            height: 255px;
+            width: calc(100% - 32px);
+        }
     }
 
     &__item {
@@ -118,6 +201,11 @@ const expertise = [
         justify-content: center;
         border-radius: 50%;
         position: absolute;
+
+        img {
+            max-width: 65%;
+            max-height: 65%;
+        }
 
         &::before {
             content: '';
@@ -143,34 +231,78 @@ const expertise = [
             transition: 350ms;
         }
 
+        @include media-breakpoint-down(lg) {
+            width: 140px;
+            height: 140px;
+        }
+
+        @include media-breakpoint-down(md) {
+            width: 78px;
+            height: 78px;
+        }
+
         &--small {
             width: 164px;
             height: 164px;
+
+            @include media-breakpoint-down(lg) {
+                width: 100px;
+                height: 100px;
+            }
+
+            @include media-breakpoint-down(md) {
+                width: 64px;
+                height: 64px;
+            }
         }
 
         &:nth-of-type(1) {
             left: 0;
             top: 0;
+
+            @include media-breakpoint-down(md) {
+                top: 60px;
+            }
         }
 
         &:nth-of-type(2) {
             left: 20%;
             bottom: 0;
+
+            @include media-breakpoint-down(md) {
+                bottom: 30px;
+                left: 25%;
+            }
         }
 
         &:nth-of-type(3) {
             left: 40%;
-            top: 25%;
+            top: 15%;
+
+            @include media-breakpoint-down(md) {
+                left: 40%;
+                top: 20%;
+            }
         }
 
         &:nth-of-type(4) {
             left: 60%;
             top: 0;
+
+            @include media-breakpoint-down(md) {
+                left: 70%;
+                top: 35%;
+            }
         }
 
         &:nth-of-type(5) {
             right: 0;
             bottom: 0;
+
+            @include media-breakpoint-down(md) {
+                right: 20%;
+                bottom: -5%;
+            }
         }
 
         &:nth-of-type(6) {

@@ -34,16 +34,50 @@
         height: 100vh;
         display: flex;
         align-items: center;
+        position: relative;
+
+        @include media-breakpoint-down(md) {
+            @include noise;
+
+            &::before {
+                content: '';
+                background-image: url('@/assets/aboutBlur.svg');
+                width: 100%;
+                height: 100%;
+                margin: auto;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                display: block;
+                position: absolute;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                z-index: 1;
+            }
+        }
     }
 
     &__content {
         display: flex;
         justify-content: space-between;
+        position: relative;
+        z-index: 10;
+
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+        }
     }
 
     &__heading {
         color: #fff;
         max-width: 470px;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(32px);
+            max-width: 60%;
+        }
 
         span {
             display: block;
@@ -59,13 +93,15 @@
     }
 
     &__text {
-        color: #faf5ff;
+        @include p_type_1;
 
-        font-size: rem(32px);
-        line-height: 130%;
-        letter-spacing: 0.01em;
+        color: #faf5ff;
         max-width: 590px;
-        letter-spacing: -0.005em;
+        width: 50%;
+
+        @include media-breakpoint-down(md) {
+            width: 100%;
+        }
     }
 }
 </style>

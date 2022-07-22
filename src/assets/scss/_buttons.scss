@@ -9,12 +9,8 @@
     font-size: rem(20px);
     line-height: 1;
 
-    @media (max-width: 1600px) {
-        padding: rem(12px 18px);
-    }
-
     @include media-breakpoint-down(md) {
-        padding: rem(8px 16px);
+        padding: rem(18px 48px);
         font-size: rem(14px);
     }
 }

@@ -43,6 +43,11 @@ const email = ref<string>('')
         font-family: 'StyreneAWeb', sans-serif;
         color: #ffffff;
         margin-bottom: rem(32px);
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+            margin-bottom: rem(24px);
+        }
     }
 
     &__form {
@@ -65,6 +70,11 @@ const email = ref<string>('')
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         box-shadow: none;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+            padding: rem(17px 24px);
+        }
 
         &::before {
             border-radius: 16px;

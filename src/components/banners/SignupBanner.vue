@@ -33,6 +33,27 @@
         justify-content: space-between;
         position: relative;
 
+        @include media-breakpoint-down(lg) {
+            padding-right: rem(48px);
+            background-image: linear-gradient(
+                    0deg,
+                    rgba(#6a1dac, 0.4),
+                    rgba(#6a1dac, 0.4)
+                ),
+                url('@/assets/tgbig.png');
+        }
+
+        @include media-breakpoint-down(md) {
+            background-position: 130% 64px;
+            flex-direction: column;
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: rem(16px);
+            margin: rem(0 -16px);
+            padding-bottom: rem(24px);
+        }
+
         &::before {
             content: '';
             position: absolute;
@@ -42,6 +63,14 @@
             background-size: contain;
             right: -50px;
             top: -70px;
+
+            @include media-breakpoint-down(md) {
+                width: 77px;
+                height: 95px;
+                background-size: contain;
+                right: 0px;
+                top: -30px;
+            }
         }
 
         &::after {
@@ -53,16 +82,35 @@
             background-size: contain;
             left: 5px;
             bottom: -35px;
+
+            @include media-breakpoint-down(md) {
+                background-size: contain;
+                bottom: -70px;
+                left: 20px;
+            }
         }
     }
 
     &__content {
         max-width: 300px;
+        width: 40%;
+
+        @include media-breakpoint-down(md) {
+            width: 100%;
+        }
     }
 
     &__heading {
+        @include h2;
+
         color: #fff;
         max-width: 470px;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(38px);
+            font-weight: 700;
+            margin-bottom: rem(32px);
+        }
 
         span {
             display: block;
@@ -78,16 +126,19 @@
     }
 
     &__text {
+        @include p_type_1;
+
         color: #faf5ff;
-        font-size: rem(32px);
-        line-height: 130%;
-        letter-spacing: -0.005em;
     }
 
     &__btn {
         @extend %btn-accent;
 
         margin-top: rem(48px);
+
+        @include media-breakpoint-down(sm) {
+            margin-top: rem(64px);
+        }
     }
 }
 </style>

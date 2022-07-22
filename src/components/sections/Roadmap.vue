@@ -114,10 +114,20 @@ onMounted(() => {
                 prevEl: prevBtn.value,
                 nextEl: nextBtn.value,
             },
-            slidesPerView: 3,
-            spaceBetween: 40,
+            slidesPerView: 1.1,
+            spaceBetween: 16,
             loop: true,
             modules: [Navigation],
+            breakpoints: {
+                568: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                991: {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                },
+            },
         })
     }
 })
@@ -130,6 +140,10 @@ onMounted(() => {
         background-size: cover;
         padding-top: rem(64px);
         padding-bottom: rem(200px);
+
+        @include media-breakpoint-down(md) {
+            padding-bottom: rem(128px);
+        }
     }
 
     &__heading {
@@ -155,6 +169,10 @@ onMounted(() => {
         display: flex;
         align-items: center;
         margin-bottom: rem(84px);
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(48px);
+        }
     }
 
     &__control {
@@ -230,6 +248,7 @@ onMounted(() => {
     &__wrap {
         padding: rem(0 20px);
         margin: rem(0 -20px);
+
         &::before {
             content: '';
             background: radial-gradient(
@@ -243,6 +262,15 @@ onMounted(() => {
             left: 0;
             top: 32px;
             filter: blur(1px);
+        }
+
+        @include media-breakpoint-down(lg) {
+            overflow: visible;
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: rem(0 32px);
+            margin: rem(0 -32px);
         }
     }
 
@@ -278,6 +306,10 @@ onMounted(() => {
             line-height: 120%;
             color: #d7b2ff;
             font-family: 'StyreneAWeb', sans-serif;
+
+            @include media-breakpoint-down(md) {
+                font-size: rem(14px);
+            }
         }
     }
 }

@@ -54,12 +54,38 @@
             left: -25%;
             top: 25%;
         }
+
+        @include media-breakpoint-down(md) {
+            &::after {
+                content: '';
+                background-image: url('@/assets/backstoryBlur.svg');
+                width: 100%;
+                height: 100%;
+                margin: auto;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                display: block;
+                position: absolute;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                z-index: 1;
+            }
+        }
     }
 
     &__content {
         display: flex;
         justify-content: space-between;
         padding-top: rem(64px);
+        z-index: 10;
+        position: relative;
+
+        @include media-breakpoint-down(lg) {
+            flex-direction: column;
+        }
     }
 
     &__heading {
@@ -81,9 +107,8 @@
     }
 
     &__text {
-        font-size: rem(32px);
-        line-height: 130%;
-        letter-spacing: -0.005em;
+        @include p_type_1;
+
         color: #faf5ff;
         max-width: 595px;
     }

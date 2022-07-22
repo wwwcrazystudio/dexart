@@ -62,6 +62,10 @@ const lang = ref<string>('en')
         text-transform: uppercase;
         font-family: 'StyreneAWeb', sans-serif;
 
+        @include media-breakpoint-down(sm) {
+            font-size: rem(14px);
+        }
+
         &--active {
             font-weight: 700;
             opacity: 1;

@@ -4,34 +4,42 @@
             <div class="container">
                 <h2 class="press__heading">Press about <span>DEXART</span></h2>
 
-                <ul class="press__list">
-                    <li
-                        class="press__press-item"
-                        v-for="item in press"
-                        :key="item.title"
-                    >
-                        <div class="press-item__wrap">
-                            <div class="press-item__tag">{{ item.tag }}</div>
-                            <div class="press-item__title">
-                                {{ item.title }}
+                <div class="press__carousel swiper" ref="carousel">
+                    <ul class="press__list swiper-wrapper">
+                        <li
+                            class="press__press-item swiper-slide"
+                            v-for="item in press"
+                            :key="item.title"
+                        >
+                            <div class="press-item__wrap">
+                                <div class="press-item__tag">
+                                    {{ item.tag }}
+                                </div>
+                                <div class="press-item__title">
+                                    {{ item.title }}
+                                </div>
+                                <a
+                                    :href="item.link"
+                                    target="_blank"
+                                    rel="nofollow"
+                                    class="press-item__link"
+                                >
+                                    Learn More
+                                </a>
                             </div>
-                            <a
-                                :href="item.link"
-                                target="_blank"
-                                rel="nofollow"
-                                class="press-item__link"
-                            >
-                                Learn More
-                            </a>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script setup lang="ts">
+import Swiper from 'swiper'
+import 'swiper/css'
+import { onMounted, ref } from 'vue'
+
 const press = [
     {
         tag: 'BeinCrypto',
@@ -49,12 +57,39 @@ const press = [
         link: '',
     },
 ]
+
+const carousel = ref<HTMLElement>()
+
+onMounted(() => {
+    if (carousel.value) {
+        new Swiper(carousel.value, {
+            slidesPerView: 1.1,
+            spaceBetween: 16,
+            loop: true,
+            breakpoints: {
+                568: {
+                    spaceBetween: 24,
+                    slidesPerView: 2,
+                },
+                991: {
+                    spaceBetween: 32,
+                    slidesPerView: 3,
+                    loop: false,
+                },
+            },
+        })
+    }
+})
 </script>
 
 <style scoped lang="scss">
 .press {
     &__wrap {
-        background: linear-gradient(0deg, transparent 75%, #57198a 100%),
+        background: linear-gradient(
+                180deg,
+                rgba(#381665, 0.4) 51.57%,
+                rgba(#381665, 0.1) 94.36%
+            ),
             url('@/assets/placeholder/press.jpg');
         background-size: cover;
         height: 100vh;
@@ -81,13 +116,16 @@ const press = [
         }
     }
 
+    &__carousel {
+        overflow: visible;
+    }
+
     &__list {
         @include unlist;
+    }
 
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        align-items: stretch;
-        gap: rem(32px);
+    &__press-item {
+        height: auto;
     }
 }
 
@@ -101,6 +139,10 @@ const press = [
         display: flex;
         flex-direction: column;
         height: 100%;
+
+        @include media-breakpoint-down(md) {
+            padding: rem(16px);
+        }
     }
 
     &__tag {
@@ -112,6 +154,10 @@ const press = [
         margin-bottom: rem(16px);
         border-radius: 16px;
         width: fit-content;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+        }
     }
 
     &__title {
@@ -121,6 +167,11 @@ const press = [
         letter-spacing: 0.01em;
         color: #faf5ff;
         margin-bottom: rem(16px);
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(22px);
+            font-weight: 900;
+        }
     }
 
     &__link {
@@ -130,6 +181,10 @@ const press = [
         color: #d7b2ff;
         margin-top: auto;
         text-decoration: none;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+        }
     }
 }
 </style>

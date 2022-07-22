@@ -8,8 +8,12 @@ html {
         font-size: 13px;
     }
 
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
         font-size: 14px;
+    }
+
+    @include media-breakpoint-down(sm) {
+        font-size: 16px;
     }
 
     &.locked {
@@ -28,4 +32,8 @@ a {
     &:hover {
         color: $accent;
     }
+}
+
+.container {
+    padding: rem(0 32px);
 }

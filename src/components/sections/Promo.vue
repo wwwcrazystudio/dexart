@@ -21,6 +21,7 @@
         background-size: cover;
         position: relative;
         padding: rem(64px 0);
+        background-position: center;
     }
 
     &__heading {
@@ -64,6 +65,11 @@
         right: 0;
         margin: auto;
         transition: 350ms;
+
+        @include media-breakpoint-down(md) {
+            width: 112px;
+            height: 112px;
+        }
 
         &::before {
             content: '';

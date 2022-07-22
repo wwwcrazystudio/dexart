@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="footer__wrap">
             <div class="footer__content">
-                <div class="footer__col">
+                <div class="footer__col footer__col--a">
                     <div class="footer__logo">
                         <img src="@/assets/logo.png" alt="Dexart" />
                     </div>
@@ -12,7 +12,7 @@
                     <Socials class="footer__socials" />
                 </div>
 
-                <div class="footer__col">
+                <div class="footer__col footer__col--b">
                     <div class="footer__title">Info</div>
 
                     <nav class="footer__footer-menu footer-menu">
@@ -30,7 +30,7 @@
                     </nav>
                 </div>
 
-                <div class="footer__col">
+                <div class="footer__col footer__col--c">
                     <div class="footer__title">Sitemap</div>
 
                     <nav class="footer__footer-menu footer-menu">
@@ -48,16 +48,16 @@
                     </nav>
                 </div>
 
-                <div class="footer__col">
+                <div class="footer__col footer__col--d">
                     <SubscriptionForm class="footer__subscription-form" />
-
-                    <div class="footer__created-by">
-                        Designed by
-                        <a href="t.me/julistarr" target="_blank" rel="nofollow">
-                            JULI DESIGN
-                        </a>
-                    </div>
                 </div>
+            </div>
+
+            <div class="footer__created-by">
+                Designed by
+                <a href="t.me/julistarr" target="_blank" rel="nofollow">
+                    JULI DESIGN
+                </a>
             </div>
         </div>
     </footer>
@@ -125,21 +125,71 @@ const menu2 = [
         font-family: 'StyreneAWeb', sans-serif;
         padding-top: rem(80px);
         padding-bottom: rem(128px);
+
+        @include media-breakpoint-down(md) {
+            padding: rem(64px 0);
+        }
     }
 
     &__content {
         display: grid;
         grid-template-columns: 3fr 2fr 2fr 5fr;
+        grid-template-areas: 'a b c d';
         gap: rem(16px);
+        width: calc(100% - 64px);
         max-width: 1472px;
         margin: auto;
+
+        @include media-breakpoint-down(lg) {
+            grid-template-columns: 1fr 1fr;
+            gap: rem(32px);
+            grid-template-areas:
+                'a d'
+                'b c';
+        }
+
+        @include media-breakpoint-down(md) {
+            grid-template-columns: 1fr;
+
+            grid-template-areas:
+                'a'
+                'd'
+                'b'
+                'c';
+        }
+    }
+
+    &__col {
+        &--a {
+            grid-area: a;
+        }
+
+        &--b {
+            grid-area: b;
+        }
+
+        &--c {
+            grid-area: c;
+        }
+
+        &--d {
+            grid-area: d;
+        }
     }
 
     &__logo {
         margin-bottom: rem(16px);
 
+        @include media-breakpoint-down(md) {
+            margin-bottom: 2px;
+        }
+
         img {
             max-width: 125px;
+
+            @include media-breakpoint-down(md) {
+                max-width: 95px;
+            }
         }
     }
 
@@ -150,6 +200,11 @@ const menu2 = [
         color: #ffffff;
         opacity: 0.8;
         margin-bottom: rem(28px);
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(14px);
+            margin-bottom: rem(16px);
+        }
     }
 
     &__title {
@@ -159,13 +214,32 @@ const menu2 = [
         margin-bottom: rem(28px);
         letter-spacing: 0.01em;
         color: #ffffff;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(16px);
+            font-weight: 900;
+        }
+    }
+
+    &__subscription-form {
+        padding-bottom: rem(32px);
+
+        border-bottom: 1px solid;
+        border-image-source: linear-gradient(rgba(#ece7fa, 0), #ece7fa);
     }
 
     &__created-by {
         margin-top: rem(140px);
-        font-size: куь(14px);
+        font-size: rem(14px);
         color: #4f5775;
         text-align: right;
+        width: calc(100% - 64px);
+
+        @include media-breakpoint-down(md) {
+            text-align: left;
+            margin: auto;
+            margin-top: rem(32px);
+        }
 
         a {
             color: #912eef;
@@ -188,6 +262,10 @@ const menu2 = [
         line-height: 120%;
         color: #ffffff;
         text-decoration: none;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(16px);
+        }
 
         &:active {
             color: #912eef;

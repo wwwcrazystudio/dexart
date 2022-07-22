@@ -17,6 +17,9 @@
 <style scoped lang="scss">
 .hero {
     &__wrap {
+        @include noise;
+
+        position: relative;
         height: 100vh;
         display: flex;
         flex-direction: column;
@@ -29,12 +32,22 @@
         );
         background-image: url('@/assets/placeholder/herobg.png');
         background-size: cover;
+
+        @include media-breakpoint-down(md) {
+            padding-top: 25vh;
+            justify-content: flex-start;
+            background-position: 70%;
+        }
     }
 
     &__heading {
         color: #fff;
         font-weight: 700;
         margin-bottom: rem(24px);
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: rem(16px);
+        }
 
         span {
             display: block;
@@ -51,12 +64,17 @@
     }
 
     &__text {
+        @include p_type_2;
+
         color: #f3e7ff;
         opacity: 0.8;
-        font-size: rem(28px);
-        line-height: 130%;
-        letter-spacing: 0.01em;
         max-width: 520px;
+
+        @include media-breakpoint-down(md) {
+            font-size: rem(18px);
+            letter-spacing: -0.005em;
+            max-width: 70%;
+        }
     }
 }
 </style>
