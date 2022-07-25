@@ -201,6 +201,10 @@ const scrollHandler = () => {
             display: block;
         }
 
+        @include media-breakpoint-down(sm) {
+            margin-left: auto;
+        }
+
         span {
             height: 4px;
             border-radius: 8px;
