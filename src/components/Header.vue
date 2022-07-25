@@ -94,7 +94,7 @@ const handleMenuToggler = () => {
 }
 
 const scrollHandler = () => {
-    if (window.scrollY > 100) {
+    if (window.scrollY > 10) {
         scrolled.value = true
         return
     }
@@ -169,6 +169,7 @@ const scrollHandler = () => {
                 background-size: cover;
                 background-position: center;
                 z-index: -1;
+                pointer-events: none;
             }
         }
     }

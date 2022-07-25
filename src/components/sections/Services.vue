@@ -159,7 +159,12 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             margin-top: 0;
             padding-top: 0;
-            width: 100%;
+            width: auto;
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: rem(0 32px);
+            margin: rem(0 -32px);
         }
     }
 

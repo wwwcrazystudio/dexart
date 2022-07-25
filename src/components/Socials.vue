@@ -77,8 +77,10 @@ const socials = [
         transition: 350ms;
 
         &:deep(svg) {
-            width: 85%;
-            height: 85%;
+            width: 90%;
+            max-width: 28px;
+            max-height: 28px;
+            height: 90%;
         }
 
         &:deep(svg path) {

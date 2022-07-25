@@ -70,6 +70,7 @@ const email = ref<string>('')
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         box-shadow: none;
+        white-space: nowrap;
 
         @include media-breakpoint-down(md) {
             font-size: rem(14px);
