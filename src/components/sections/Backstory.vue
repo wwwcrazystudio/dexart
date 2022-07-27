@@ -42,6 +42,7 @@
         background-image: url('@/assets/placeholder/backstory.jpg');
         position: relative;
         height: 100vh;
+        overflow: hidden;
 
         &::before {
             content: '';

@@ -3,6 +3,11 @@
 html {
     font-size: 16px;
     overflow: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
 
     @include media-breakpoint-down(xxl) {
         font-size: 13px;
@@ -36,4 +41,12 @@ a {
 
 .container {
     padding: rem(0 32px);
+}
+
+.fp-watermark {
+    display: none !important;
+}
+
+:root {
+    scroll-behavior: auto;
 }

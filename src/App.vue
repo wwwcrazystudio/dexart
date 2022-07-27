@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+
+const currentSection = ref<number>()
+
+const handleSectionChange = (index: number) => {
+    currentSection.value = index
+}
 </script>
 
 <template>
-    <Header />
+    <Header :current-section="currentSection" />
 
-    <RouterView />
+    <RouterView @onSectionChange="handleSectionChange" />
 
     <Footer />
 </template>

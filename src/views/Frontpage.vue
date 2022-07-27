@@ -10,20 +10,86 @@ import Roadmap from '../components/sections/Roadmap.vue'
 import Expertise from '../components/sections/Expertise.vue'
 import Partners from '../components/sections/Partners.vue'
 import Press from '../components/sections/Press.vue'
+import PageScroll from '../components/PageScroll.vue'
+import { onMounted, ref } from 'vue'
+import { loadFull } from 'tsparticles'
+
+const particlesInit = async (engine: any) => {
+    await loadFull(engine)
+}
+
+const options = {
+    fpsLimit: 60,
+    fullScreen: {
+        enable: false,
+        zIndex: 1,
+    },
+
+    particles: {
+        color: {
+            value: '#ffffff',
+        },
+        collisions: {
+            enable: true,
+        },
+        number: {
+            value: 500,
+        },
+        opacity: {
+            value: 1,
+            random: true,
+            anim: {
+                enable: true,
+                speed: 1,
+                opacity_min: 0,
+                sync: false,
+            },
+        },
+        shape: {
+            type: 'circle',
+        },
+        size: {
+            value: { min: 1, max: 2 },
+        },
+    },
+    detectRetina: true,
+}
 </script>
 
 <template>
     <main class="frontpage">
-        <Hero class="frontpage__hero" />
-        <About class="frontpage__about" />
-        <Promo class="frontpage__promo" />
-        <Services class="frontpage__services" />
-        <World class="frontpage__world" />
-        <Backstory class="frontpage__backstory" />
-        <Advantages class="frontpage__advantages" />
-        <Roadmap class="frontpage__roadmap" />
-        <Expertise class="frontpage__expertise" />
-        <Partners class="frontpage__partners" />
-        <Press class="frontpage__partners" />
+        <Particles
+            id="tsparticles"
+            class="frontpage__bg"
+            :particlesInit="particlesInit"
+            :options="options"
+        />
+
+        <PageScroll>
+            <Hero class="frontpage__hero section" />
+            <About class="frontpage__about section" />
+            <Promo class="frontpage__promo section" />
+            <Services class="frontpage__services section" />
+            <World class="frontpage__world section" />
+            <Backstory class="frontpage__backstory section" />
+            <Advantages class="frontpage__advantages section" />
+            <Roadmap class="frontpage__roadmap section" />
+            <Expertise class="frontpage__expertise section" />
+            <Partners class="frontpage__partners section fp-auto-height" />
+            <Press class="frontpage__partners section" />
+        </PageScroll>
     </main>
 </template>
+
+<style lang="scss" scoped>
+.frontpage {
+    position: relative;
+    &__bg {
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+    }
+}
+</style>

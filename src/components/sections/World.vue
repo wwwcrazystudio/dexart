@@ -65,6 +65,7 @@
         position: relative;
         padding: rem(128px 0);
         display: grid;
+        overflow: hidden;
 
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
@@ -127,9 +128,13 @@
     }
 
     &__controls {
-        display: flex;
         align-items: center;
         margin-top: auto;
+        display: none;
+
+        @include media-breakpoint-down(sm) {
+            display: flex;
+        }
     }
 
     &__control {

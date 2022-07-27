@@ -47,10 +47,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import FollowUs from './FollowUs.vue'
 import LangSwitch from './LangSwitch.vue'
 import Socials from './Socials.vue'
+
+export interface Props {
+    currentSection?: number
+}
+
+const props = defineProps<Props>()
+console.log(props)
 
 const showMenu = ref<boolean>(false)
 const scrolled = ref<boolean>(false)
@@ -59,8 +66,21 @@ const isMobile = computed(() => {
     return window.matchMedia('(max-width: 991px)').matches
 })
 
+watch(
+    () => props.currentSection,
+    () => {
+        if (typeof props.currentSection !== 'undefined') {
+            if (props.currentSection > 0) scrolled.value = true
+            else scrolled.value = false
+        }
+    }
+)
+
 onMounted(() => {
-    document.addEventListener('scroll', scrollHandler)
+    if (typeof props.currentSection === 'undefined') {
+        document.addEventListener('scroll', scrollHandler)
+        return
+    }
 })
 
 const links = [
