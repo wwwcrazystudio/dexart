@@ -1,12 +1,15 @@
 <template>
-    <section class="press">
+    <section class="press" ref="section">
         <div class="press__wrap">
             <div class="container">
-                <h2 class="press__heading">Press about <span>DEXART</span></h2>
+                <h2 class="press__heading" ref="heading">
+                    Press about <span>DEXART</span>
+                </h2>
 
                 <div class="press__carousel swiper" ref="carousel">
                     <ul class="press__list swiper-wrapper">
                         <li
+                            ref="slides"
                             class="press__press-item swiper-slide"
                             v-for="item in press"
                             :key="item.title"
@@ -39,6 +42,7 @@
 import Swiper from 'swiper'
 import 'swiper/css'
 import { onMounted, ref } from 'vue'
+import { useAnimation } from '@/composables/useAnimation'
 
 const press = [
     {
@@ -58,7 +62,34 @@ const press = [
     },
 ]
 
+const { enter, leave, trigger } = useAnimation()
+
 const carousel = ref<HTMLElement>()
+const section = ref<HTMLElement>()
+const heading = ref<HTMLElement>()
+const slides = ref<HTMLElement>()
+
+onMounted(() => {
+    trigger(
+        section.value,
+        () => {
+            enter(heading.value)
+            if (Array.isArray(slides.value)) {
+                slides.value.forEach((el: HTMLElement, key: number) => {
+                    enter(el, 0.2 * key)
+                })
+            }
+        },
+        () => {
+            leave(heading.value)
+            if (Array.isArray(slides.value)) {
+                slides.value.forEach((el: HTMLElement, key: number) => {
+                    enter(el, 0.2 * key)
+                })
+            }
+        }
+    )
+})
 
 onMounted(() => {
     if (carousel.value) {
@@ -90,9 +121,9 @@ onMounted(() => {
                 rgba(#381665, 0.4) 51.57%,
                 rgba(#381665, 0.1) 94.36%
             ),
-            url('@/assets/placeholder/press.jpg');
+            url('@/assets/bg/pressBg.jpg');
         background-size: cover;
-        height: 100vh;
+        padding: rem(128px 0);
         background-repeat: no-repeat;
         display: flex;
         align-items: center;
@@ -139,6 +170,13 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
         height: 100%;
+
+        transition: 350ms;
+
+        &:hover {
+            transform: scale(1.05);
+            transition: 350ms;
+        }
 
         @include media-breakpoint-down(md) {
             padding: rem(16px);

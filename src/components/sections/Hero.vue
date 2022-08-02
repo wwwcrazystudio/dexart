@@ -1,5 +1,5 @@
 <template>
-    <section class="hero">
+    <section class="hero" ref="section">
         <div class="hero__wrap">
             <div class="container">
                 <h1 class="hero__heading" ref="heading">
@@ -15,18 +15,18 @@
                     ref="star"
                     src="@/assets/bg/heroStar.svg"
                 />
+            </div>
 
-                <div ref="parallaxScene" class="hero__scene">
-                    <div data-depth="0.6" class="hero__stones">
-                        <img src="@/assets/bg/heroStones.svg" alt="" />
-                    </div>
-                    <img
-                        data-depth="0.6"
-                        class="hero__mountain"
-                        src="@/assets/bg/heroMountain.svg"
-                        alt=""
-                    />
+            <div ref="parallaxScene" class="hero__scene">
+                <div data-depth="0.6" class="hero__stones">
+                    <img src="@/assets/bg/heroStones.svg" alt="" />
                 </div>
+                <img
+                    data-depth="0.6"
+                    class="hero__mountain"
+                    src="@/assets/bg/heroMountain.svg"
+                    alt=""
+                />
             </div>
         </div>
     </section>
@@ -34,22 +34,29 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { gsap } from 'gsap'
 import Parallax from 'parallax-js'
+import { useAnimation } from '@/composables/useAnimation'
 
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const star = ref<HTMLElement>()
+const section = ref<HTMLElement>()
 const parallaxScene = ref<HTMLElement>()
 
+const { enter, leave, trigger } = useAnimation()
+
 onMounted(() => {
-    if (heading.value)
-        gsap.from(heading.value, { opacity: 0, y: 100, duration: 1 })
-
-    if (text.value)
-        gsap.from(text.value, { opacity: 0, y: 100, duration: 1, delay: 0.4 })
-
-    if (star.value) gsap.from(star.value, { opacity: 0, duration: 1 })
+    trigger(
+        section.value,
+        () => {
+            enter(heading.value)
+            enter(text.value, 0.4)
+        },
+        () => {
+            leave(heading.value)
+            leave(text.value)
+        }
+    )
 
     if (parallaxScene.value)
         new Parallax(parallaxScene.value, {
@@ -61,9 +68,11 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .hero {
-    &__wrap {
-        @include noise;
+    @include noise;
+    position: relative;
+    overflow: hidden;
 
+    &__wrap {
         position: relative;
         height: 100vh;
         display: flex;
@@ -77,6 +86,8 @@ onMounted(() => {
         );
         background-image: url('@/assets/bg/hero.jpg');
         background-size: cover;
+        z-index: 10;
+        overflow: hidden;
 
         @include media-breakpoint-down(md) {
             padding-top: 25vh;
@@ -91,6 +102,7 @@ onMounted(() => {
         margin-bottom: rem(24px);
         position: relative;
         z-index: 10;
+        width: fit-content;
 
         @include media-breakpoint-down(md) {
             margin-bottom: rem(16px);
@@ -131,7 +143,11 @@ onMounted(() => {
         left: 0;
         top: 0;
 
-        z-index: 1;
+        z-index: 10;
+
+        @include media-breakpoint-down(md) {
+            width: 200%;
+        }
 
         img {
             animation: rotate 200s linear infinite;
@@ -146,7 +162,14 @@ onMounted(() => {
         filter: drop-shadow(0px 0px 20px #752cc5)
             drop-shadow(0px 0px 60px #752cc5);
         animation: pulsate 2s linear infinite alternate-reverse;
-        z-index: 6;
+        z-index: 15;
+
+        @include media-breakpoint-down(lg) {
+            width: 100px;
+            top: unset;
+            bottom: 220px;
+            right: 40px;
+        }
     }
 
     &__mountain {
@@ -154,9 +177,14 @@ onMounted(() => {
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 5;
+        z-index: 11;
         margin-top: auto;
         width: 102%;
+
+        @include media-breakpoint-down(md) {
+            width: 220%;
+            left: -380px !important;
+        }
     }
 
     &__scene {
@@ -164,6 +192,27 @@ onMounted(() => {
         left: 0;
         right: 0;
         bottom: 0;
+        height: 100%;
+
+        &::after {
+            content: '';
+            background: linear-gradient(
+                0deg,
+                #19082b 13.19%,
+                rgba(49, 22, 77, 0.5) 50%,
+                rgba(49, 22, 77, 0) 100%
+            );
+            height: 20%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 14;
+
+            @include media-breakpoint-down(md) {
+                height: 25%;
+            }
+        }
     }
 }
 

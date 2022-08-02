@@ -1,10 +1,10 @@
 <template>
-    <section class="advantages">
+    <section class="advantages" ref="section">
         <div class="advantages__wrap">
             <div class="container">
-                <MapBanner class="advantages__map-banner" />
-                <div class="advantages__content">
-                    <h2 class="advantages__heading">
+                <MapBanner class="advantages__map-banner" ref="banner1" />
+                <div class="advantages__content" ref="content">
+                    <h2 class="advantages__heading" ref="heading">
                         DEXART: one platform - endless
                         <span>opportunities</span>
                     </h2>
@@ -13,6 +13,7 @@
                         <ul class="advantages__list swiper-wrapper">
                             <li
                                 class="advantages__advantage-item swiper-slide"
+                                ref="slide"
                                 v-for="item in advantages"
                                 :key="item.title"
                             >
@@ -32,7 +33,7 @@
                         </ul>
                     </div>
                 </div>
-                <SignupBanner class="advantages__signup-banner" />
+                <SignupBanner class="advantages__signup-banner" ref="banner2" />
             </div>
         </div>
     </section>
@@ -40,6 +41,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useAnimation } from '@/composables/useAnimation'
 import Swiper from 'swiper'
 import 'swiper/css'
 
@@ -49,6 +51,8 @@ import advantage1 from '@/assets/advantages/advantage1.svg'
 import advantage2 from '@/assets/advantages/advantage2.svg'
 import advantage3 from '@/assets/advantages/advantage3.svg'
 import advantage4 from '@/assets/advantages/advantage4.svg'
+
+const { enter, leave, trigger } = useAnimation()
 
 const advantages = [
     {
@@ -74,8 +78,15 @@ const advantages = [
 ]
 
 const carousel = ref<HTMLElement>()
+const section = ref<HTMLElement>()
+const heading = ref<HTMLElement>()
+const banner1 = ref<InstanceType<typeof MapBanner>>()
+const banner2 = ref<InstanceType<typeof SignupBanner>>()
+const content = ref<HTMLElement>()
+const slide = ref<HTMLElement | Array<HTMLElement>>()
 
 onMounted(() => {
+    /* document.addEventListener('scroll', handleScroll) */
     if (carousel.value) {
         new Swiper(carousel.value, {
             slidesPerView: 1.3,
@@ -95,15 +106,84 @@ onMounted(() => {
             },
         })
     }
+
+    trigger(
+        section.value,
+        () => {
+            if (banner1.value) enter(banner1.value.$el)
+            if (banner2.value) enter(banner2.value.$el, 0.6)
+            if (heading.value) enter(heading.value, 0.6)
+
+            if (Array.isArray(slide.value)) {
+                slide.value.forEach((el: HTMLElement, key: number) => {
+                    enter(el, 0.2 * key)
+                })
+            }
+        },
+        () => {
+            if (banner1.value) leave(banner1.value.$el)
+            if (banner2.value) leave(banner2.value.$el)
+            if (Array.isArray(slide.value)) {
+                slide.value.forEach((el: HTMLElement, key: number) => {
+                    leave(el, 0.2 * key)
+                })
+            }
+        },
+        '+=400px bottom',
+        null,
+        '-=50px top',
+        'bottom center'
+    )
+
+    /*     trigger(
+        section.value,
+        () => {},
+        () => {
+            console.log('leave')
+        },
+        '+=400px bottom',
+        'bottom center'
+    ) */
 })
+
+/* const handleScroll = () => {
+    const offset = section.value.offsetTop
+    const scroll = window.scrollY
+    const viewportHeight = window.innerHeight
+
+    if (offset === scroll) {
+        document.documentElement.classList.add('locked')
+        return
+    }
+
+    if (offset + viewportHeight === scroll + viewportHeight) {
+        document.documentElement.classList.remove('locked')
+        return
+    }
+
+    if (offset + viewportHeight === scroll + viewportHeight) {
+        document.documentElement.classList.remove('locked')
+        return
+    }
+} */
 </script>
 
 <style scoped lang="scss">
 .advantages {
     &__wrap {
-        background-image: url('@/assets/placeholder/advantages.jpg');
+        @include noise;
+        background-image: linear-gradient(
+                180deg,
+                #19082b 13.19%,
+                rgba(49, 22, 77, 0) 30%
+            ),
+            url('@/assets/bg/advantageBg.jpg');
+
         padding-top: rem(64px);
         padding-bottom: rem(142px);
+        background-size: cover;
+        overflow: hidden;
+        position: relative;
 
         @include media-breakpoint-down(md) {
             padding: rem(124px 0);
@@ -113,6 +193,8 @@ onMounted(() => {
     &__content {
         margin-top: rem(190px);
         margin-bottom: rem(220px);
+        position: relative;
+        z-index: 10;
 
         @include media-breakpoint-down(md) {
             margin-bottom: rem(120px);
@@ -147,6 +229,21 @@ onMounted(() => {
 
     &__list {
         @include unlist;
+    }
+
+    /*     &__advantage-item {
+        opacity: 0;
+    } */
+
+    &__map-banner {
+        opacity: 0;
+        position: relative;
+        z-index: 10;
+    }
+
+    &__signup-banner {
+        position: relative;
+        z-index: 10;
     }
 }
 

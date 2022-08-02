@@ -9,23 +9,25 @@
                 Follow Dexart
             </button>
 
-            <ul class="follow-us__list" v-show="showDropdown">
-                <li
-                    class="follow-us__item"
-                    v-for="social in socials"
-                    :key="social.label"
-                >
-                    <a
-                        :href="social.url"
-                        rel="nofollow"
-                        target="_blank"
-                        class="follow-us__link"
+            <transition name="fade">
+                <ul class="follow-us__list" v-show="showDropdown">
+                    <li
+                        class="follow-us__item"
+                        v-for="social in socials"
+                        :key="social.label"
                     >
-                        <span v-html="social.icon"></span>
-                        {{ social.label }}
-                    </a>
-                </li>
-            </ul>
+                        <a
+                            :href="social.url"
+                            rel="nofollow"
+                            target="_blank"
+                            class="follow-us__link"
+                        >
+                            <span v-html="social.icon"></span>
+                            {{ social.label }}
+                        </a>
+                    </li>
+                </ul>
+            </transition>
         </div>
     </div>
 </template>
@@ -187,5 +189,15 @@ const showDropdown = ref<boolean>(false)
             margin-right: rem(8px);
         }
     }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

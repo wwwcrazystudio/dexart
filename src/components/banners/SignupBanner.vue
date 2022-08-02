@@ -63,6 +63,7 @@
             background-size: contain;
             right: -50px;
             top: -70px;
+            animation: rotate 40s linear infinite;
 
             @include media-breakpoint-down(md) {
                 width: 77px;
@@ -82,6 +83,8 @@
             background-size: contain;
             left: 5px;
             bottom: -35px;
+            animation: rotate 40s linear infinite;
+            animation-direction: reverse;
 
             @include media-breakpoint-down(md) {
                 background-size: contain;
@@ -139,6 +142,28 @@
         @include media-breakpoint-down(sm) {
             margin-top: rem(64px);
         }
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }
 </style>

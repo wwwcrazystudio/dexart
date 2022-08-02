@@ -1,11 +1,13 @@
 <template>
-    <section class="roadmap">
+    <section class="roadmap" ref="section">
         <div class="roadmap__wrap">
             <div class="container">
-                <h2 class="roadmap__heading"><span>Roadmap</span> DEXART</h2>
+                <h2 class="roadmap__heading" ref="heading">
+                    <span>Roadmap</span> DEXART
+                </h2>
 
                 <div class="roadmap__timeline-carousel timeline-carousel">
-                    <div class="timeline-carousel__controls">
+                    <div class="timeline-carousel__controls" ref="controls">
                         <button
                             class="timeline-carousel__control"
                             ref="prevBtn"
@@ -47,6 +49,7 @@
                         <div class="timeline-carousel__carousel swiper-wrapper">
                             <div
                                 class="timeline-carousel__card swiper-slide"
+                                ref="slide"
                                 v-for="item in timeline"
                                 :key="item.title"
                             >
@@ -69,6 +72,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Swiper, { Navigation } from 'swiper'
+import { useAnimation } from '@/composables/useAnimation'
+import gsap from 'gsap'
 
 import 'swiper/css'
 
@@ -103,9 +108,55 @@ const timeline = [
     },
 ]
 
+const { enter, leave, trigger } = useAnimation()
+
 const carousel = ref<HTMLElement>()
 const prevBtn = ref<HTMLElement>()
 const nextBtn = ref<HTMLElement>()
+const section = ref<HTMLElement>()
+const heading = ref<HTMLElement>()
+const controls = ref<HTMLElement>()
+const slide = ref<HTMLElement>()
+
+onMounted(() => {
+    trigger(
+        section.value,
+        () => {
+            if (heading.value)
+                gsap.from(heading.value, {
+                    y: 100,
+                    opacity: 0,
+                    duration: 1,
+                })
+            if (controls.value)
+                gsap.from(controls.value, {
+                    y: 100,
+                    opacity: 0,
+                    duration: 1,
+                })
+
+            if (Array.isArray(slide.value)) {
+                slide.value.forEach((el: HTMLElement, key: number) => {
+                    gsap.from(el, {
+                        opacity: 0,
+                        duration: 1,
+                        delay: (key + 1) * 0.4,
+                    })
+                })
+            }
+        },
+        () => {
+            if (heading.value) leave(heading.value)
+            if (controls.value) leave(controls.value)
+
+            if (Array.isArray(slide.value)) {
+                slide.value.forEach((el: HTMLElement, key: number) => {
+                    leave(el, 0.3 * (key + 1))
+                })
+            }
+        }
+    )
+})
 
 onMounted(() => {
     if (carousel.value) {
@@ -135,11 +186,15 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .roadmap {
+    @include noise;
+
+    overflow: hidden;
+    position: relative;
+
     &__wrap {
-        background-image: url('@/assets/placeholder/servicesbg.jpg');
-        background-size: cover;
         padding-top: rem(64px);
         padding-bottom: rem(200px);
+        height: 100%;
 
         @include media-breakpoint-down(md) {
             padding-bottom: rem(128px);
@@ -149,6 +204,8 @@ onMounted(() => {
     &__heading {
         color: #fff;
         margin-bottom: rem(32px);
+        position: relative;
+        z-index: 10;
 
         span {
             display: block;
@@ -161,6 +218,11 @@ onMounted(() => {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+    }
+
+    &__timeline-carousel {
+        z-index: 10;
+        position: relative;
     }
 }
 
@@ -185,6 +247,7 @@ onMounted(() => {
         z-index: 10;
         transition: 350ms;
         margin-right: rem(8px);
+        z-index: 10;
 
         &::before {
             content: '';

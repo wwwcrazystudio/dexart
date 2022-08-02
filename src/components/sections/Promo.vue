@@ -1,8 +1,8 @@
 <template>
-    <section class="promo">
+    <section class="promo" ref="section">
         <div class="promo__wrap">
             <div class="container">
-                <h2 class="promo__heading">
+                <h2 class="promo__heading" ref="heading">
                     Watch Dexart <span>Metaverse</span>
                 </h2>
                 <button class="promo__play-btn">Play</button>
@@ -11,13 +11,32 @@
     </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAnimation } from '@/composables/useAnimation'
+import { onMounted, ref } from 'vue'
+
+const heading = ref<HTMLElement>()
+const section = ref<HTMLElement>()
+
+const { enter, leave, trigger } = useAnimation()
+
+onMounted(() => {
+    trigger(
+        section?.value,
+        () => {
+            enter(heading?.value)
+        },
+        () => {
+            leave(heading?.value)
+        }
+    )
+})
+</script>
 
 <style scoped lang="scss">
 .promo {
     &__wrap {
         height: 100vh;
-        background-image: url('@/assets/placeholder/promo.jpg');
         background-size: cover;
         position: relative;
         padding: rem(64px 0);

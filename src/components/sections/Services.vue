@@ -1,8 +1,8 @@
 <template>
-    <section class="services">
+    <section class="services" ref="section">
         <div class="services__wrap">
             <div class="services__content">
-                <h2 class="services__heading">
+                <h2 class="services__heading" ref="heading">
                     What you can <span>do in DEXART:</span>
                 </h2>
 
@@ -34,8 +34,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import Swiper from 'swiper'
+import Swiper, { Mousewheel } from 'swiper'
+import { useAnimation } from '@/composables/useAnimation'
+
 import 'swiper/css'
+import 'swiper/css/effect-fade'
 
 import service1 from '@/assets/services/service1.svg'
 import service2 from '@/assets/services/service2.svg'
@@ -78,27 +81,67 @@ const services = [
 ]
 
 const carousel = ref<HTMLElement>()
+const heading = ref<HTMLElement>()
+const section = ref<HTMLElement>()
+
+const { enter, leave, trigger } = useAnimation()
 
 onMounted(() => {
+    document.addEventListener('scroll', handleScroll)
+
+    trigger(
+        section?.value,
+        () => {
+            enter(heading?.value)
+            enter(carousel.value, 0.4)
+        },
+        () => {
+            leave(heading?.value)
+            leave(carousel?.value)
+        }
+    )
+
     if (carousel.value) {
         new Swiper(carousel.value, {
             slidesPerView: 1,
             spaceBetween: 64,
-            loop: true,
-            autoplay: {
-                delay: 1500,
-            },
             direction: 'vertical',
+            mousewheel: {
+                releaseOnEdges: true,
+                eventsTarget: section.value,
+            },
+            modules: [Mousewheel],
+            /*        autoHeight: true, */
+            speed: 1000,
+            on: {
+                reachBeginning: () => {
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('locked')
+                    }, 1000)
+                },
+                reachEnd: () => {
+                    setTimeout(() => {
+                        document.documentElement.classList.remove('locked')
+                    }, 1000)
+                },
+            },
         })
     }
 })
+
+const handleScroll = () => {
+    const offset = section?.value?.offsetTop || 0
+    const scroll = window.scrollY
+
+    if (offset === scroll) document.documentElement.classList.add('locked')
+}
 </script>
 
 <style scoped lang="scss">
 .services {
     &__wrap {
         height: 100vh;
-        background-image: url('@/assets/placeholder/servicesbg.jpg');
+        background-image: url('@/assets/bg/servicesbg.jpg');
         background-size: cover;
         padding-top: rem(130px);
 
@@ -166,10 +209,21 @@ onMounted(() => {
             padding: rem(0 32px);
             margin: rem(0 -32px);
         }
+
+        &:deep(.swiper-slide-active) {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 
     &__list {
         @include unlist;
+    }
+
+    &__service-item {
+        opacity: 0;
+        transform: scale(0.65);
+        transition: opacity 450ms ease 250ms, transform 450ms ease 300ms;
     }
 }
 

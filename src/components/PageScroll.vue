@@ -21,30 +21,31 @@ export interface SectionData {
 gsap.registerPlugin(ScrollTrigger)
 gsap.registerPlugin(ScrollToPlugin)
 
-const sectionsArray: Array<SectionData> = []
-const currentIndex = ref<number>(0)
-
 onMounted(() => {
     const sections = gsap.utils.toArray('.section')
     let scrollTween: any
     const goToSection = (i: any) => {
-        /*  gsap.set('body', { overflow: 'hidden', height: window.innerHeight }) */
-
-        console.log(innerHeight)
         scrollTween = gsap.to(window, {
             scrollTo: { y: i * innerHeight, autoKill: false },
-            duration: 1,
-            onComplete: () => (scrollTween = null),
+            duration: 1.5,
+            onComplete: () => {
+                scrollTween = null
+                console.log('complete')
+            },
             overwrite: true,
         })
     }
 
-    sections.forEach((panel: any, i: any) => {
+    sections.forEach((section: any, i: any) => {
         ScrollTrigger.create({
-            trigger: panel,
+            trigger: section,
             start: 'top bottom',
             end: '+=200%',
-            onToggle: (self) => self.isActive && !scrollTween && goToSection(i),
+            onToggle: (self) => {
+                const viewportHeight = window.innerHeight
+                const sectionHeight = section.offsetHeight
+                self.isActive && !scrollTween && goToSection(i)
+            },
         })
     })
 
@@ -55,7 +56,5 @@ onMounted(() => {
 <style>
 .section {
     height: 100vh;
-    position: sticky;
-    top: 0;
 }
 </style>

@@ -2,9 +2,6 @@
 import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-
 const currentSection = ref<number>()
 
 const handleSectionChange = (index: number) => {
@@ -13,11 +10,7 @@ const handleSectionChange = (index: number) => {
 </script>
 
 <template>
-    <Header :current-section="currentSection" />
-
     <RouterView @onSectionChange="handleSectionChange" />
-
-    <Footer />
 </template>
 
 <style lang="scss">

@@ -1,12 +1,22 @@
 <template>
-    <section class="about">
+    <section class="about" ref="section">
         <div class="about__wrap">
+            <img
+                src="@/assets/elements/stone.svg"
+                class="about__stone about__stone--1"
+                alt=""
+            />
+            <img
+                src="@/assets/elements/stone2.svg"
+                class="about__stone about__stone--2"
+                alt=""
+            />
             <div class="container">
                 <div class="about__content">
-                    <h2 class="about__heading">
+                    <h2 class="about__heading" ref="heading">
                         Metaverses create <span>a magical</span> future
                     </h2>
-                    <div class="about__text">
+                    <div class="about__text" ref="text">
                         <p>
                             And we contribute to the new era of social media
                             communications of Web 3.0
@@ -23,13 +33,40 @@
     </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useAnimation } from '@/composables/useAnimation'
+
+const heading = ref<HTMLElement>()
+const text = ref<HTMLElement>()
+const section = ref<HTMLElement>()
+
+const { enter, leave, trigger } = useAnimation()
+
+onMounted(() => {
+    trigger(
+        section?.value,
+        () => {
+            enter(heading?.value)
+            enter(text?.value, 0.4)
+        },
+        () => {
+            leave(heading?.value)
+            leave(text?.value, 0.4)
+        }
+    )
+})
+</script>
 
 <style scoped lang="scss">
 .about {
+    @include noise;
+
+    overflow: hidden;
+    position: relative;
+
     &__wrap {
-        background: #130b1a;
-        background-image: url('@/assets/placeholder/aboutbg.png');
+        background: url('@/assets/bg/aboutBg.jpg');
         background-size: cover;
         height: 100vh;
         display: flex;
@@ -37,24 +74,51 @@
         position: relative;
 
         @include media-breakpoint-down(md) {
-            @include noise;
+            background-position: 70%;
+        }
 
-            &::before {
-                content: '';
-                background-image: url('@/assets/aboutBlur.svg');
-                width: 100%;
-                height: 100%;
-                margin: auto;
-                left: 0;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                display: block;
-                position: absolute;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-                z-index: 1;
+        &::before {
+            content: '';
+            background: linear-gradient(
+                180deg,
+                #19082b 1.55%,
+                rgba(49, 22, 77, 0) 56.46%
+            );
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            position: absolute;
+        }
+    }
+
+    &__stone {
+        position: absolute;
+        z-index: 10;
+
+        &--1 {
+            right: 190px;
+            top: 70%;
+            width: 40px;
+            animation: rotate 45s linear infinite;
+
+            animation-direction: reverse;
+
+            @include media-breakpoint-down(md) {
+                left: 32px;
+                top: 90%;
+            }
+        }
+
+        &--2 {
+            width: 105px;
+            top: 25%;
+            right: 190px;
+            animation: rotate 50s linear infinite;
+
+            @include media-breakpoint-down(md) {
+                right: 20px;
+                top: 90px;
             }
         }
     }
@@ -102,6 +166,28 @@
         @include media-breakpoint-down(md) {
             width: 100%;
         }
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }
 </style>

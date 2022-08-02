@@ -1,5 +1,5 @@
 <template>
-    <div class="expertise">
+    <div class="expertise" ref="section">
         <div class="expertise__wrap">
             <img
                 class="expertise__blur expertise__blur--1"
@@ -11,12 +11,18 @@
                 src="@/assets/expertiseBlur2.svg"
                 alt=""
             />
+            <img
+                src="@/assets/elements/expertiseStones.svg"
+                class="expertise__stones"
+                alt=""
+            />
             <div class="container">
-                <h2 class="expertise__heading">Expertise</h2>
+                <h2 class="expertise__heading" ref="heading">Expertise</h2>
             </div>
             <div class="expertise__list-wrap">
                 <div class="expertise__list">
                     <div
+                        ref="expertiseItem"
                         class="expertise__item"
                         :class="item.small && 'expertise__item--small'"
                         v-for="item in expertise"
@@ -31,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useAnimation } from '@/composables/useAnimation'
+import { onMounted, ref } from 'vue'
 import oton from '@/assets/expertise/oton.png'
 import unity from '@/assets/expertise/unity.png'
 import retext from '@/assets/expertise/retext.png'
@@ -65,16 +73,48 @@ const expertise = [
         small: true,
     },
 ]
+
+const { enter, leave, trigger } = useAnimation()
+
+const section = ref<HTMLElement>()
+const heading = ref<HTMLElement>()
+const expertiseItem = ref<HTMLElement>()
+
+onMounted(() => {
+    trigger(
+        section.value,
+        () => {
+            enter(heading.value)
+            if (Array.isArray(expertiseItem.value)) {
+                expertiseItem.value.forEach((el: HTMLElement, key: number) => {
+                    enter(el, 0.3 * (key + 1))
+                })
+            }
+        },
+        () => {
+            leave(heading.value)
+
+            if (Array.isArray(expertiseItem.value)) {
+                expertiseItem.value.forEach((el: HTMLElement, key: number) => {
+                    leave(el, 0.3 * (key + 1))
+                })
+            }
+        }
+    )
+})
 </script>
 
 <style scoped lang="scss">
 .expertise {
+    @include noise;
+    position: relative;
     &__wrap {
-        background-image: url('@/assets/stones2.png');
         background-size: contain;
         background-repeat: no-repeat;
         padding-bottom: rem(200px);
+        padding-top: rem(100px);
         position: relative;
+        z-index: 10;
 
         @include media-breakpoint-down(md) {
             padding-bottom: rem(128px);
@@ -109,6 +149,14 @@ const expertise = [
         }
     }
 
+    &__stones {
+        width: 96vw;
+        position: absolute;
+        animation: rotate 600s linear infinite;
+        animation-direction: reverse;
+        z-index: 20;
+    }
+
     &__heading {
         margin-bottom: rem(64px);
         color: #fff;
@@ -122,6 +170,7 @@ const expertise = [
     }
 
     &__list-wrap {
+        overflow: hidden;
         &::before {
             content: '';
             background-image: url("data:image/svg+xml,%3Csvg width='1818' height='331' viewBox='0 0 1818 331' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1817.5 203.398C1733.5 273.731 1543.4 389.898 1455 291.898C1344.5 169.398 1314 8.69141 1221 1.19141C1128 -6.30859 1040.5 208.898 913 215.898C785.5 222.898 750.5 116.191 574 116.191C421.31 116.191 457.5 291.898 369 291.898C280.5 291.898 268.5 178.898 158 178.898C69.6 178.898 16.5 203.565 1 215.898' stroke='%23BF81FF'/%3E%3C/svg%3E%0A");
@@ -158,7 +207,6 @@ const expertise = [
             right: 0;
             margin: auto;
             z-index: -1;
-            
 
             @include media-breakpoint-down(sm) {
                 background-size: contain;
@@ -309,6 +357,28 @@ const expertise = [
             right: 0;
             top: 0;
         }
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }
 </style>
