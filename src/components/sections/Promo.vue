@@ -57,11 +57,16 @@ onMounted(() => {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.intersectionRatio !== 1 && !video.value.paused) {
-                        video.value.pause()
-                        video.value.currentTime = 0
-                        isPlaying.value = false
-                        return
+                    if (video.value) {
+                        if (
+                            entry.intersectionRatio !== 1 &&
+                            !video.value.paused
+                        ) {
+                            video.value.pause()
+                            video.value.currentTime = 0
+                            isPlaying.value = false
+                            return
+                        }
                     }
                 })
             },

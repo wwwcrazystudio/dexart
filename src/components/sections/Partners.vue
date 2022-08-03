@@ -2,8 +2,8 @@
     <section class="partners" ref="section">
         <div class="partners__wrap">
             <picture class="partners__img">
-                <img src="@/assets/partnersbg.jpg" alt="" />
-                <source srcset="@/assets/partnersbg.webp" type="image/webp" />
+                <img src="@/assets/partners.jpg" alt="" />
+                <source srcset="@/assets/partners.webp" type="image/webp" />
             </picture>
             <div class="container">
                 <div class="partners__content">

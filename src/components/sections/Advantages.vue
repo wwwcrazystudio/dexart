@@ -1,5 +1,5 @@
 <template>
-    <section class="advantages" ref="section">
+    <section class="advantages" ref="section" @wheel.stop>
         <div class="advantages__wrap">
             <picture class="advantages__bg">
                 <img src="@/assets/bg/advantageBg.jpg" alt="" />
