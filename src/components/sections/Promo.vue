@@ -5,7 +5,22 @@
                 <h2 class="promo__heading" ref="heading">
                     Watch Dexart <span>Metaverse</span>
                 </h2>
-                <button class="promo__play-btn">Play</button>
+                <transition name="fade">
+                    <button
+                        @click="play"
+                        v-if="!isPlaying"
+                        class="promo__play-btn"
+                    >
+                        Play
+                    </button>
+                </transition>
+
+                <video
+                    preload="none"
+                    class="promo__video"
+                    src="@/assets/videos/promo.mp4"
+                    ref="video"
+                ></video>
             </div>
         </div>
     </section>
@@ -17,6 +32,8 @@ import { onMounted, ref } from 'vue'
 
 const heading = ref<HTMLElement>()
 const section = ref<HTMLElement>()
+const video = ref<HTMLVideoElement>()
+const isPlaying = ref<boolean>(false)
 
 const { enter, leave, trigger } = useAnimation()
 
@@ -30,13 +47,42 @@ onMounted(() => {
             leave(heading?.value)
         }
     )
+
+    if (video.value) {
+        video.value.volume = 0.3
+        video.value.addEventListener('ended', () => {
+            isPlaying.value = false
+        })
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.intersectionRatio !== 1 && !video.value.paused) {
+                        video.value.pause()
+                        video.value.currentTime = 0
+                        isPlaying.value = false
+                        return
+                    }
+                })
+            },
+            { threshold: 0.2 }
+        )
+        observer.observe(video.value)
+    }
 })
+
+const play = () => {
+    if (video.value) {
+        video.value.play()
+        isPlaying.value = true
+    }
+}
 </script>
 
 <style scoped lang="scss">
 .promo {
     &__wrap {
-        height: 100vh;
+        height: 100%;
         background-size: cover;
         position: relative;
         padding: rem(64px 0);
@@ -118,5 +164,28 @@ onMounted(() => {
             transition: 350ms;
         }
     }
+
+    &__video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

@@ -3,9 +3,10 @@
         <div class="footer__wrap">
             <div class="footer__content">
                 <div class="footer__col footer__col--a">
-                    <div class="footer__logo">
-                        <img src="@/assets/logo.png" alt="Dexart" />
-                    </div>
+                    <picture class="footer__logo">
+                        <img src="@/assets/logo.png" alt="" />
+                        <source srcset="@/assets/logo.webp" type="image/webp" />
+                    </picture>
 
                     <div class="footer__copyright">Dexart (c) 2022</div>
 
@@ -55,7 +56,7 @@
 
             <div class="footer__created-by">
                 Designed by
-                <a href="t.me/julistarr" target="_blank" rel="nofollow">
+                <a href="https://t.me/julistarr" target="_blank" rel="nofollow">
                     JULI DESIGN
                 </a>
             </div>
@@ -125,6 +126,8 @@ const menu2 = [
         font-family: 'StyreneAWeb', sans-serif;
         padding-top: rem(80px);
         padding-bottom: rem(128px);
+        position: relative;
+        z-index: 10;
 
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);

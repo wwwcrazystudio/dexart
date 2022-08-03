@@ -1,6 +1,10 @@
 <template>
     <section class="press" ref="section">
         <div class="press__wrap">
+            <picture class="press__bg">
+                <img src="@/assets/bg/pressBg.jpg" alt="" />
+                <source srcset="@/assets/bg/pressBg.webp" type="image/webp" />
+            </picture>
             <div class="container">
                 <h2 class="press__heading" ref="heading">
                     Press about <span>DEXART</span>
@@ -117,22 +121,40 @@ onMounted(() => {
 .press {
     &__wrap {
         background: linear-gradient(
-                180deg,
-                rgba(#381665, 0.4) 51.57%,
-                rgba(#381665, 0.1) 94.36%
-            ),
-            url('@/assets/bg/pressBg.jpg');
+            180deg,
+            rgba(#381665, 0.4) 51.57%,
+            rgba(#381665, 0.1) 94.36%
+        );
         background-size: cover;
         padding: rem(128px 0);
         background-repeat: no-repeat;
         display: flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    &__bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 
     &__heading {
         color: #fff;
         max-width: 470px;
         margin-bottom: rem(64px);
+        position: relative;
+        z-index: 10;
 
         span {
             display: block;

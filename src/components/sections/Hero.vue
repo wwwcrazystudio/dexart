@@ -1,6 +1,10 @@
 <template>
     <section class="hero" ref="section">
         <div class="hero__wrap">
+            <picture class="hero__bg">
+                <img src="@/assets/bg/hero.jpg" alt="" />
+                <source srcset="@/assets/bg/hero.webp" type="image/webp" />
+            </picture>
             <div class="container">
                 <h1 class="hero__heading" ref="heading">
                     Welcome <span>to DEXART</span>
@@ -74,7 +78,7 @@ onMounted(() => {
 
     &__wrap {
         position: relative;
-        height: 100vh;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -84,8 +88,6 @@ onMounted(() => {
             #3a1463 34.72%,
             #0c0316 67.57%
         );
-        background-image: url('@/assets/bg/hero.jpg');
-        background-size: cover;
         z-index: 10;
         overflow: hidden;
 
@@ -93,6 +95,20 @@ onMounted(() => {
             padding-top: 25vh;
             justify-content: flex-start;
             background-position: 70%;
+        }
+    }
+
+    &__bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
 

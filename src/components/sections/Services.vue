@@ -140,13 +140,16 @@ const handleScroll = () => {
 <style scoped lang="scss">
 .services {
     &__wrap {
-        height: 100vh;
-        background-image: url('@/assets/bg/servicesbg.jpg');
-        background-size: cover;
+        height: 100%;
+        background: url('@/assets/blurs/servicesBlur.png'),
+            linear-gradient(180deg, #130b1a 0%, #140c1b 100%);
+        background-size: 580px 580px, cover;
+        background-repeat: no-repeat;
+        background-position: center;
         padding-top: rem(130px);
 
         @include media-breakpoint-down(md) {
-            padding-top: 0;
+            padding-top: rem(100px);
         }
     }
 

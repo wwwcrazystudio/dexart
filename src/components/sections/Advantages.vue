@@ -1,6 +1,13 @@
 <template>
     <section class="advantages" ref="section">
         <div class="advantages__wrap">
+            <picture class="advantages__bg">
+                <img src="@/assets/bg/advantageBg.jpg" alt="" />
+                <source
+                    srcset="@/assets/bg/advantageBg.webp"
+                    type="image/webp"
+                />
+            </picture>
             <div class="container">
                 <MapBanner class="advantages__map-banner" ref="banner1" />
                 <div class="advantages__content" ref="content">
@@ -173,11 +180,10 @@ onMounted(() => {
     &__wrap {
         @include noise;
         background-image: linear-gradient(
-                180deg,
-                #19082b 13.19%,
-                rgba(49, 22, 77, 0) 30%
-            ),
-            url('@/assets/bg/advantageBg.jpg');
+            180deg,
+            #19082b 13.19%,
+            rgba(49, 22, 77, 0) 30%
+        );
 
         padding-top: rem(64px);
         padding-bottom: rem(142px);
@@ -190,6 +196,20 @@ onMounted(() => {
         }
     }
 
+    &__bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
     &__content {
         margin-top: rem(190px);
         margin-bottom: rem(220px);
@@ -198,6 +218,17 @@ onMounted(() => {
 
         @include media-breakpoint-down(md) {
             margin-bottom: rem(120px);
+
+            &::after {
+                content: '';
+                position: absolute;
+                background-image: url('@/assets/blurs/promoBlur.png');
+                width: 800px;
+                height: 800px;
+                left: -120px;
+                top: -90px;
+                background-size: contain;
+            }
         }
     }
 

@@ -66,29 +66,26 @@ onMounted(() => {
     position: relative;
 
     &__wrap {
-        background: url('@/assets/bg/aboutBg.jpg');
+        background: #130b1a;
+        background-image: linear-gradient(
+            180deg,
+            #19082b 1.55%,
+            rgba(49, 22, 77, 0) 56.46%
+        );
         background-size: cover;
-        height: 100vh;
         display: flex;
         align-items: center;
         position: relative;
+        height: 100%;
 
         @include media-breakpoint-down(md) {
-            background-position: 70%;
-        }
-
-        &::before {
-            content: '';
-            background: linear-gradient(
-                180deg,
-                #19082b 1.55%,
-                rgba(49, 22, 77, 0) 56.46%
-            );
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 30%;
-            position: absolute;
+            background-position: center;
+            background-image: url('@/assets/blurs/aboutBlur.png'),
+                linear-gradient(
+                    180deg,
+                    #19082b 1.55%,
+                    rgba(49, 22, 77, 0) 56.46%
+                );
         }
     }
 

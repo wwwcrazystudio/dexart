@@ -167,7 +167,6 @@ onMounted(() => {
             },
             slidesPerView: 1.1,
             spaceBetween: 16,
-            loop: true,
             modules: [Navigation],
             breakpoints: {
                 568: {

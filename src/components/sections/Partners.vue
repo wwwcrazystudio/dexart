@@ -1,12 +1,10 @@
 <template>
     <section class="partners" ref="section">
         <div class="partners__wrap">
-            <img
-                src="@/assets/partnersbg.jpg"
-                class="partners__img"
-                ref="img"
-                alt=""
-            />
+            <picture class="partners__img">
+                <img src="@/assets/partnersbg.jpg" alt="" />
+                <source srcset="@/assets/partnersbg.webp" type="image/webp" />
+            </picture>
             <div class="container">
                 <div class="partners__content">
                     <h2 class="partners__heading" ref="heading">Partners</h2>
@@ -29,7 +27,7 @@ import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 
-const { enter, leave, trigger } = useAnimation()
+const { leave, trigger } = useAnimation()
 
 const heading = ref<HTMLElement>()
 const content = ref<HTMLElement>()
@@ -82,7 +80,7 @@ onMounted(() => {
 
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
-            height: 100vh;
+            height: 100%;
             padding-top: rem(128px);
         }
     }
@@ -101,12 +99,20 @@ onMounted(() => {
         position: absolute;
         left: 0;
         bottom: -200px;
-        height: auto;
-        width: 100%;
-        object-fit: cover;
-        object-position: bottom;
+
         transition: 1000ms;
         z-index: -1;
+
+        img {
+            height: auto;
+            width: 100%;
+            object-fit: cover;
+            object-position: bottom;
+
+            @include media-breakpoint-down(md) {
+                height: 100%;
+            }
+        }
 
         @include media-breakpoint-down(md) {
             bottom: 0 !important;

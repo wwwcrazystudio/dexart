@@ -3,19 +3,21 @@
         <div class="expertise__wrap">
             <img
                 class="expertise__blur expertise__blur--1"
-                src="@/assets/expertiseBlur1.svg"
+                src="@/assets/blurs/expertiseBlur2.png"
                 alt=""
             />
             <img
                 class="expertise__blur expertise__blur--2"
-                src="@/assets/expertiseBlur2.svg"
+                src="@/assets/blurs/expertiseBlur1.png"
                 alt=""
             />
-            <img
-                src="@/assets/elements/expertiseStones.svg"
-                class="expertise__stones"
-                alt=""
-            />
+            <div class="expertise__stones-wrap">
+                <img
+                    src="@/assets/elements/expertiseStones.svg"
+                    class="expertise__stones"
+                    alt=""
+                />
+            </div>
             <div class="container">
                 <h2 class="expertise__heading" ref="heading">Expertise</h2>
             </div>
@@ -39,11 +41,11 @@
 <script setup lang="ts">
 import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
-import oton from '@/assets/expertise/oton.png'
-import unity from '@/assets/expertise/unity.png'
-import retext from '@/assets/expertise/retext.png'
-import binance from '@/assets/expertise/binance.png'
-import near from '@/assets/expertise/near.png'
+import oton from '@/assets/expertise/oton.svg'
+import unity from '@/assets/expertise/unity.svg'
+import retext from '@/assets/expertise/retext.svg'
+import binance from '@/assets/expertise/binance.svg'
+import near from '@/assets/expertise/near.svg'
 
 const expertise = [
     {
@@ -131,20 +133,20 @@ onMounted(() => {
 
             @include media-breakpoint-down(md) {
                 width: 100%;
-                left: 30%;
+                left: 10%;
                 top: 0%;
             }
         }
 
         &--2 {
-            left: 20%;
-            top: -30%;
+            left: 30%;
+            top: -20%;
             width: 30%;
 
             @include media-breakpoint-down(md) {
-                width: 110%;
-                left: -50%;
-                top: -50%;
+                width: 90%;
+                left: 0%;
+                top: 10%;
             }
         }
     }
@@ -155,6 +157,19 @@ onMounted(() => {
         animation: rotate 600s linear infinite;
         animation-direction: reverse;
         z-index: 20;
+
+        @include media-breakpoint-down(md) {
+            width: 200vw;
+            left: -350px;
+        }
+    }
+
+    &__stones-wrap {
+        overflow: hidden;
+        z-index: 10;
+        position: absolute;
+        width: 100%;
+        height: 100%;
     }
 
     &__heading {
@@ -170,7 +185,6 @@ onMounted(() => {
     }
 
     &__list-wrap {
-        overflow: hidden;
         &::before {
             content: '';
             background-image: url("data:image/svg+xml,%3Csvg width='1818' height='331' viewBox='0 0 1818 331' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1817.5 203.398C1733.5 273.731 1543.4 389.898 1455 291.898C1344.5 169.398 1314 8.69141 1221 1.19141C1128 -6.30859 1040.5 208.898 913 215.898C785.5 222.898 750.5 116.191 574 116.191C421.31 116.191 457.5 291.898 369 291.898C280.5 291.898 268.5 178.898 158 178.898C69.6 178.898 16.5 203.565 1 215.898' stroke='%23BF81FF'/%3E%3C/svg%3E%0A");

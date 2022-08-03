@@ -20,11 +20,13 @@
                     </div>
 
                     <div class="world__map" ref="map">
-                        <img
-                            src="@/assets/map.png"
-                            :style="mapPosition"
-                            alt=""
-                        />
+                        <picture class="world__map-img" :style="mapPosition">
+                            <img src="@/assets/map.jpg" alt="" />
+                            <source
+                                srcset="@/assets/map.webp"
+                                type="image/webp"
+                            />
+                        </picture>
                     </div>
                     <div class="world__controls">
                         <button
@@ -129,7 +131,7 @@ const handleStepChange = debounce((e: WheelEvent) => {
             currentStep.value += 1
         }
     }
-}, 500)
+}, 300)
 
 const handleScroll = () => {
     const offset = section?.value?.offsetTop || 0
@@ -140,10 +142,10 @@ const handleScroll = () => {
         return
     }
 
-    if (currentStep.value === 1 || currentStep.value === 4) {
+    /*     if (currentStep.value === 1 || currentStep.value === 4) {
         document.documentElement.classList.remove('locked')
         return
-    }
+    } */
 }
 
 const mapPosition = computed(() => {
@@ -166,7 +168,7 @@ const mapPosition = computed(() => {
             }
         default:
             return {
-                transform: 'scale(0)',
+                transform: 'scale(1.5) translate(560px, 0)',
             }
     }
 })
@@ -175,8 +177,10 @@ const mapPosition = computed(() => {
 <style scoped lang="scss">
 .world {
     overflow: hidden;
+
     &__wrap {
-        height: 100vh;
+        height: 100%;
+        background: #170932;
         position: relative;
         padding: rem(128px 0);
         display: grid;
@@ -197,8 +201,31 @@ const mapPosition = computed(() => {
             height: 100%;
         }
 
+        &::after {
+            content: '';
+            background: url('@/assets/blurs/promoBlur.png');
+            position: absolute;
+            background-size: contain;
+            right: 10vw;
+            bottom: 0;
+            top: 0;
+            margin: auto;
+            width: 700px;
+            height: 700px;
+
+            @include media-breakpoint-down(md) {
+                right: 0;
+                opacity: 0.5;
+                background-repeat: no-repeat;
+                background-position: 30%;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
+            background: linear-gradient(132deg, #1c0b2b 40%, transparent 100%);
         }
     }
 
@@ -212,6 +239,8 @@ const mapPosition = computed(() => {
         color: #fff;
         max-width: 470px;
         margin-bottom: rem(32px);
+        position: relative;
+        z-index: 10;
 
         span {
             display: block;
@@ -235,6 +264,8 @@ const mapPosition = computed(() => {
 
     &__text-wrap {
         position: relative;
+        position: relative;
+        z-index: 10;
     }
 
     &__map {
@@ -246,6 +277,9 @@ const mapPosition = computed(() => {
         z-index: -1;
         width: 100%;
         height: 100%;
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden;
 
         @include media-breakpoint-down(md) {
             top: unset;
@@ -255,10 +289,15 @@ const mapPosition = computed(() => {
             left: -690px;
         }
 
-        img {
+        img,
+        picture {
             width: 100%;
             transition: 1000ms;
             transition-delay: 600ms;
+            -webkit-transform: translate3d(0, 0, 0);
+            -webkit-perspective: 1000;
+            -webkit-backface-visibility: hidden;
+            display: block;
         }
     }
 

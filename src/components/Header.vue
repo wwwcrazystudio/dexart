@@ -1,9 +1,11 @@
 <template>
     <header class="header" :class="scrolled && 'header--fixed'">
         <div class="header__wrap">
-            <div class="header__logo">
-                <img src="@/assets/logo.png" alt="Dexart" />
-            </div>
+            <picture class="header__logo">
+                <img src="@/assets/logo.png" alt="" />
+                <source srcset="@/assets/logo.webp" type="image/webp" />
+            </picture>
+
             <transition name="fade">
                 <nav
                     class="header__header-menu"

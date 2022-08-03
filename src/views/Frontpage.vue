@@ -22,11 +22,15 @@ const particlesInit = async (engine: any) => {
     await loadFull(engine)
 }
 
+const isLaptop = () => {
+    return window.matchMedia('(max-width: 1600px)').matches
+}
+
 const options = {
     fpsLimit: 60,
     fullScreen: {
         enable: false,
-        zIndex: 1,
+        zIndex: 10,
     },
 
     particles: {
@@ -37,7 +41,7 @@ const options = {
             enable: true,
         },
         number: {
-            value: 150,
+            value: isLaptop() ? 50 : 150,
         },
         opacity: {
             value: 1,
@@ -77,10 +81,10 @@ const options = {
                 <Services class="frontpage__services section" />
                 <World class="frontpage__world section" />
                 <Backstory class="frontpage__backstory section" />
-                <Advantages class="frontpage__advantages section" />
+                <Advantages class="frontpage__advantages section" @wheel.stop />
                 <Roadmap class="frontpage__roadmap section" />
                 <Expertise class="frontpage__expertise section" />
-                <div class="frontpage__bottom section">
+                <div class="frontpage__bottom section" @wheel.stop>
                     <Partners class="frontpage__partners" />
                     <Press class="frontpage__partners section" />
                     <Footer />
@@ -93,6 +97,7 @@ const options = {
 <style lang="scss" scoped>
 .frontpage {
     position: relative;
+    overflow: hidden;
     &__bg {
         position: absolute;
         z-index: 1;
@@ -114,6 +119,10 @@ const options = {
 
     &__partners {
         height: auto;
+
+        @include media-breakpoint-down(md) {
+            height: 100vh !important;
+        }
     }
 }
 </style>

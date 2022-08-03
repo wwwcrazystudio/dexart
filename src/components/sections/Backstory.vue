@@ -11,6 +11,10 @@
                 class="backstory__stone backstory__stone--2"
                 alt=""
             />
+            <picture class="backstory__stones">
+                <img src="@/assets/stones.png" alt="" />
+                <source srcset="@/assets/stones.webp" type="image/webp" />
+            </picture>
             <div class="container">
                 <div class="backstory__content" ref="content">
                     <h2 class="backstory__heading" ref="heading">
@@ -79,8 +83,6 @@ onMounted(() => {
 <style scoped lang="scss">
 .backstory {
     @include noise;
-
-    overflow: hidden;
     position: relative;
 
     &::before {
@@ -99,50 +101,43 @@ onMounted(() => {
     }
 
     &__wrap {
-        background: linear-gradient(336.67deg, #11071b 21.87%, #1d0b2c 83.34%);
+        background: url('@/assets/blurs/backstoryBlur.png'),
+            linear-gradient(336.67deg, #11071b 21.87%, #1d0b2c 83.34%);
         position: relative;
-        background-image: url('@/assets/bg/backstoryBg.jpg');
-        background-size: cover;
-        height: 100vh;
-        overflow: hidden;
+        background-size: 900px 900px, cover;
+        background-position: 60%;
+        background-repeat: no-repeat;
+        height: 100%;
         padding-top: rem(30px);
+    }
 
-        &::before {
-            content: '';
-            background-image: url('@/assets/stones.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            width: 1000px;
-            height: 1000px;
-            position: absolute;
-            left: -25%;
-            top: 25%;
-        }
+    &__stones {
+        width: 1000px;
+        height: 1000px;
+        position: absolute;
+        left: -25%;
+        top: 25%;
+        z-index: 10;
 
         @include media-breakpoint-down(md) {
-            &::after {
-                content: '';
-                background-image: url('@/assets/backstoryBlur.svg');
-                width: 100%;
-                height: 100%;
-                margin: auto;
-                left: 0;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                display: block;
-                position: absolute;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-                z-index: 1;
-            }
+            width: 300%;
+            height: auto;
+            position: absolute;
+            left: -150%;
+            bottom: -60%;
+            z-index: 10;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
     }
 
     &__stone {
         position: absolute;
-        z-index: 1;
+        z-index: 15;
 
         &--1 {
             right: 70px;
@@ -164,7 +159,7 @@ onMounted(() => {
         display: flex;
         justify-content: space-between;
         padding-top: rem(64px);
-        z-index: 10;
+        z-index: 20;
         position: relative;
 
         @include media-breakpoint-down(lg) {
