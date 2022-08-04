@@ -73,8 +73,9 @@ const content = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
 
 onMounted(() => {
-    hide(heading.value)
-    hide(text.value)
+    heading.value && hide(heading.value)
+    text.value && hide(text.value)
+    btn.value && hide(btn.value)
 
     if (content.value)
         ScrollTrigger.create({

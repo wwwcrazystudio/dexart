@@ -51,24 +51,23 @@ const { enter, leave } = useAnimation()
 
 onMounted(() => {
     if (heading.value) {
-        enter(heading.value)
+        heading.value && enter(heading.value)
+        text.value && enter(text.value, 0.4)
 
         ScrollTrigger.create({
             trigger: heading.value,
             start: '-=100px',
             end: 'bottom center',
             onLeave: () => {
-                leave(heading.value)
+                heading.value && leave(heading.value)
                 text.value && leave(text.value)
             },
             onEnterBack: () => {
-                enter(heading.value)
+                heading.value && enter(heading.value)
                 text.value && enter(text.value)
             },
         })
     }
-
-    text.value && enter(text.value, 0.4)
 
     if (parallaxScene.value)
         new Parallax(parallaxScene.value, {

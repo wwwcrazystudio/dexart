@@ -45,8 +45,8 @@ const scene = ref<HTMLElement>()
 const { enter, leave, hide } = useAnimation()
 
 onMounted(() => {
-    hide(heading.value)
-    hide(text.value)
+    heading.value && hide(heading.value)
+    text.value && hide(text.value)
 
     if (content.value)
         ScrollTrigger.create({
@@ -71,11 +71,12 @@ onMounted(() => {
             },
         })
 
-    ScrollTrigger.create({
-        trigger: content.value,
-        start: 'top bottom',
-        end: 'bottom top',
-    })
+    if (content.value)
+        ScrollTrigger.create({
+            trigger: content.value,
+            start: 'top bottom',
+            end: 'bottom top',
+        })
 
     if (scene.value)
         new Parallax(scene.value, {

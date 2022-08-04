@@ -42,8 +42,8 @@ const isPlaying = ref<boolean>(false)
 const { enter, leave, hide } = useAnimation()
 
 onMounted(() => {
-    hide(heading.value)
-    hide(btn.value)
+    heading.value && hide(heading.value)
+    btn.value && hide(btn.value)
 
     if (heading.value)
         ScrollTrigger.create({
@@ -93,13 +93,15 @@ onMounted(() => {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (video.value) {
-                        if (entry.intersectionRatio !== 1) {
+                    if (entry.intersectionRatio !== 1) {
+                        if (video.value) {
                             video.value.style.opacity = '0'
                             setTimeout(() => {
-                                video.value.pause()
-                                video.value.currentTime = 0
-                                isPlaying.value = false
+                                if (video.value) {
+                                    video.value.pause()
+                                    video.value.currentTime = 0
+                                    isPlaying.value = false
+                                }
                             }, 350)
 
                             return

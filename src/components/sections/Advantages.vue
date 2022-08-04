@@ -94,30 +94,30 @@ const content = ref<HTMLElement>()
 const slides = ref<HTMLElement[]>()
 
 onMounted(() => {
-    banner1.value.$el && hide(banner1.value.$el)
+    banner1.value && hide(banner1.value.$el)
     heading.value && hide(heading.value)
-    banner2.value.$el && hide(banner2.value.$el)
+    banner2.value && hide(banner2.value.$el)
 
     slides.value?.forEach((slide) => {
         hide(slide)
     })
 
-    if (banner1.value.$el)
+    if (banner1.value)
         ScrollTrigger.create({
             trigger: banner1.value.$el,
             start: 'top center',
             end: 'top top',
             onEnter: () => {
-                enter(banner1.value.$el)
+                banner1.value && enter(banner1.value.$el)
             },
             onLeave: () => {
-                leave(banner1.value.$el)
+                banner1.value && leave(banner1.value.$el)
             },
             onEnterBack: () => {
-                enter(banner1.value.$el)
+                banner1.value && enter(banner1.value.$el)
             },
             onLeaveBack: () => {
-                leave(banner1.value.$el)
+                banner1.value && leave(banner1.value.$el)
             },
         })
 
@@ -127,47 +127,47 @@ onMounted(() => {
             start: 'top 70%',
             end: 'center 20%',
             onEnter: () => {
-                enter(heading.value)
+                heading.value && enter(heading.value)
                 slides.value?.forEach((slide, key) => {
                     enter(slide, 0.3 * key)
                 })
             },
             onLeave: () => {
-                leave(heading.value)
+                heading.value && leave(heading.value)
                 slides.value?.forEach((slide, key) => {
                     leave(slide, 0.3 * key)
                 })
             },
             onEnterBack: () => {
-                enter(heading.value)
+                heading.value && enter(heading.value)
                 slides.value?.forEach((slide, key) => {
                     enter(slide, 0.3 * key)
                 })
             },
             onLeaveBack: () => {
-                leave(heading.value)
+                heading.value && leave(heading.value)
                 slides.value?.forEach((slide, key) => {
                     leave(slide, 0.3 * key)
                 })
             },
         })
 
-    if (banner2.value.$el)
+    if (banner2.value)
         ScrollTrigger.create({
             trigger: banner2.value.$el,
             start: 'top center',
             end: 'top top',
             onEnter: () => {
-                enter(banner2.value.$el)
+                banner2.value && enter(banner2.value.$el)
             },
             onLeave: () => {
-                leave(banner2.value.$el)
+                banner2.value && leave(banner2.value.$el)
             },
             onEnterBack: () => {
-                enter(banner2.value.$el)
+                banner2.value && enter(banner2.value.$el)
             },
             onLeaveBack: () => {
-                leave(banner2.value.$el)
+                banner2.value && leave(banner2.value.$el)
             },
         })
 

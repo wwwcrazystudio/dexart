@@ -107,29 +107,33 @@ onMounted(() => {
         end: 'bottom bottom',
         onEnter: () => {
             currentStep.value = 0
-            gsap.to(map.value, {
-                opacity: 1,
-                duration: 1,
-            })
+            map.value &&
+                gsap.to(map.value, {
+                    opacity: 1,
+                    duration: 1,
+                })
         },
         onEnterBack: () => {
             currentStep.value = 0
-            gsap.to(map.value, {
-                opacity: 1,
-                duration: 1,
-            })
+            map.value &&
+                gsap.to(map.value, {
+                    opacity: 1,
+                    duration: 1,
+                })
         },
         onLeave: () => {
-            gsap.to(map.value, {
-                opacity: 0,
-                duration: 1,
-            })
+            map.value &&
+                gsap.to(map.value, {
+                    opacity: 0,
+                    duration: 1,
+                })
         },
         onLeaveBack: () => {
-            gsap.to(map.value, {
-                opacity: 0,
-                duration: 1,
-            })
+            map.value &&
+                gsap.to(map.value, {
+                    opacity: 0,
+                    duration: 1,
+                })
         },
     })
 
