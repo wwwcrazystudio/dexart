@@ -1,5 +1,5 @@
 <template>
-    <section class="hero" ref="section">
+    <section class="hero">
         <div class="hero__wrap">
             <picture class="hero__bg">
                 <img src="@/assets/bg/hero.jpg" alt="" />
@@ -13,24 +13,24 @@
                     A Virtual World with endless opportunities for people and
                     businesses
                 </div>
+            </div>
 
+            <div ref="parallaxScene" class="hero__scene">
                 <img
+                    data-depth="1"
+                    class="hero__mountain"
+                    src="@/assets/elements/mountain.svg"
+                    alt=""
+                />
+                <img
+                    data-depth="0.8"
                     class="hero__star"
                     ref="star"
                     src="@/assets/bg/heroStar.svg"
                 />
-            </div>
-
-            <div ref="parallaxScene" class="hero__scene">
-                <div data-depth="0.6" class="hero__stones">
+                <div data-depth="0.5" class="hero__stones">
                     <img src="@/assets/bg/heroStones.svg" alt="" />
                 </div>
-                <img
-                    data-depth="0.6"
-                    class="hero__mountain"
-                    src="@/assets/bg/heroMountain.svg"
-                    alt=""
-                />
             </div>
         </div>
     </section>
@@ -40,32 +40,41 @@
 import { onMounted, ref } from 'vue'
 import Parallax from 'parallax-js'
 import { useAnimation } from '@/composables/useAnimation'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const star = ref<HTMLElement>()
-const section = ref<HTMLElement>()
 const parallaxScene = ref<HTMLElement>()
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave } = useAnimation()
 
 onMounted(() => {
-    trigger(
-        section.value,
-        () => {
-            enter(heading.value)
-            enter(text.value, 0.4)
-        },
-        () => {
-            leave(heading.value)
-            leave(text.value)
-        }
-    )
+    if (heading.value) {
+        enter(heading.value)
+
+        ScrollTrigger.create({
+            trigger: heading.value,
+            start: '-=100px',
+            end: 'bottom center',
+            onLeave: () => {
+                leave(heading.value)
+                text.value && leave(text.value)
+            },
+            onEnterBack: () => {
+                enter(heading.value)
+                text.value && enter(text.value)
+            },
+        })
+    }
+
+    text.value && enter(text.value, 0.4)
 
     if (parallaxScene.value)
         new Parallax(parallaxScene.value, {
-            scalarX: 2,
-            scalarY: 0,
+            scalarX: 7,
+            scalarY: 4,
+            frictionX: 0.075,
         })
 })
 </script>
@@ -78,7 +87,7 @@ onMounted(() => {
 
     &__wrap {
         position: relative;
-        height: 100%;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -166,19 +175,22 @@ onMounted(() => {
         }
 
         img {
-            animation: rotate 200s linear infinite;
-            width: 102%;
+            animation: rotate 180s linear infinite;
+            width: 100%;
         }
     }
 
     &__star {
         position: absolute;
-        right: 230px;
-        top: 180px;
+        right: 21%;
+        top: unset !important;
+        left: unset !important;
+        bottom: calc(37% + 50px);
         filter: drop-shadow(0px 0px 20px #752cc5)
             drop-shadow(0px 0px 60px #752cc5);
         animation: pulsate 2s linear infinite alternate-reverse;
         z-index: 15;
+        width: 8vw;
 
         @include media-breakpoint-down(lg) {
             width: 100px;
@@ -189,17 +201,30 @@ onMounted(() => {
     }
 
     &__mountain {
-        position: absolute;
-        left: 0;
+        position: absolute !important;
+        left: -100px !important;
         right: 0;
         bottom: 0;
         z-index: 11;
         margin-top: auto;
-        width: 102%;
+        width: 200%;
+        max-height: 40vh;
+        object-position: left bottom;
+        object-fit: contain;
 
-        @include media-breakpoint-down(md) {
-            width: 220%;
-            left: -380px !important;
+        @include media-breakpoint-down(xxl) {
+            max-height: 35vh;
+            left: -250px !important;
+        }
+
+        @include media-breakpoint-down(lg) {
+            max-height: 16vh;
+        }
+
+        @include media-breakpoint-down(sm) {
+            left: -460px !important;
+            width: 300%;
+            max-height: 22vh;
         }
     }
 

@@ -1,7 +1,7 @@
 <template>
     <section class="partners" ref="section">
         <div class="partners__wrap">
-            <picture class="partners__img">
+            <picture class="partners__img" ref="img">
                 <img src="@/assets/partners.jpg" alt="" />
                 <source srcset="@/assets/partners.webp" type="image/webp" />
             </picture>
@@ -26,8 +26,9 @@
 import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const { leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const heading = ref<HTMLElement>()
 const content = ref<HTMLElement>()
@@ -35,31 +36,38 @@ const section = ref<HTMLElement>()
 const img = ref<HTMLElement>()
 
 onMounted(() => {
-    trigger(
-        section.value,
-        () => {
-            if (heading.value)
-                gsap.from(heading.value, {
-                    y: 100,
-                    opacity: 0,
-                    duration: 1,
-                })
-            if (content.value)
-                gsap.from(content.value, {
-                    y: 100,
-                    opacity: 0,
-                    duration: 1,
-                })
-            if (img.value)
-                gsap.to(img.value, {
-                    bottom: -500,
-                    duration: 0.5,
-                })
-        },
-        () => {
-            leave(heading.value)
-        }
-    )
+    heading.value && hide(heading.value)
+    content.value && hide(content.value)
+
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        content.value && enter(content.value)
+        img.value &&
+            gsap.to(img.value, {
+                bottom: -500,
+                duration: 1,
+            })
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        content.value && leave(content.value)
+        img.value &&
+            gsap.to(img.value, {
+                bottom: -200,
+                duration: 1,
+            })
+    }
+
+    ScrollTrigger.create({
+        trigger: section.value,
+        start: 'top 70%',
+        end: 'bottom center',
+        onEnter: () => enterCallback(),
+        onEnterBack: () => enterCallback(),
+        onLeave: () => leaveCallback(),
+        onLeaveBack: () => leaveCallback(),
+    })
 })
 </script>
 
@@ -68,8 +76,9 @@ onMounted(() => {
     &__wrap {
         background: linear-gradient(
             180deg,
-            rgba(#0b0e28, 0.6) 16.57%,
-            rgba(#381665, 0.8) 74.36%
+            #0b0e28 10%,
+            rgba(#080f23, 0.3) 40%,
+            #391667 100%
         );
 
         padding: rem(112px 0);
@@ -77,10 +86,11 @@ onMounted(() => {
         background-size: cover;
         transition: 350ms;
         position: relative;
+        overflow: hidden;
 
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
-            height: 100%;
+            height: 100vh;
             padding-top: rem(128px);
         }
     }
@@ -99,8 +109,6 @@ onMounted(() => {
         position: absolute;
         left: 0;
         bottom: -200px;
-
-        transition: 1000ms;
         z-index: -1;
 
         img {
@@ -108,10 +116,10 @@ onMounted(() => {
             width: 100%;
             object-fit: cover;
             object-position: bottom;
+        }
 
-            @include media-breakpoint-down(md) {
-                height: 100%;
-            }
+        @include media-breakpoint-down(lg) {
+            bottom: -200px !important;
         }
 
         @include media-breakpoint-down(md) {

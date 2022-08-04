@@ -1,13 +1,13 @@
 <template>
-    <section class="advantages" ref="section" @wheel.stop>
+    <section class="advantages" ref="section">
         <div class="advantages__wrap">
-            <picture class="advantages__bg">
+            <!--  <picture class="advantages__bg">
                 <img src="@/assets/bg/advantageBg.jpg" alt="" />
                 <source
                     srcset="@/assets/bg/advantageBg.webp"
                     type="image/webp"
                 />
-            </picture>
+            </picture> -->
             <div class="container">
                 <MapBanner class="advantages__map-banner" ref="banner1" />
                 <div class="advantages__content" ref="content">
@@ -20,7 +20,7 @@
                         <ul class="advantages__list swiper-wrapper">
                             <li
                                 class="advantages__advantage-item swiper-slide"
-                                ref="slide"
+                                ref="slides"
                                 v-for="item in advantages"
                                 :key="item.title"
                             >
@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Swiper from 'swiper'
 import 'swiper/css'
 
@@ -59,7 +60,7 @@ import advantage2 from '@/assets/advantages/advantage2.svg'
 import advantage3 from '@/assets/advantages/advantage3.svg'
 import advantage4 from '@/assets/advantages/advantage4.svg'
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const advantages = [
     {
@@ -90,10 +91,86 @@ const heading = ref<HTMLElement>()
 const banner1 = ref<InstanceType<typeof MapBanner>>()
 const banner2 = ref<InstanceType<typeof SignupBanner>>()
 const content = ref<HTMLElement>()
-const slide = ref<HTMLElement | Array<HTMLElement>>()
+const slides = ref<HTMLElement[]>()
 
 onMounted(() => {
-    /* document.addEventListener('scroll', handleScroll) */
+    banner1.value.$el && hide(banner1.value.$el)
+    heading.value && hide(heading.value)
+    banner2.value.$el && hide(banner2.value.$el)
+
+    slides.value?.forEach((slide) => {
+        hide(slide)
+    })
+
+    if (banner1.value.$el)
+        ScrollTrigger.create({
+            trigger: banner1.value.$el,
+            start: 'top center',
+            end: 'top top',
+            onEnter: () => {
+                enter(banner1.value.$el)
+            },
+            onLeave: () => {
+                leave(banner1.value.$el)
+            },
+            onEnterBack: () => {
+                enter(banner1.value.$el)
+            },
+            onLeaveBack: () => {
+                leave(banner1.value.$el)
+            },
+        })
+
+    if (content.value)
+        ScrollTrigger.create({
+            trigger: content.value,
+            start: 'top 70%',
+            end: 'center 20%',
+            onEnter: () => {
+                enter(heading.value)
+                slides.value?.forEach((slide, key) => {
+                    enter(slide, 0.3 * key)
+                })
+            },
+            onLeave: () => {
+                leave(heading.value)
+                slides.value?.forEach((slide, key) => {
+                    leave(slide, 0.3 * key)
+                })
+            },
+            onEnterBack: () => {
+                enter(heading.value)
+                slides.value?.forEach((slide, key) => {
+                    enter(slide, 0.3 * key)
+                })
+            },
+            onLeaveBack: () => {
+                leave(heading.value)
+                slides.value?.forEach((slide, key) => {
+                    leave(slide, 0.3 * key)
+                })
+            },
+        })
+
+    if (banner2.value.$el)
+        ScrollTrigger.create({
+            trigger: banner2.value.$el,
+            start: 'top center',
+            end: 'top top',
+            onEnter: () => {
+                enter(banner2.value.$el)
+            },
+            onLeave: () => {
+                leave(banner2.value.$el)
+            },
+            onEnterBack: () => {
+                enter(banner2.value.$el)
+            },
+            onLeaveBack: () => {
+                leave(banner2.value.$el)
+            },
+        })
+
     if (carousel.value) {
         new Swiper(carousel.value, {
             slidesPerView: 1.3,
@@ -113,77 +190,21 @@ onMounted(() => {
             },
         })
     }
-
-    trigger(
-        section.value,
-        () => {
-            if (banner1.value) enter(banner1.value.$el)
-            if (banner2.value) enter(banner2.value.$el, 0.6)
-            if (heading.value) enter(heading.value, 0.6)
-
-            if (Array.isArray(slide.value)) {
-                slide.value.forEach((el: HTMLElement, key: number) => {
-                    enter(el, 0.2 * key)
-                })
-            }
-        },
-        () => {
-            if (banner1.value) leave(banner1.value.$el)
-            if (banner2.value) leave(banner2.value.$el)
-            if (Array.isArray(slide.value)) {
-                slide.value.forEach((el: HTMLElement, key: number) => {
-                    leave(el, 0.2 * key)
-                })
-            }
-        },
-        '+=400px bottom',
-        null,
-        '-=50px top',
-        'bottom center'
-    )
-
-    /*     trigger(
-        section.value,
-        () => {},
-        () => {
-            console.log('leave')
-        },
-        '+=400px bottom',
-        'bottom center'
-    ) */
 })
-
-/* const handleScroll = () => {
-    const offset = section.value.offsetTop
-    const scroll = window.scrollY
-    const viewportHeight = window.innerHeight
-
-    if (offset === scroll) {
-        document.documentElement.classList.add('locked')
-        return
-    }
-
-    if (offset + viewportHeight === scroll + viewportHeight) {
-        document.documentElement.classList.remove('locked')
-        return
-    }
-
-    if (offset + viewportHeight === scroll + viewportHeight) {
-        document.documentElement.classList.remove('locked')
-        return
-    }
-} */
 </script>
 
 <style scoped lang="scss">
 .advantages {
     &__wrap {
-        @include noise;
-        background-image: linear-gradient(
-            180deg,
-            #19082b 13.19%,
-            rgba(49, 22, 77, 0) 30%
-        );
+        /*  @include noise; */
+        background: url('@/assets/blurs/advantagesBlur.png') center,
+            linear-gradient(
+                180deg,
+                #11071b 0%,
+                #3b1661 25%,
+                #3b1661 45%,
+                #11071b 100%
+            );
 
         padding-top: rem(64px);
         padding-bottom: rem(142px);
@@ -202,6 +223,7 @@ onMounted(() => {
         top: 0;
         width: 100%;
         height: 100%;
+        z-index: -1;
 
         img {
             width: 100%;
@@ -267,7 +289,6 @@ onMounted(() => {
     } */
 
     &__map-banner {
-        opacity: 0;
         position: relative;
         z-index: 10;
     }

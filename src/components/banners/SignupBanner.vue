@@ -1,6 +1,20 @@
 <template>
     <div class="signup-banner">
         <div class="signup-banner__wrap">
+            <div class="signup-banner__scene" ref="scene">
+                <div
+                    class="signup-banner__stone signup-banner__stone--1"
+                    data-depth="0.2"
+                >
+                    <img src="@/assets/elements/stone.svg" alt="" />
+                </div>
+                <div
+                    class="signup-banner__stone signup-banner__stone--2"
+                    data-depth="0.2"
+                >
+                    <img src="@/assets/elements/stone2.svg" />
+                </div>
+            </div>
             <h2 class="signup-banner__heading">
                 Join our <span>community</span>
             </h2>
@@ -16,7 +30,20 @@
     </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import Parallax from 'parallax-js'
+
+const scene = ref<HTMLElement>()
+
+onMounted(() => {
+    if (scene.value)
+        new Parallax(scene.value, {
+            scalarX: 6,
+            scalarY: 6,
+        })
+})
+</script>
 
 <style scoped lang="scss">
 .signup-banner {
@@ -53,43 +80,60 @@
             margin: rem(0 -16px);
             padding-bottom: rem(24px);
         }
+    }
 
-        &::before {
-            content: '';
-            position: absolute;
-            background-image: url('@/assets/elements/stone.svg');
+    &__scene {
+        position: absolute !important;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+
+    &__stone {
+        position: absolute !important;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        &--1 {
             width: 92px;
             height: 112px;
-            background-size: contain;
-            right: -50px;
-            top: -70px;
-            animation: rotate 40s linear infinite;
+            right: -50px !important;
+            top: -70px !important;
+            left: unset !important;
+
+            img {
+                animation: rotate 40s linear infinite;
+            }
 
             @include media-breakpoint-down(md) {
                 width: 77px;
                 height: 95px;
-                background-size: contain;
-                right: 0px;
-                top: -30px;
+                right: 0px !important;
+                top: -30px !important;
             }
         }
 
-        &::after {
-            content: '';
-            position: absolute;
-            background-image: url('@/assets/elements/stone2.svg');
+        &--2 {
             width: 91px;
             height: 103px;
             background-size: contain;
-            left: 5px;
-            bottom: -35px;
-            animation: rotate 40s linear infinite;
-            animation-direction: reverse;
+            left: 5px !important;
+            top: unset !important;
+            bottom: -35px !important;
+
+            img {
+                animation: rotate 40s linear infinite;
+                animation-direction: reverse;
+            }
 
             @include media-breakpoint-down(md) {
-                background-size: contain;
-                bottom: -70px;
-                left: 20px;
+                bottom: -70px !important;
+                left: 20px !important;
             }
         }
     }

@@ -86,10 +86,10 @@ const showDropdown = ref<boolean>(false)
     }
 
     &__btn {
-        background: url("data:image/svg+xml,%3Csvg width='9' height='6' viewBox='0 0 9 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.5 6L0.5 0L8.45267 0.0709887L4.5 6Z' fill='%23FAF5FF'/%3E%3C/svg%3E%0A");
+        background: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 9 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.5 6L0.5 0L8.45267 0.0709887L4.5 6Z' fill='%23FAF5FF'/%3E%3C/svg%3E%0A");
         background-repeat: no-repeat;
-        background-size: 10px 10px;
-        background-position: calc(100% - rem(26px));
+        background-size: rem(10px 10px);
+        background-position: calc(100% - rem(26px)) 55%;
         background-color: transparent;
         padding: rem(16px 26px);
         padding-right: rem(44px);

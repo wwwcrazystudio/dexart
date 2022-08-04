@@ -1,5 +1,5 @@
 <template>
-    <section class="world" ref="section" @wheel="handleStepChange">
+    <section class="world" ref="section">
         <div class="world__wrap">
             <div class="container">
                 <div class="world__content">
@@ -8,15 +8,13 @@
                     </h2>
 
                     <div class="world__text-wrap" ref="text">
-                        <transition-group name="slide">
-                            <div
-                                class="world__text"
-                                v-for="(step, key) in steps"
-                                v-show="key + 1 === currentStep"
-                                :key="key"
-                                v-html="step"
-                            ></div>
-                        </transition-group>
+                        <div
+                            class="world__text"
+                            v-for="(step, key) in steps"
+                            :key="key"
+                            v-html="step"
+                            ref="stepItems"
+                        ></div>
                     </div>
 
                     <div class="world__map" ref="map">
@@ -28,7 +26,7 @@
                             />
                         </picture>
                     </div>
-                    <div class="world__controls">
+                    <!--    <div class="world__controls">
                         <button
                             class="world__control"
                             @click="currentStep >= 1 && currentStep--"
@@ -63,7 +61,7 @@
                                 />
                             </svg>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -72,16 +70,18 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { debounce } from 'debounce'
 import { useAnimation } from '@/composables/useAnimation'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const map = ref<HTMLElement>()
 const currentStep = ref<number>(1)
+const stepItems = ref<HTMLElement[]>()
 
 const steps = [
     `<p> DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </p> <p> Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions </p>`,
@@ -91,62 +91,82 @@ const steps = [
 ]
 
 onMounted(() => {
-    document.addEventListener('scroll', handleScroll)
+    map.value && hide(map.value)
 
-    trigger(
-        section.value,
-        () => {
-            enter(heading.value, 0.6)
-            enter(text.value, 0.8)
-            enter(map.value)
+    if (section.value)
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top top',
+            end: 'bottom bottom',
+            pin: map.value,
+        })
+
+    ScrollTrigger.create({
+        trigger: section.value,
+        start: 'top 70%',
+        end: 'bottom bottom',
+        onEnter: () => {
+            currentStep.value = 0
+            gsap.to(map.value, {
+                opacity: 1,
+                duration: 1,
+            })
         },
-        () => {
-            leave(heading.value)
-            leave(text.value, 0.4)
-        }
-    )
+        onEnterBack: () => {
+            currentStep.value = 0
+            gsap.to(map.value, {
+                opacity: 1,
+                duration: 1,
+            })
+        },
+        onLeave: () => {
+            gsap.to(map.value, {
+                opacity: 0,
+                duration: 1,
+            })
+        },
+        onLeaveBack: () => {
+            gsap.to(map.value, {
+                opacity: 0,
+                duration: 1,
+            })
+        },
+    })
+
+    stepItems.value?.forEach((element, key) => {
+        ScrollTrigger.create({
+            trigger: element,
+            start: 'top center',
+            end: 'top 120px',
+            onEnter: () => {
+                currentStep.value = key + 1
+                gsap.to(element, {
+                    opacity: 1,
+                    duration: 1,
+                })
+            },
+            onEnterBack: () => {
+                currentStep.value = key + 1
+                gsap.to(element, {
+                    opacity: 1,
+                    duration: 1,
+                })
+            },
+            onLeave: () => {
+                gsap.to(element, {
+                    opacity: 0,
+                    duration: 1,
+                })
+            },
+            onLeaveBack: () => {
+                gsap.to(element, {
+                    opacity: 0,
+                    duration: 1,
+                })
+            },
+        })
+    })
 })
-
-const handleStepChange = debounce((e: WheelEvent) => {
-    if (e.deltaY < 0) {
-        if (currentStep.value === 1) {
-            document.documentElement.classList.remove('locked')
-            window.scrollBy(0, -10)
-        } else {
-            e.preventDefault()
-            e.stopPropagation()
-            currentStep.value -= 1
-        }
-
-        return
-    }
-
-    if (e.deltaY > 0) {
-        if (currentStep.value === 4) {
-            document.documentElement.classList.remove('locked')
-            window.scrollBy(0, 10)
-        } else {
-            e.preventDefault()
-            e.stopPropagation()
-            currentStep.value += 1
-        }
-    }
-}, 300)
-
-const handleScroll = () => {
-    const offset = section?.value?.offsetTop || 0
-    const scroll = window.scrollY
-
-    if (offset === scroll) {
-        document.documentElement.classList.add('locked')
-        return
-    }
-
-    /*     if (currentStep.value === 1 || currentStep.value === 4) {
-        document.documentElement.classList.remove('locked')
-        return
-    } */
-}
 
 const mapPosition = computed(() => {
     switch (currentStep.value) {
@@ -168,7 +188,7 @@ const mapPosition = computed(() => {
             }
         default:
             return {
-                transform: 'scale(1.5) translate(560px, 0)',
+                transform: 'scale(1) translate(560px, 0)',
             }
     }
 })
@@ -179,13 +199,14 @@ const mapPosition = computed(() => {
     overflow: hidden;
 
     &__wrap {
-        height: 100%;
-        background: #170932;
+        min-height: 100vh;
         position: relative;
-        padding: rem(128px 0);
+        padding: rem(80px 0);
+
         display: grid;
         overflow: hidden;
         z-index: 10;
+        background: #1c0b2b;
 
         &::before {
             content: '';
@@ -199,28 +220,6 @@ const mapPosition = computed(() => {
             );
             width: 100%;
             height: 100%;
-        }
-
-        &::after {
-            content: '';
-            background: url('@/assets/blurs/promoBlur.png');
-            position: absolute;
-            background-size: contain;
-            right: 10vw;
-            bottom: 0;
-            top: 0;
-            margin: auto;
-            width: 700px;
-            height: 700px;
-
-            @include media-breakpoint-down(md) {
-                right: 0;
-                opacity: 0.5;
-                background-repeat: no-repeat;
-                background-position: 30%;
-                width: 100%;
-                height: 100%;
-            }
         }
 
         @include media-breakpoint-down(md) {
@@ -260,6 +259,11 @@ const mapPosition = computed(() => {
 
         color: #faf5ff;
         max-width: 595px;
+        min-height: calc(100vh - 220px);
+
+        &:nth-of-type(n + 2) {
+            opacity: 0;
+        }
     }
 
     &__text-wrap {
@@ -281,19 +285,41 @@ const mapPosition = computed(() => {
         -webkit-perspective: 1000;
         -webkit-backface-visibility: hidden;
 
-        @include media-breakpoint-down(md) {
-            top: unset;
+        &::after {
+            content: '';
+            background: url('@/assets/blurs/promoBlur.png');
+            position: absolute;
+            background-size: contain;
+            right: 10vw;
+            bottom: 0;
+            top: 0;
+            margin: auto;
+            width: 700px;
+            height: 700px;
+
+            @include media-breakpoint-down(md) {
+                right: 0;
+                opacity: 0.5;
+                background-repeat: no-repeat;
+                background-position: 30%;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @include media-breakpoint-down(lg) {
+            top: 80vh !important;
             height: auto;
-            width: 240vw;
-            bottom: -80px;
-            left: -690px;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         img,
         picture {
             width: 100%;
             transition: 1000ms;
-            transition-delay: 600ms;
+            transition-delay: 200ms;
             -webkit-transform: translate3d(0, 0, 0);
             -webkit-perspective: 1000;
             -webkit-backface-visibility: hidden;
@@ -380,22 +406,5 @@ const mapPosition = computed(() => {
             transition: 350ms;
         }
     }
-}
-
-.slide-enter-active,
-.slide-leave-active {
-    transition: 1s ease;
-}
-
-.slide-enter-active {
-    transition-delay: 500ms;
-    position: absolute;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-    opacity: 0;
-    position: absolute;
-    transform: translateY(100px);
 }
 </style>

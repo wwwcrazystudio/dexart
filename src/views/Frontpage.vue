@@ -10,11 +10,15 @@ import Roadmap from '../components/sections/Roadmap.vue'
 import Expertise from '../components/sections/Expertise.vue'
 import Partners from '../components/sections/Partners.vue'
 import Press from '../components/sections/Press.vue'
-import PageScroll from '../components/PageScroll.vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { loadFull } from 'tsparticles'
 import { onMounted, ref } from 'vue'
+
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const isScrollable = ref<boolean>(true)
 
@@ -67,29 +71,27 @@ const options = {
 <template>
     <main class="frontpage">
         <Header />
-        <Particles
+        <!--         <Particles
             id="tsparticles"
             class="frontpage__bg"
             :particlesInit="particlesInit"
             :options="options"
-        />
+        /> -->
         <div class="frontpage__content">
-            <PageScroll :is-scrollable="isScrollable">
-                <Hero class="frontpage__hero section" />
-                <About class="frontpage__about section" />
-                <Promo class="frontpage__promo section" />
-                <Services class="frontpage__services section" />
-                <World class="frontpage__world section" />
-                <Backstory class="frontpage__backstory section" />
-                <Advantages class="frontpage__advantages section" />
+            <Hero class="frontpage__hero section" />
+            <About class="frontpage__about section" />
+            <Promo class="frontpage__promo section" />
+            <Services class="frontpage__services section" />
+            <World class="frontpage__world section" />
+            <Backstory class="frontpage__backstory section" />
+            <Advantages class="frontpage__advantages section" />
+            <div class="frontpage__section">
                 <Roadmap class="frontpage__roadmap section" />
                 <Expertise class="frontpage__expertise section" />
-                <div class="frontpage__bottom section" @wheel.stop>
-                    <Partners class="frontpage__partners" />
-                    <Press class="frontpage__partners section" />
-                    <Footer />
-                </div>
-            </PageScroll>
+            </div>
+            <Partners class="frontpage__partners" />
+            <Press class="frontpage__partners section" />
+            <Footer />
         </div>
     </main>
 </template>
@@ -107,22 +109,8 @@ const options = {
         pointer-events: none;
     }
 
-    &__advantages,
-    &__bottom {
-        overflow: auto;
-        scrollbar-width: none;
-
-        &::-webkit-scrollbar {
-            width: 0;
-        }
-    }
-
-    &__partners {
-        height: auto;
-
-        @include media-breakpoint-down(md) {
-            height: 100vh !important;
-        }
+    &__section {
+        overflow: hidden;
     }
 }
 </style>

@@ -1,18 +1,16 @@
 <template>
-    <section class="about" ref="section">
+    <section class="about">
         <div class="about__wrap">
-            <img
-                src="@/assets/elements/stone.svg"
-                class="about__stone about__stone--1"
-                alt=""
-            />
-            <img
-                src="@/assets/elements/stone2.svg"
-                class="about__stone about__stone--2"
-                alt=""
-            />
+            <div class="about__scene" ref="scene">
+                <div data-depth="0.4" class="about__stone about__stone--1">
+                    <img src="@/assets/elements/stone.svg" alt="" />
+                </div>
+                <div data-depth="0.2" class="about__stone about__stone--2">
+                    <img src="@/assets/elements/stone2.svg" alt="" />
+                </div>
+            </div>
             <div class="container">
-                <div class="about__content">
+                <div class="about__content" ref="content">
                     <h2 class="about__heading" ref="heading">
                         Metaverses create <span>a magical</span> future
                     </h2>
@@ -36,37 +34,63 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Parallax from 'parallax-js'
 
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
-const section = ref<HTMLElement>()
+const content = ref<HTMLElement>()
+const scene = ref<HTMLElement>()
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 onMounted(() => {
-    trigger(
-        section?.value,
-        () => {
-            enter(heading?.value)
-            enter(text?.value, 0.4)
-        },
-        () => {
-            leave(heading?.value)
-            leave(text?.value, 0.4)
-        }
-    )
+    hide(heading.value)
+    hide(text.value)
+
+    if (content.value)
+        ScrollTrigger.create({
+            trigger: content.value,
+            start: 'top center',
+            end: 'center 30%',
+            onEnter: () => {
+                heading.value && enter(heading.value)
+                text.value && enter(text.value)
+            },
+            onLeave: () => {
+                heading.value && leave(heading.value)
+                text.value && leave(text.value)
+            },
+            onEnterBack: () => {
+                heading.value && enter(heading.value)
+                text.value && enter(text.value)
+            },
+            onLeaveBack: () => {
+                heading.value && leave(heading.value)
+                text.value && leave(text.value)
+            },
+        })
+
+    ScrollTrigger.create({
+        trigger: content.value,
+        start: 'top bottom',
+        end: 'bottom top',
+    })
+
+    if (scene.value)
+        new Parallax(scene.value, {
+            scalarX: 6,
+            scalarY: 6,
+        })
 })
 </script>
 
 <style scoped lang="scss">
 .about {
-    @include noise;
-
     overflow: hidden;
     position: relative;
 
     &__wrap {
-        background: #130b1a;
         background-image: linear-gradient(
             180deg,
             #19082b 1.55%,
@@ -76,7 +100,11 @@ onMounted(() => {
         display: flex;
         align-items: center;
         position: relative;
-        height: 100%;
+        min-height: 100vh;
+
+        @include media-breakpoint-down(lg) {
+            min-height: 80vh;
+        }
 
         @include media-breakpoint-down(md) {
             background-position: center;
@@ -89,33 +117,52 @@ onMounted(() => {
         }
     }
 
-    &__stone {
+    &__scene {
+        width: 100%;
+        height: 100%;
         position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
         z-index: 10;
+    }
+
+    &__stone {
+        left: unset !important;
+        position: absolute !important;
 
         &--1 {
-            right: 190px;
-            top: 70%;
+            right: 190px !important;
+            top: 70% !important;
             width: 40px;
-            animation: rotate 45s linear infinite;
 
-            animation-direction: reverse;
+            img {
+                animation: rotate 45s linear infinite;
+                animation-direction: reverse;
+                width: 100%;
+            }
 
-            @include media-breakpoint-down(md) {
-                left: 32px;
+            @include media-breakpoint-down(lg) {
+                left: 32px !important;
                 top: 90%;
             }
         }
 
         &--2 {
             width: 105px;
-            top: 25%;
-            right: 190px;
-            animation: rotate 50s linear infinite;
+            top: 25% !important;
+            right: 190px !important;
 
-            @include media-breakpoint-down(md) {
-                right: 20px;
-                top: 90px;
+            img {
+                animation: rotate 50s linear infinite;
+                width: 100%;
+            }
+
+            @include media-breakpoint-down(lg) {
+                right: 20px !important;
+                top: 90px !important;
+                width: 64px;
             }
         }
     }

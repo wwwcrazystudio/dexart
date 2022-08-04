@@ -1,16 +1,20 @@
 <template>
     <section class="backstory" ref="section">
         <div class="backstory__wrap">
-            <img
-                src="@/assets/elements/stone.svg"
-                class="backstory__stone backstory__stone--1"
-                alt=""
-            />
-            <img
-                src="@/assets/elements/stone2.svg"
-                class="backstory__stone backstory__stone--2"
-                alt=""
-            />
+            <div class="backstory__scene" ref="scene">
+                <div
+                    data-depth="0.7"
+                    class="backstory__stone backstory__stone--1"
+                >
+                    <img src="@/assets/elements/stone.svg" alt="" />
+                </div>
+                <div
+                    data-depth="0.4"
+                    class="backstory__stone backstory__stone--2"
+                >
+                    <img src="@/assets/elements/stone2.svg" alt="" />
+                </div>
+            </div>
             <picture class="backstory__stones">
                 <img src="@/assets/stones.png" alt="" />
                 <source srcset="@/assets/stones.webp" type="image/webp" />
@@ -56,27 +60,54 @@
 <script setup lang="ts">
 import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Parallax from 'parallax-js'
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const btn = ref<HTMLElement>()
 const content = ref<HTMLElement>()
+const scene = ref<HTMLElement>()
 
 onMounted(() => {
-    trigger(
-        section.value,
-        () => {
-            enter(heading.value)
-            enter(text.value, 0.4)
-            enter(btn.value, 0.7)
-        },
-        () => {
-            leave(content.value)
-        }
-    )
+    hide(heading.value)
+    hide(text.value)
+
+    if (content.value)
+        ScrollTrigger.create({
+            trigger: content.value,
+            start: 'top 65%',
+            end: 'bottom center',
+            onEnter: () => {
+                heading.value && enter(heading.value)
+                text.value && enter(text.value, 0.4)
+                btn.value && enter(btn.value, 0.6)
+            },
+            onLeave: () => {
+                heading.value && leave(heading.value)
+                text.value && leave(text.value)
+                btn.value && leave(btn.value)
+            },
+            onEnterBack: () => {
+                heading.value && enter(heading.value)
+                text.value && enter(text.value, 0.4)
+                btn.value && enter(btn.value, 0.6)
+            },
+            onLeaveBack: () => {
+                heading.value && leave(heading.value)
+                text.value && leave(text.value)
+                btn.value && leave(btn.value)
+            },
+        })
+
+    if (scene.value)
+        new Parallax(scene.value, {
+            scalarX: 6,
+            scalarY: 6,
+        })
 })
 </script>
 
@@ -85,30 +116,20 @@ onMounted(() => {
     @include noise;
     position: relative;
 
-    &::before {
-        content: '';
-        background-image: linear-gradient(
-            0deg,
-            #19082b 13.19%,
-            rgba(49, 22, 77, 0) 30%
-        );
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10;
-    }
-
     &__wrap {
         background: url('@/assets/blurs/backstoryBlur.png'),
-            linear-gradient(336.67deg, #11071b 21.87%, #1d0b2c 83.34%);
+            linear-gradient(180deg, #1c0b2b 0%, transparent 50%, #11071b 100%);
         position: relative;
-        background-size: 900px 900px, cover;
-        background-position: 60%;
+        background-size: 700px 700px, cover;
+        background-position: 50% 30%;
         background-repeat: no-repeat;
-        height: 100%;
-        padding-top: rem(30px);
+        min-height: 100vh;
+        padding-top: rem(64px);
+        padding-bottom: rem(240px);
+
+        @include media-breakpoint-down(lg) {
+            background-size: 500px 500px, cover;
+        }
     }
 
     &__stones {
@@ -118,6 +139,13 @@ onMounted(() => {
         left: -25%;
         top: 25%;
         z-index: 10;
+
+        @include media-breakpoint-down(lg) {
+            width: 100%;
+            height: 50vh;
+            left: 0;
+            top: 45%;
+        }
 
         @include media-breakpoint-down(md) {
             width: 300%;
@@ -135,23 +163,41 @@ onMounted(() => {
         }
     }
 
-    &__stone {
+    &__scene {
+        width: 100%;
+        height: 100%;
         position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+    }
+
+    &__stone {
+        position: absolute !important;
         z-index: 15;
 
         &--1 {
-            right: 70px;
-            top: 70%;
-            width: 40px;
-            animation: float 50s linear infinite;
-            animation-direction: reverse;
+            right: 70px !important;
+            top: 50% !important;
+            left: unset !important;
+
+            img {
+                width: 40px;
+                animation: float 50s linear infinite;
+                animation-direction: reverse;
+            }
         }
 
         &--2 {
-            width: 95px;
-            top: 30%;
-            left: 40%;
-            animation: float 50s linear infinite;
+            top: 30% !important;
+            left: 40% !important;
+
+            img {
+                width: 95px;
+                animation: float 50s linear infinite;
+            }
         }
     }
 
@@ -171,6 +217,7 @@ onMounted(() => {
         color: #fff;
         max-width: 470px;
         margin-bottom: rem(32px);
+        transform-origin: top center;
 
         span {
             display: block;

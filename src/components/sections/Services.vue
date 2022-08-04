@@ -1,17 +1,18 @@
 <template>
     <section class="services" ref="section">
         <div class="services__wrap">
-            <div class="services__content">
+            <div class="services__content" ref="content">
                 <h2 class="services__heading" ref="heading">
                     What you can <span>do in DEXART:</span>
                 </h2>
 
-                <div class="services__carousel swiper" ref="carousel">
-                    <ul class="services__list swiper-wrapper">
+                <div class="services__carousel" ref="carousel">
+                    <ul class="services__list">
                         <li
-                            class="services__service-item service-item swiper-slide"
+                            class="services__service-item service-item"
                             v-for="item in services"
                             :key="item.title"
+                            ref="items"
                         >
                             <div class="service-item__wrap">
                                 <div class="service-item__img">
@@ -36,6 +37,9 @@
 import { ref, onMounted } from 'vue'
 import Swiper, { Mousewheel } from 'swiper'
 import { useAnimation } from '@/composables/useAnimation'
+import { useMedia } from '@/composables/useMedia'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -83,13 +87,99 @@ const services = [
 const carousel = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
 const section = ref<HTMLElement>()
+const items = ref<HTMLElement[]>()
+const content = ref<HTMLElement>()
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
+const { isTablet } = useMedia()
 
 onMounted(() => {
-    document.addEventListener('scroll', handleScroll)
+    heading.value && hide(heading.value)
+    carousel.value && hide(carousel.value)
 
-    trigger(
+    if (content.value)
+        ScrollTrigger.create({
+            trigger: content.value,
+            start: 'top 65%',
+            end: 'bottom center',
+            onEnter: () => {
+                heading.value && enter(heading.value)
+                carousel.value && enter(carousel.value)
+            },
+            onLeave: () => {
+                heading.value &&
+                    leave(heading.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+                carousel.value &&
+                    leave(carousel.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+            },
+            onEnterBack: () => {
+                heading.value && enter(heading.value)
+                carousel.value && enter(carousel.value)
+            },
+            onLeaveBack: () => {
+                heading.value &&
+                    leave(heading.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+                carousel.value &&
+                    leave(carousel.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+            },
+        })
+
+    if (section.value && !isTablet())
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top 50px',
+            end: 'bottom center',
+            pin: heading.value,
+        })
+
+    items.value?.forEach((element) => {
+        ScrollTrigger.create({
+            trigger: element,
+            start: 'top +=90%',
+            end: 'top +=150px',
+            onEnter: () => {
+                gsap.to(element, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.5,
+                })
+            },
+            onEnterBack: () => {
+                gsap.to(element, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.5,
+                })
+            },
+            onLeave: () => {
+                gsap.to(element, {
+                    opacity: 0,
+                    scale: 1,
+                    duration: 0.5,
+                })
+            },
+            onLeaveBack: () => {
+                gsap.to(element, {
+                    opacity: 0,
+                    scale: 0.65,
+                    duration: 0.5,
+                })
+            },
+        })
+    })
+    /*     trigger(
         section?.value,
         () => {
             enter(heading?.value)
@@ -100,10 +190,10 @@ onMounted(() => {
             leave(carousel?.value)
         }
     )
-
-    if (carousel.value) {
+ */
+    /*     if (carousel.value) {
         new Swiper(carousel.value, {
-            slidesPerView: 1,
+            slidesPerView: 2,
             spaceBetween: 64,
             direction: 'vertical',
             mousewheel: {
@@ -111,42 +201,24 @@ onMounted(() => {
                 eventsTarget: section.value,
             },
             modules: [Mousewheel],
-            /*        autoHeight: true, */
+            autoHeight: true,
             speed: 1000,
-            on: {
-                reachBeginning: () => {
-                    setTimeout(() => {
-                        document.documentElement.classList.remove('locked')
-                    }, 1000)
-                },
-                reachEnd: () => {
-                    setTimeout(() => {
-                        document.documentElement.classList.remove('locked')
-                    }, 1000)
-                },
-            },
         })
-    }
+    } */
 })
-
-const handleScroll = () => {
-    const offset = section?.value?.offsetTop || 0
-    const scroll = window.scrollY
-
-    if (offset === scroll) document.documentElement.classList.add('locked')
-}
 </script>
 
 <style scoped lang="scss">
 .services {
     &__wrap {
-        height: 100%;
-        background: url('@/assets/blurs/servicesBlur.png'),
-            linear-gradient(180deg, #130b1a 0%, #140c1b 100%);
-        background-size: 580px 580px, cover;
-        background-repeat: no-repeat;
-        background-position: center;
+        min-height: 100vh;
         padding-top: rem(130px);
+        padding-bottom: rem(130px);
+        background-image: linear-gradient(0deg, #1c0b2b 20%, transparent 60%);
+
+        @include media-breakpoint-down(lg) {
+            min-height: 60vh;
+        }
 
         @include media-breakpoint-down(md) {
             padding-top: rem(100px);
@@ -159,7 +231,6 @@ const handleScroll = () => {
         max-width: 1350px;
         width: calc(100% - 64px);
         margin: auto;
-        height: 100%;
 
         @include media-breakpoint-down(lg) {
             max-width: 720px;
@@ -174,6 +245,19 @@ const handleScroll = () => {
     &__heading {
         color: #fff;
         max-width: 470px;
+        position: relative;
+
+        &::after {
+            content: '';
+            background-image: url('@/assets/blurs/servicesBlur.png');
+            width: 600px;
+            height: 600px;
+            position: absolute;
+            background-size: contain;
+            top: -10px;
+            left: 90%;
+            background-repeat: no-repeat;
+        }
 
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
@@ -213,10 +297,10 @@ const handleScroll = () => {
             margin: rem(0 -32px);
         }
 
-        &:deep(.swiper-slide-active) {
+        /*     &:deep(.swiper-slide-active) {
             opacity: 1;
             transform: scale(1);
-        }
+        } */
     }
 
     &__list {
@@ -224,9 +308,21 @@ const handleScroll = () => {
     }
 
     &__service-item {
-        opacity: 0;
-        transform: scale(0.65);
-        transition: opacity 450ms ease 250ms, transform 450ms ease 300ms;
+        height: calc(50vh - 32px);
+
+        @include media-breakpoint-down(lg) {
+            height: calc(25vh - 32px);
+        }
+
+        @include media-breakpoint-down(md) {
+            height: auto;
+            margin-bottom: rem(56px);
+        }
+
+        &:nth-of-type(n + 3) {
+            opacity: 0;
+            transform: scale(0.65);
+        }
     }
 }
 

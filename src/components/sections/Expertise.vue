@@ -11,12 +11,22 @@
                 src="@/assets/blurs/expertiseBlur1.png"
                 alt=""
             />
-            <div class="expertise__stones-wrap">
-                <img
-                    src="@/assets/elements/expertiseStones.svg"
-                    class="expertise__stones"
-                    alt=""
-                />
+            <div class="expertise__scene" ref="scene">
+                <div data-depth="0.5" class="expertise__stones">
+                    <img src="@/assets/elements/expertiseStones.svg" alt="" />
+                </div>
+                <div
+                    data-depth="0.3"
+                    class="expertise__line expertise__line--1"
+                >
+                    <img src="@/assets/elements/line1.svg" ref="line1" alt="" />
+                </div>
+                <div
+                    data-depth="0.2"
+                    class="expertise__line expertise__line--2"
+                >
+                    <img src="@/assets/elements/line2.svg" ref="line2" alt="" />
+                </div>
             </div>
             <div class="container">
                 <h2 class="expertise__heading" ref="heading">Expertise</h2>
@@ -41,6 +51,10 @@
 <script setup lang="ts">
 import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Parallax from 'parallax-js'
+import { gsap } from 'gsap'
+
 import oton from '@/assets/expertise/oton.svg'
 import unity from '@/assets/expertise/unity.svg'
 import retext from '@/assets/expertise/retext.svg'
@@ -76,33 +90,80 @@ const expertise = [
     },
 ]
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
-const expertiseItem = ref<HTMLElement>()
+const expertiseItem = ref<HTMLElement[]>()
+const scene = ref<HTMLElement>()
+const line1 = ref<HTMLElement>()
+const line2 = ref<HTMLElement>()
 
 onMounted(() => {
-    trigger(
-        section.value,
-        () => {
-            enter(heading.value)
-            if (Array.isArray(expertiseItem.value)) {
-                expertiseItem.value.forEach((el: HTMLElement, key: number) => {
-                    enter(el, 0.3 * (key + 1))
-                })
-            }
-        },
-        () => {
-            leave(heading.value)
+    heading.value && hide(heading.value)
+    line1.value && hide(line1.value)
+    line2.value && hide(line2.value)
 
-            if (Array.isArray(expertiseItem.value)) {
-                expertiseItem.value.forEach((el: HTMLElement, key: number) => {
-                    leave(el, 0.3 * (key + 1))
-                })
-            }
-        }
-    )
+    expertiseItem.value?.forEach((item) => {
+        hide(item)
+    })
+
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        line1.value &&
+            gsap.to(line1.value, {
+                opacity: 1,
+                delay: 2,
+                duration: 1,
+            })
+
+        line2.value &&
+            gsap.to(line2.value, {
+                opacity: 1,
+                delay: 1.5,
+                duration: 1,
+            })
+
+        expertiseItem.value?.forEach((item, key) => {
+            enter(item, 0.25 * key)
+        })
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        line1.value &&
+            gsap.to(line1.value, {
+                opacity: 0,
+                duration: 1,
+            })
+
+        line2.value &&
+            gsap.to(line2.value, {
+                opacity: 0,
+                duration: 1,
+            })
+
+        expertiseItem.value?.forEach((item, key) => {
+            leave(item, 0.25 * key)
+        })
+    }
+
+    if (section.value)
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top 65%',
+            end: 'bottom 70%',
+            onEnter: () => enterCallback(),
+            onEnterBack: () => enterCallback(),
+            onLeave: () => leaveCallback(),
+            onLeaveBack: () => leaveCallback(),
+        })
+
+    if (scene.value)
+        new Parallax(scene.value, {
+            scalarX: 6,
+            scalarY: 6,
+        })
 })
 </script>
 
@@ -117,9 +178,27 @@ onMounted(() => {
         padding-top: rem(100px);
         position: relative;
         z-index: 10;
+        min-height: 100vh;
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(180deg, transparent 30%, #0b0e28 100%);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 11;
+        }
+
+        @include media-breakpoint-down(lg) {
+            min-height: 60vh;
+        }
 
         @include media-breakpoint-down(md) {
             padding-bottom: rem(128px);
+            min-height: 80vh;
         }
     }
 
@@ -153,23 +232,27 @@ onMounted(() => {
 
     &__stones {
         width: 96vw;
-        position: absolute;
-        animation: rotate 600s linear infinite;
-        animation-direction: reverse;
+        position: absolute !important;
         z-index: 20;
 
-        @include media-breakpoint-down(md) {
+        img {
+            animation: rotate 600s linear infinite;
+            animation-direction: reverse;
+        }
+
+        @include media-breakpoint-down(lg) {
             width: 200vw;
             left: -350px;
         }
     }
 
-    &__stones-wrap {
+    &__scene {
         overflow: hidden;
         z-index: 10;
         position: absolute;
         width: 100%;
         height: 100%;
+        top: 10%;
     }
 
     &__heading {
@@ -177,6 +260,7 @@ onMounted(() => {
         color: #fff;
         position: relative;
         z-index: 10;
+        transform-origin: left top;
 
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
@@ -184,49 +268,35 @@ onMounted(() => {
         }
     }
 
-    &__list-wrap {
-        &::before {
-            content: '';
-            background-image: url("data:image/svg+xml,%3Csvg width='1818' height='331' viewBox='0 0 1818 331' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1817.5 203.398C1733.5 273.731 1543.4 389.898 1455 291.898C1344.5 169.398 1314 8.69141 1221 1.19141C1128 -6.30859 1040.5 208.898 913 215.898C785.5 222.898 750.5 116.191 574 116.191C421.31 116.191 457.5 291.898 369 291.898C280.5 291.898 268.5 178.898 158 178.898C69.6 178.898 16.5 203.565 1 215.898' stroke='%23BF81FF'/%3E%3C/svg%3E%0A");
-            width: 100vw;
-            height: 330px;
-            background-size: cover;
-            background-repeat: repeat-x;
-            position: absolute;
-            top: -80px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
+    &__line {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+
+        img {
+            width: 200%;
+        }
+        &--1 {
+            top: 190px !important;
 
             @include media-breakpoint-down(sm) {
-                background-size: contain;
-                height: 190px;
-                top: -60px;
-                background-image: url("data:image/svg+xml,%3Csvg width='375' height='188' viewBox='0 0 375 188' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M444 23.0782C422.215 59.7712 421.439 93.1045 375.753 87.2329C328.955 81.2184 344.778 0.675365 305 1.49998C265.222 2.3246 297 179.5 253 179.5C195.672 179.5 192.299 63.5 165 63.5C141.211 63.5 96.1346 186.973 47.3867 186.973C24.4347 186.973 38.3748 122.905 9.71713 122.905C-13.209 122.905 -26.9802 135.773 -31 142.208' stroke='%23BF81FF'/%3E%3C/svg%3E%0A");
+                width: 300%;
+                top: 140px !important;
+                left: -210px !important;
             }
         }
 
-        &::after {
-            content: '';
-            background-image: url("data:image/svg+xml,%3Csvg width='1818' height='314' viewBox='0 0 1818 314' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 127.168C85 56.8349 275.1 -59.3318 363.5 38.6682C474 161.168 552.5 305.668 645.5 313.168C738.5 320.668 778 121.668 905.5 114.668C1033 107.668 1165 205.668 1226.5 205.668C1288 205.668 1361 38.6682 1449.5 38.6682C1538 38.6682 1550 151.668 1660.5 151.668C1748.9 151.668 1802 127.001 1817.5 114.668' stroke='%236A1DAC'/%3E%3C/svg%3E%0A");
-            width: 100vw;
-            height: 310px;
-            background-size: cover;
-            background-repeat: repeat-x;
-            position: absolute;
-            top: -130px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
+        &--2 {
+            top: 220px !important;
             z-index: -1;
 
             @include media-breakpoint-down(sm) {
-                background-size: contain;
-                height: 140px;
-                top: -40px;
-                background-image: url("data:image/svg+xml,%3Csvg width='375' height='139' viewBox='0 0 375 139' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-96 59.4321C-68.0694 22.9566 -66.5744 82.7697 -16 52.9493C95 -12.4999 138.5 138 160.5 138C214.729 138 152.5 6.00956 211 1.00021C253.395 -2.63005 258 100.143 311.488 100.143C331.937 100.143 356.21 13.5353 385.637 13.5353C415.064 13.5353 419.054 72.1378 455.796 72.1378C485.19 72.1378 502.846 59.3455 508 52.9493' stroke='%236A1DAC'/%3E%3C/svg%3E%0A");
+                width: 300%;
+                top: 90px !important;
+                left: -250px !important;
             }
         }
     }

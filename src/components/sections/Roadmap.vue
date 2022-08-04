@@ -49,17 +49,19 @@
                         <div class="timeline-carousel__carousel swiper-wrapper">
                             <div
                                 class="timeline-carousel__card swiper-slide"
-                                ref="slide"
+                                ref="slides"
                                 v-for="item in timeline"
                                 :key="item.title"
                             >
-                                <div class="timeline-carousel__card-title">
-                                    {{ item.title }}
+                                <div class="timeline-carousel__card-wrap">
+                                    <div class="timeline-carousel__card-title">
+                                        {{ item.title }}
+                                    </div>
+                                    <div
+                                        class="timeline-carousel__card-content"
+                                        v-html="item.text"
+                                    ></div>
                                 </div>
-                                <div
-                                    class="timeline-carousel__card-content"
-                                    v-html="item.text"
-                                ></div>
                             </div>
                         </div>
                     </div>
@@ -73,7 +75,8 @@
 import { ref, onMounted } from 'vue'
 import Swiper, { Navigation } from 'swiper'
 import { useAnimation } from '@/composables/useAnimation'
-import gsap from 'gsap'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import 'swiper/css'
 
@@ -108,7 +111,7 @@ const timeline = [
     },
 ]
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const carousel = ref<HTMLElement>()
 const prevBtn = ref<HTMLElement>()
@@ -116,46 +119,71 @@ const nextBtn = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
 const controls = ref<HTMLElement>()
-const slide = ref<HTMLElement>()
+const slides = ref<HTMLElement[]>()
 
 onMounted(() => {
-    trigger(
-        section.value,
-        () => {
-            if (heading.value)
-                gsap.from(heading.value, {
-                    y: 100,
-                    opacity: 0,
-                    duration: 1,
-                })
-            if (controls.value)
-                gsap.from(controls.value, {
-                    y: 100,
-                    opacity: 0,
-                    duration: 1,
-                })
+    heading.value && hide(heading.value)
+    controls.value && hide(controls.value)
 
-            if (Array.isArray(slide.value)) {
-                slide.value.forEach((el: HTMLElement, key: number) => {
-                    gsap.from(el, {
-                        opacity: 0,
+    slides.value?.forEach((slide) => {
+        hide(slide)
+    })
+
+    if (section.value && carousel.value)
+        ScrollTrigger.create({
+            trigger: section.value,
+            endTrigger: carousel.value,
+            start: 'top 65%',
+            end: 'top 30%',
+            onEnter: () => {
+                heading.value && enter(heading.value)
+                controls.value && enter(controls.value, 0.4)
+
+                slides.value?.forEach((slide, key) => {
+                    gsap.to(slide, {
+                        opacity: 1,
                         duration: 1,
-                        delay: (key + 1) * 0.4,
+                        delay: 0.4 * key,
                     })
                 })
-            }
-        },
-        () => {
-            if (heading.value) leave(heading.value)
-            if (controls.value) leave(controls.value)
+            },
+            onEnterBack: () => {
+                heading.value && enter(heading.value)
+                controls.value && enter(controls.value, 0.4)
 
-            if (Array.isArray(slide.value)) {
-                slide.value.forEach((el: HTMLElement, key: number) => {
-                    leave(el, 0.3 * (key + 1))
+                slides.value?.forEach((slide, key) => {
+                    gsap.to(slide, {
+                        opacity: 1,
+                        duration: 1,
+                        delay: 0.4 * key,
+                    })
                 })
-            }
-        }
-    )
+            },
+            onLeave: () => {
+                heading.value && leave(heading.value)
+                controls.value && leave(controls.value, 0.4)
+
+                slides.value?.forEach((slide, key) => {
+                    gsap.to(slide, {
+                        opacity: 0,
+                        duration: 1,
+                        delay: 0.2 * key,
+                    })
+                })
+            },
+            onLeaveBack: () => {
+                heading.value && leave(heading.value)
+                controls.value && leave(controls.value, 0.4)
+
+                slides.value?.forEach((slide, key) => {
+                    gsap.to(slide, {
+                        opacity: 0,
+                        duration: 1,
+                        delay: 0.2 * key,
+                    })
+                })
+            },
+        })
 })
 
 onMounted(() => {
@@ -167,6 +195,7 @@ onMounted(() => {
             },
             slidesPerView: 1.1,
             spaceBetween: 16,
+            watchSlidesProgress: true,
             modules: [Navigation],
             breakpoints: {
                 568: {
@@ -192,11 +221,11 @@ onMounted(() => {
 
     &__wrap {
         padding-top: rem(64px);
-        padding-bottom: rem(200px);
-        height: 100%;
+        padding-bottom: rem(140px);
+        background: linear-gradient(180deg, #11071b 0%, transparent 30%);
 
         @include media-breakpoint-down(md) {
-            padding-bottom: rem(128px);
+            padding-bottom: 0;
         }
     }
 
@@ -334,6 +363,11 @@ onMounted(() => {
             padding: rem(0 32px);
             margin: rem(0 -32px);
         }
+
+        &:deep(.swiper-slide-visible .timeline-carousel__card-wrap) {
+            opacity: 1;
+            transition: 200ms;
+        }
     }
 
     &__card {
@@ -350,6 +384,11 @@ onMounted(() => {
             border: 6px solid #57198a;
             box-shadow: 0px 0px 32px #ee40ff;
             margin-bottom: rem(32px);
+        }
+
+        &-wrap {
+            opacity: 0;
+            transition: 200ms;
         }
 
         &-title {

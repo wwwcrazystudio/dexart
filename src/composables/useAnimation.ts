@@ -1,77 +1,50 @@
 import { gsap } from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
 
 export const useAnimation = () => {
-    const enter = (el?: HTMLElement, delay?: number) => {
-        if (el) {
-            gsap.set(el, {
-                opacity: 1,
-                duration: 1,
-                delay: delay || 0,
-            })
-            gsap.from(el, {
-                y: 100,
-                opacity: 0,
-                duration: 1,
-                delay: delay || 0,
-            })
-        }
-    }
-
-    const leave = (el?: HTMLElement, delay?: number) => {
-        if (el) {
-            gsap.to(el, {
-                scale: 0.85,
-                duration: 1,
-                delay: delay || 0,
-                onComplete: () => {
-                    gsap.to(el, {
-                        scale: 1,
-                    })
-                },
-            })
-        }
-    }
-
-    const trigger = (
-        triggerEl?: HTMLElement,
-        enterCallback?: () => void,
-        leaveCallback?: () => void,
-        start?: string | null,
-        end?: string | null,
-        startLeave?: string | null,
-        endLeave?: string | null
+    const enter = (
+        el: HTMLElement,
+        delay?: number,
+        from?: object,
+        to?: object
     ) => {
-        ScrollTrigger.create({
-            trigger: triggerEl,
-            start: start || `top bottom`,
-            end: end || 'bottom bottom',
-            /* scrub: true, */
-            onEnter: () => {
-                console.log('enter', triggerEl)
-                enterCallback && enterCallback()
-            },
-            /*         onEnterBack: () => {
-                console.log('enterBack', triggerEl)
-                enterCallback && enterCallback()
-            }, */
-        })
+        const fromOptions = from || {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            delay: delay || 0,
+        }
+        const toOptions = to || {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: delay || 0,
+        }
+        gsap.fromTo(el, fromOptions, toOptions)
+    }
 
-        ScrollTrigger.create({
-            trigger: triggerEl,
-            start: startLeave || '-=100px',
-            end: endLeave || '+=200px',
-            /*  scrub: true, */
-            onLeave: () => {
-                console.log('leave', triggerEl)
-                leaveCallback && leaveCallback()
+    const leave = (el: HTMLElement, delay?: number, options?: object) => {
+        const animOptions = options || {
+            scale: 0.85,
+            opacity: 0,
+            duration: 1,
+            delay: delay || 0,
+            onComplete: () => {
+                gsap.set(el, {
+                    scale: 1,
+                    opacity: 0,
+                })
             },
-            /*          onLeaveBack: () => {
-                console.log('leaveBack', triggerEl)
-                leaveCallback && leaveCallback()
-            }, */
+        }
+        gsap.to(el, animOptions)
+    }
+
+    const hide = (el: HTMLElement) => {
+        gsap.set(el, {
+            opacity: 0,
         })
     }
 
-    return { enter, leave, trigger }
+    const trigger = () => null
+
+    return { enter, leave, trigger, hide }
 }

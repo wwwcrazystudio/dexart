@@ -1,6 +1,20 @@
 <template>
-    <div class="map-banner">
+    <div class="map-banner" ref="banner">
         <div class="map-banner__wrap">
+            <div class="map-banner__scene" ref="scene">
+                <div
+                    class="map-banner__star map-banner__star--1"
+                    data-depth="0.2"
+                >
+                    <img src="@/assets/icons/star.svg" alt="" ref="star1" />
+                </div>
+                <div
+                    class="map-banner__star map-banner__star--2"
+                    data-depth="0.2"
+                >
+                    <img src="@/assets/icons/star.svg" ref="star2" />
+                </div>
+            </div>
             <div class="map-banner__heading">
                 Find a place <span>for your business</span> in DEXART
             </div>
@@ -17,7 +31,104 @@
     </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { onMounted, ref } from 'vue'
+import { useAnimation } from '@/composables/useAnimation'
+import Parallax from 'parallax-js'
+
+const { hide } = useAnimation()
+
+const star1 = ref<HTMLElement>()
+const star2 = ref<HTMLElement>()
+const banner = ref<HTMLElement>()
+const scene = ref<HTMLElement>()
+
+onMounted(() => {
+    star1.value && hide(star1.value)
+    star2.value && hide(star2.value)
+
+    if (scene.value)
+        new Parallax(scene.value, {
+            scalarX: 6,
+            scalarY: 6,
+        })
+
+    const showStars = () => {
+        star1.value &&
+            gsap.fromTo(
+                star1.value,
+                {
+                    translateX: 40,
+                    translateY: 60,
+                    rotate: 10,
+                    duration: 1,
+                    opacity: 0,
+                },
+                {
+                    translateX: 0,
+                    translateY: 0,
+                    rotate: 0,
+                    duration: 1,
+                    opacity: 1,
+                    delay: 0.5,
+                }
+            )
+
+        star2.value &&
+            gsap.fromTo(
+                star2.value,
+                {
+                    translateX: -20,
+                    translateY: 80,
+                    rotate: -15,
+                    duration: 1,
+                    opacity: 0,
+                },
+                {
+                    translateX: 0,
+                    translateY: 0,
+                    rotate: 18,
+                    duration: 1,
+                    opacity: 1,
+                    delay: 0.5,
+                }
+            )
+    }
+
+    const hideStars = () => {
+        star1.value &&
+            gsap.to(star1.value, {
+                translateX: 40,
+                translateY: 60,
+                rotate: 10,
+                duration: 1,
+                opacity: 0,
+            })
+
+        star2.value &&
+            gsap.to(star2.value, {
+                translateX: -20,
+                translateY: 80,
+                rotate: -15,
+                duration: 1,
+                opacity: 0,
+            })
+    }
+
+    if (banner.value)
+        ScrollTrigger.create({
+            trigger: banner.value,
+            start: 'top center',
+            end: 'top top',
+            onEnter: () => showStars(),
+            onEnterBack: () => showStars(),
+            onLeave: () => hideStars(),
+            onLeaveBack: () => hideStars(),
+        })
+})
+</script>
 
 <style scoped lang="scss">
 .map-banner {
@@ -39,19 +150,35 @@
             margin: rem(0 -16px);
             padding-bottom: rem(32px);
         }
+    }
 
-        &::before {
-            content: '';
-            position: absolute;
-            background-image: url('@/assets/icons/star.svg');
+    &__scene {
+        position: absolute !important;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+
+    &__star {
+        position: absolute !important;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        &--1 {
             width: 92px;
             height: 162px;
             background-size: contain;
-            right: -30px;
-            top: -40px;
+            left: unset !important;
+            right: -30px !important;
+            top: -40px !important;
             filter: drop-shadow(20px 0px 20px #752cc5);
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 top: 12px;
                 right: -10px;
                 transform: rotate(15deg);
@@ -60,21 +187,17 @@
             }
         }
 
-        &::after {
-            content: '';
-            position: absolute;
-            background-image: url('@/assets/icons/star.svg');
+        &--2 {
             width: 122px;
             height: 215px;
-            background-size: contain;
-            right: 0;
-            left: -290px;
+            top: unset !important;
+            right: 0 !important;
+            left: -290px !important;
             margin: auto;
-            bottom: -80px;
+            bottom: -80px !important;
             filter: drop-shadow(15px 10px 15px #752cc5);
-            transform: rotate(18deg);
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 right: -10px;
                 transform: rotate(-15deg);
                 width: 85px;

@@ -47,6 +47,7 @@ import Swiper from 'swiper'
 import 'swiper/css'
 import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const press = [
     {
@@ -66,33 +67,44 @@ const press = [
     },
 ]
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 const carousel = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
-const slides = ref<HTMLElement>()
+const slides = ref<HTMLElement[]>()
 
 onMounted(() => {
-    trigger(
-        section.value,
-        () => {
-            enter(heading.value)
-            if (Array.isArray(slides.value)) {
-                slides.value.forEach((el: HTMLElement, key: number) => {
-                    enter(el, 0.2 * key)
-                })
-            }
-        },
-        () => {
-            leave(heading.value)
-            if (Array.isArray(slides.value)) {
-                slides.value.forEach((el: HTMLElement, key: number) => {
-                    enter(el, 0.2 * key)
-                })
-            }
-        }
-    )
+    heading.value && hide(heading.value)
+
+    slides.value?.forEach((el) => {
+        hide(el)
+    })
+
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        slides.value?.forEach((el: HTMLElement, key: number) => {
+            enter(el, 0.2 * key)
+        })
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        slides.value?.forEach((el: HTMLElement, key: number) => {
+            leave(el, 0.2 * key)
+        })
+    }
+
+    if (section.value)
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top center',
+            end: 'bottom 30%',
+            onEnter: () => enterCallback(),
+            onLeave: () => leaveCallback(),
+            onEnterBack: () => enterCallback(),
+            onLeaveBack: () => leaveCallback(),
+        })
 })
 
 onMounted(() => {
@@ -122,8 +134,9 @@ onMounted(() => {
     &__wrap {
         background: linear-gradient(
             180deg,
-            rgba(#381665, 0.4) 51.57%,
-            rgba(#381665, 0.1) 94.36%
+            #391667 5%,
+            rgba(#381665, 0.4) 60%,
+            rgba(#381665, 0.1) 100%
         );
         background-size: cover;
         padding: rem(128px 0);

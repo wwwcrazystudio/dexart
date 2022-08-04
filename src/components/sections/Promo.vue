@@ -9,6 +9,7 @@
                     <button
                         @click="play"
                         v-if="!isPlaying"
+                        ref="btn"
                         class="promo__play-btn"
                     >
                         Play
@@ -16,6 +17,7 @@
                 </transition>
 
                 <video
+                    @click="pause"
                     preload="none"
                     class="promo__video"
                     src="@/assets/videos/promo.mp4"
@@ -29,24 +31,58 @@
 <script setup lang="ts">
 import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const heading = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 const video = ref<HTMLVideoElement>()
+const btn = ref<HTMLElement>()
 const isPlaying = ref<boolean>(false)
 
-const { enter, leave, trigger } = useAnimation()
+const { enter, leave, hide } = useAnimation()
 
 onMounted(() => {
-    trigger(
-        section?.value,
-        () => {
-            enter(heading?.value)
-        },
-        () => {
-            leave(heading?.value)
-        }
-    )
+    hide(heading.value)
+    hide(btn.value)
+
+    if (heading.value)
+        ScrollTrigger.create({
+            trigger: heading.value,
+            start: 'top 65%',
+            end: 'bottom top',
+            onEnter: () => {
+                heading.value && enter(heading.value)
+                btn.value &&
+                    enter(btn.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+            },
+            onLeave: () => {
+                heading.value && leave(heading.value)
+                btn.value &&
+                    leave(btn.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+            },
+            onEnterBack: () => {
+                heading.value && enter(heading.value)
+                btn.value &&
+                    enter(btn.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+            },
+            onLeaveBack: () => {
+                heading.value && leave(heading.value)
+                btn.value &&
+                    leave(btn.value, 0, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+            },
+        })
 
     if (video.value) {
         video.value.volume = 0.3
@@ -58,13 +94,14 @@ onMounted(() => {
             (entries) => {
                 entries.forEach((entry) => {
                     if (video.value) {
-                        if (
-                            entry.intersectionRatio !== 1 &&
-                            !video.value.paused
-                        ) {
-                            video.value.pause()
-                            video.value.currentTime = 0
-                            isPlaying.value = false
+                        if (entry.intersectionRatio !== 1) {
+                            video.value.style.opacity = '0'
+                            setTimeout(() => {
+                                video.value.pause()
+                                video.value.currentTime = 0
+                                isPlaying.value = false
+                            }, 350)
+
                             return
                         }
                     }
@@ -79,7 +116,15 @@ onMounted(() => {
 const play = () => {
     if (video.value) {
         video.value.play()
+        video.value.style.opacity = '1'
         isPlaying.value = true
+    }
+}
+
+const pause = () => {
+    if (video.value) {
+        video.value.pause()
+        isPlaying.value = false
     }
 }
 </script>
@@ -87,11 +132,12 @@ const play = () => {
 <style scoped lang="scss">
 .promo {
     &__wrap {
-        height: 100%;
+        min-height: 100vh;
         background-size: cover;
         position: relative;
         padding: rem(64px 0);
         background-position: center;
+        z-index: 10;
     }
 
     &__heading {
@@ -177,6 +223,7 @@ const play = () => {
         bottom: 0;
         right: 0;
         z-index: -1;
+        transition: 350ms;
         width: 100%;
         height: 100%;
         object-fit: cover;

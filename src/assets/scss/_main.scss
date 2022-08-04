@@ -29,10 +29,11 @@ html {
 }
 
 body {
+    @include noise;
     color: $dark;
     font-family: 'Didact Gothic', sans-serif;
     /*  -webkit-overflow-scrolling: auto; */
-    background: #130b1a;
+    position: relative;
     background-image: linear-gradient(180deg, #160d1f -4.22%, #140c1b 100%);
 }
 
@@ -44,12 +45,4 @@ a {
 
 .container {
     padding: rem(0 32px);
-}
-
-.fp-watermark {
-    display: none !important;
-}
-
-:root {
-    scroll-behavior: auto;
 }
