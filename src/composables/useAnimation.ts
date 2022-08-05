@@ -1,5 +1,9 @@
 import { gsap } from 'gsap'
 
+gsap.config({
+    force3D: true,
+})
+
 export const useAnimation = () => {
     const enter = (
         el: HTMLElement,
@@ -24,7 +28,7 @@ export const useAnimation = () => {
 
     const leave = (el: HTMLElement, delay?: number, options?: object) => {
         const animOptions = options || {
-            scale: 0.85,
+            scale: 0.95,
             opacity: 0,
             duration: 1,
             delay: delay || 0,

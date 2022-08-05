@@ -16,29 +16,31 @@
                         <span>opportunities</span>
                     </h2>
 
-                    <div class="advantages__carousel swiper" ref="carousel">
-                        <ul class="advantages__list swiper-wrapper">
-                            <li
-                                class="advantages__advantage-item swiper-slide"
-                                ref="slides"
-                                v-for="item in advantages"
-                                :key="item.title"
-                            >
+                    <ul class="advantages__list">
+                        <li
+                            class="advantages__advantage-item"
+                            ref="slides"
+                            v-for="item in advantages"
+                            :key="item.title"
+                        >
+                            <div class="advantage-item__wrap">
                                 <div class="advantage-item__icon">
                                     <img :src="item.icon" alt="" />
                                 </div>
-                                <div class="advantage-item__title">
-                                    {{ item.title }}
+                                <div class="advantage-item__content">
+                                    <div class="advantage-item__title">
+                                        {{ item.title }}
+                                    </div>
+                                    <div
+                                        class="advantage-item__text"
+                                        v-if="item.text"
+                                    >
+                                        {{ item.text }}
+                                    </div>
                                 </div>
-                                <div
-                                    class="advantage-item__text"
-                                    v-if="item.text"
-                                >
-                                    {{ item.text }}
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <SignupBanner class="advantages__signup-banner" ref="banner2" />
             </div>
@@ -50,8 +52,6 @@
 import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Swiper from 'swiper'
-import 'swiper/css'
 
 import MapBanner from '@/components/banners/MapBanner.vue'
 import SignupBanner from '@/components/banners/SignupBanner.vue'
@@ -85,7 +85,6 @@ const advantages = [
     },
 ]
 
-const carousel = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
 const banner1 = ref<InstanceType<typeof MapBanner>>()
@@ -170,26 +169,6 @@ onMounted(() => {
                 banner2.value && leave(banner2.value.$el)
             },
         })
-
-    if (carousel.value) {
-        new Swiper(carousel.value, {
-            slidesPerView: 1.3,
-            spaceBetween: 36,
-            loop: true,
-            breakpoints: {
-                568: {
-                    slidesPerView: 2.2,
-                    spaceBetween: 24,
-                    loop: false,
-                },
-                991: {
-                    spaceBetween: 32,
-                    slidesPerView: 4,
-                    loop: false,
-                },
-            },
-        })
-    }
 })
 </script>
 
@@ -239,7 +218,7 @@ onMounted(() => {
         z-index: 10;
 
         @include media-breakpoint-down(md) {
-            margin-bottom: rem(120px);
+            margin-bottom: rem(86px);
 
             &::after {
                 content: '';
@@ -276,12 +255,19 @@ onMounted(() => {
         }
     }
 
-    &__carousel {
-        overflow: visible;
-    }
-
     &__list {
         @include unlist;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: rem(32px);
+        position: relative;
+        z-index: 10;
+
+        @include media-breakpoint-down(sm) {
+            grid-template-columns: 1fr;
+            gap: rem(40px);
+        }
     }
 
     /*     &__advantage-item {
@@ -300,6 +286,14 @@ onMounted(() => {
 }
 
 .advantage-item {
+    &__wrap {
+        @include media-breakpoint-down(md) {
+            display: grid;
+            grid-template-columns: 72px auto;
+            align-items: center;
+            gap: rem(16px);
+        }
+    }
     &__icon {
         background: #7c1dd3;
         border-radius: 50%;
@@ -309,6 +303,10 @@ onMounted(() => {
         align-items: center;
         justify-content: center;
         margin-bottom: rem(40px);
+
+        @include media-breakpoint-down(md) {
+            margin: 0;
+        }
     }
 
     &__title {
@@ -321,8 +319,8 @@ onMounted(() => {
         font-family: 'StyreneAWeb', sans-serif;
 
         @include media-breakpoint-down(md) {
-            height: 50px;
             font-size: rem(20px);
+            margin-bottom: rem(8px);
         }
     }
 

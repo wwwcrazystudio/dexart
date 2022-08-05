@@ -37,6 +37,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import Parallax from 'parallax-js'
+import { useMedia } from '@/composables/useMedia'
+
+gsap.config({
+    force3D: true,
+})
+
+const { isTablet } = useMedia()
 
 const { hide } = useAnimation()
 
@@ -49,7 +56,7 @@ onMounted(() => {
     star1.value && hide(star1.value)
     star2.value && hide(star2.value)
 
-    if (scene.value)
+    if (scene.value && !isTablet())
         new Parallax(scene.value, {
             scalarX: 6,
             scalarY: 6,
@@ -146,9 +153,8 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(sm) {
-            padding: rem(16px);
+            padding: rem(32px);
             margin: rem(0 -16px);
-            padding-bottom: rem(32px);
         }
     }
 
@@ -162,6 +168,8 @@ onMounted(() => {
 
     &__star {
         position: absolute !important;
+        transform: translateZ(0);
+        will-change: transform;
 
         img {
             width: 100%;
@@ -176,14 +184,15 @@ onMounted(() => {
             left: unset !important;
             right: -30px !important;
             top: -40px !important;
-            filter: drop-shadow(20px 0px 20px #752cc5);
+            /*  filter: drop-shadow(20px 0px 20px #752cc5); */
 
             @include media-breakpoint-down(lg) {
-                top: 12px;
-                right: -10px;
-                transform: rotate(15deg);
-                width: 98px;
-                height: 172px;
+                top: 22px !important;
+                right: 0px !important;
+                transform: translateZ(0) rotate(15deg);
+                width: 85px;
+                height: 155px;
+                filter: none;
             }
         }
 
@@ -195,15 +204,16 @@ onMounted(() => {
             left: -290px !important;
             margin: auto;
             bottom: -80px !important;
-            filter: drop-shadow(15px 10px 15px #752cc5);
+            /*   filter: drop-shadow(15px 10px 15px #752cc5); */
 
             @include media-breakpoint-down(lg) {
-                right: -10px;
-                transform: rotate(-15deg);
-                width: 85px;
-                height: 150px;
-                left: unset;
-                bottom: -105px;
+                right: -10px !important;
+                transform: translateZ(0) rotate(-15deg);
+                width: 75px;
+                height: 135px;
+                left: unset !important;
+                bottom: -105px !important;
+                filter: none;
             }
         }
     }
@@ -226,7 +236,7 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
             font-weight: 700;
-            margin-bottom: rem(32px);
+            margin-bottom: rem(16px);
         }
 
         span {
@@ -255,6 +265,7 @@ onMounted(() => {
 
         @include media-breakpoint-down(sm) {
             margin-top: rem(64px);
+            width: 80%;
         }
     }
 }

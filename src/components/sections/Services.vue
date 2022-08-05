@@ -35,21 +35,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import Swiper, { Mousewheel } from 'swiper'
 import { useAnimation } from '@/composables/useAnimation'
 import { useMedia } from '@/composables/useMedia'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-
 import service1 from '@/assets/services/service1.svg'
 import service2 from '@/assets/services/service2.svg'
 import service3 from '@/assets/services/service3.svg'
 import service4 from '@/assets/services/service4.svg'
 import service5 from '@/assets/services/service5.svg'
 import service6 from '@/assets/services/service6.svg'
+
+gsap.config({
+    force3D: true,
+})
 
 const services = [
     {
@@ -179,32 +178,6 @@ onMounted(() => {
             },
         })
     })
-    /*     trigger(
-        section?.value,
-        () => {
-            enter(heading?.value)
-            enter(carousel.value, 0.4)
-        },
-        () => {
-            leave(heading?.value)
-            leave(carousel?.value)
-        }
-    )
- */
-    /*     if (carousel.value) {
-        new Swiper(carousel.value, {
-            slidesPerView: 2,
-            spaceBetween: 64,
-            direction: 'vertical',
-            mousewheel: {
-                releaseOnEdges: true,
-                eventsTarget: section.value,
-            },
-            modules: [Mousewheel],
-            autoHeight: true,
-            speed: 1000,
-        })
-    } */
 })
 </script>
 
@@ -296,11 +269,6 @@ onMounted(() => {
             padding: rem(0 32px);
             margin: rem(0 -32px);
         }
-
-        /*     &:deep(.swiper-slide-active) {
-            opacity: 1;
-            transform: scale(1);
-        } */
     }
 
     &__list {
@@ -308,6 +276,8 @@ onMounted(() => {
     }
 
     &__service-item {
+        transform: translateZ(0);
+        will-change: transform;
         height: calc(50vh - 32px);
 
         @include media-breakpoint-down(lg) {
@@ -321,7 +291,7 @@ onMounted(() => {
 
         &:nth-of-type(n + 3) {
             opacity: 0;
-            transform: scale(0.65);
+            transform: scale3d(0.65, 0.65, 0.65);
         }
     }
 }
@@ -373,7 +343,7 @@ onMounted(() => {
             width: 120px;
             height: 120px;
             margin: 0;
-            transform: translateX(-20px);
+            transform: translate3d(-20px, 0, 0);
         }
 
         img {

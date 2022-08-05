@@ -1,10 +1,10 @@
 <template>
     <section class="press" ref="section">
         <div class="press__wrap">
-            <picture class="press__bg">
+            <!--        <picture class="press__bg">
                 <img src="@/assets/bg/pressBg.jpg" alt="" />
                 <source srcset="@/assets/bg/pressBg.webp" type="image/webp" />
-            </picture>
+            </picture> -->
             <div class="container">
                 <h2 class="press__heading" ref="heading">
                     Press about <span>DEXART</span>
@@ -98,7 +98,7 @@ onMounted(() => {
     if (section.value)
         ScrollTrigger.create({
             trigger: section.value,
-            start: 'top center',
+            start: 'top 70%',
             end: 'bottom 30%',
             onEnter: () => enterCallback(),
             onLeave: () => leaveCallback(),
@@ -132,12 +132,14 @@ onMounted(() => {
 <style scoped lang="scss">
 .press {
     &__wrap {
-        background: linear-gradient(
-            180deg,
-            #391667 5%,
-            rgba(#381665, 0.4) 60%,
-            rgba(#381665, 0.1) 100%
-        );
+        background: url('@/assets/blurs/servicesBlur.png'),
+            linear-gradient(
+                180deg,
+                #391667 5%,
+                rgba(#381665, 0.4) 40%,
+                rgba(#381665, 0.1) 70%,
+                #140c1b 100%
+            );
         background-size: cover;
         padding: rem(128px 0);
         background-repeat: no-repeat;
@@ -145,7 +147,18 @@ onMounted(() => {
         align-items: center;
         position: relative;
         overflow: hidden;
-        height: 100%;
+
+        @include media-breakpoint-down(md) {
+            margin-top: -170px;
+            background: url('@/assets/blurs/servicesBlur.png'),
+                linear-gradient(
+                    180deg,
+                    rgba(#381665, 0.4) 40%,
+                    rgba(#381665, 0.1) 80%,
+                    #140c1b 100%
+                );
+            background-position: -320px -355px, center;
+        }
     }
 
     &__bg {
@@ -209,7 +222,7 @@ onMounted(() => {
         transition: 350ms;
 
         &:hover {
-            transform: scale(1.05);
+            transform: scale3d(1.05, 1.05, 1.05);
             transition: 350ms;
         }
 

@@ -120,21 +120,8 @@ const isMobile = computed(() => {
     return window.matchMedia('(max-width: 991px)').matches
 })
 
-watch(
-    () => props.currentSection,
-    () => {
-        if (typeof props.currentSection !== 'undefined') {
-            if (props.currentSection > 0) scrolled.value = true
-            else scrolled.value = false
-        }
-    }
-)
-
 onMounted(() => {
-    if (typeof props.currentSection === 'undefined') {
-        document.addEventListener('scroll', scrollHandler)
-        return
-    }
+    document.addEventListener('scroll', scrollHandler)
 })
 
 const links = [
@@ -209,6 +196,13 @@ const scrollHandler = () => {
     &__logo {
         z-index: 200;
         margin-right: auto;
+
+        svg {
+            @include media-breakpoint-down(md) {
+                height: 40px;
+                transform: translateY(-5px);
+            }
+        }
     }
 
     &__header-menu {
@@ -307,7 +301,7 @@ const scrollHandler = () => {
 
                 &:first-of-type {
                     width: 50%;
-                    transform: rotate(45deg) translate(10px, 0px);
+                    transform: translateZ(0) rotate(45deg) translate(10px, 0px);
                 }
 
                 &:nth-of-type(2) {
@@ -315,7 +309,8 @@ const scrollHandler = () => {
                 }
 
                 &:last-of-type {
-                    transform: rotate(-45deg) translate(11px, -1px);
+                    transform: translateZ(0) rotate(-45deg)
+                        translate(11px, -1px);
                 }
             }
         }

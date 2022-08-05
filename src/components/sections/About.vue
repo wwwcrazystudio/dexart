@@ -36,6 +36,10 @@ import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
+import { useMedia } from '@/composables/useMedia'
+
+const { isTablet } = useMedia()
+
 
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
@@ -78,7 +82,7 @@ onMounted(() => {
             end: 'bottom top',
         })
 
-    if (scene.value)
+   if (scene.value && !isTablet())
         new Parallax(scene.value, {
             scalarX: 6,
             scalarY: 6,
@@ -139,6 +143,7 @@ onMounted(() => {
             width: 40px;
 
             img {
+                transform: translateZ(0);
                 animation: rotate 45s linear infinite;
                 animation-direction: reverse;
                 width: 100%;
@@ -156,6 +161,7 @@ onMounted(() => {
             right: 190px !important;
 
             img {
+                transform: translateZ(0);
                 animation: rotate 50s linear infinite;
                 width: 100%;
             }
@@ -216,23 +222,23 @@ onMounted(() => {
 
 @keyframes rotate {
     0% {
-        transform: rotate(0);
+        transform: translateZ(0) rotate( 0deg);
     }
 
     25% {
-        transform: rotate(90deg);
+        transform: translateZ(0) rotate( 90deg);
     }
 
     50% {
-        transform: rotate(180deg);
+        transform: translateZ(0) rotate( 180deg);
     }
 
     75% {
-        transform: rotate(270deg);
+        transform: translateZ(0) rotate( 270deg);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: translateZ(0) rotate( 360deg);
     }
 }
 </style>

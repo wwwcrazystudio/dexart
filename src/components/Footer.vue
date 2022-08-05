@@ -204,6 +204,7 @@ const menu2 = [
         }
 
         @include media-breakpoint-down(md) {
+            gap: rem(40px);
             grid-template-columns: 1fr;
 
             grid-template-areas:

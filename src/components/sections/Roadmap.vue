@@ -80,6 +80,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import 'swiper/css'
 
+gsap.config({
+    force3D: true,
+})
+
 const timeline = [
     {
         title: 'Q4 2021',
@@ -214,8 +218,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .roadmap {
-    @include noise;
-
     overflow: hidden;
     position: relative;
 
@@ -331,7 +333,7 @@ onMounted(() => {
         }
 
         &:active {
-            transform: scale(0.85);
+            transform: scale3d(0.85, 0.85, 0.85);
             transition: 350ms;
         }
     }
@@ -352,7 +354,6 @@ onMounted(() => {
             position: absolute;
             left: 0;
             top: 32px;
-            filter: blur(1px);
         }
 
         @include media-breakpoint-down(lg) {

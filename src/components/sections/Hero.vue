@@ -41,6 +41,9 @@ import { onMounted, ref } from 'vue'
 import Parallax from 'parallax-js'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useMedia } from '@/composables/useMedia'
+
+const { isTablet } = useMedia()
 
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
@@ -69,7 +72,7 @@ onMounted(() => {
         })
     }
 
-    if (parallaxScene.value)
+    if (parallaxScene.value && !isTablet())
         new Parallax(parallaxScene.value, {
             scalarX: 7,
             scalarY: 4,
@@ -174,6 +177,7 @@ onMounted(() => {
         }
 
         img {
+            transform: translateZ(0);
             animation: rotate 180s linear infinite;
             width: 100%;
         }
@@ -185,8 +189,9 @@ onMounted(() => {
         top: unset !important;
         left: unset !important;
         bottom: calc(37% + 50px);
-        filter: drop-shadow(0px 0px 20px #752cc5)
-            drop-shadow(0px 0px 60px #752cc5);
+        /*  filter: drop-shadow(0px 0px 20px #752cc5)
+            drop-shadow(0px 0px 60px #752cc5); */
+        transform: translateZ(0);
         animation: pulsate 2s linear infinite alternate-reverse;
         z-index: 15;
         width: 8vw;
@@ -258,23 +263,23 @@ onMounted(() => {
 
 @keyframes rotate {
     0% {
-        transform: rotate(0);
+        transform: translateZ(0) rotate( 0deg);
     }
 
     25% {
-        transform: rotate(90deg);
+        transform: translateZ(0) rotate( 90deg);
     }
 
     50% {
-        transform: rotate(180deg);
+        transform: translateZ(0) rotate( 180deg);
     }
 
     75% {
-        transform: rotate(270deg);
+        transform: translateZ(0) rotate( 270deg);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: translateZ(0) rotate( 360deg);
     }
 }
 

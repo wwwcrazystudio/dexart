@@ -33,11 +33,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Parallax from 'parallax-js'
+import { useMedia } from '@/composables/useMedia'
+
+const { isTablet } = useMedia()
 
 const scene = ref<HTMLElement>()
 
 onMounted(() => {
-    if (scene.value)
+   if (scene.value && !isTablet())
         new Parallax(scene.value, {
             scalarX: 6,
             scalarY: 6,
@@ -76,9 +79,8 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(sm) {
-            padding: rem(16px);
+            padding: rem(32px);
             margin: rem(0 -16px);
-            padding-bottom: rem(24px);
         }
     }
 
@@ -92,6 +94,8 @@ onMounted(() => {
 
     &__stone {
         position: absolute !important;
+        transform: translateZ(0);
+        will-change: transform;
 
         img {
             width: 100%;
@@ -156,7 +160,7 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
             font-weight: 700;
-            margin-bottom: rem(32px);
+            margin-bottom: rem(16px);
         }
 
         span {
@@ -185,29 +189,30 @@ onMounted(() => {
 
         @include media-breakpoint-down(sm) {
             margin-top: rem(64px);
+            width: 80%;
         }
     }
 }
 
 @keyframes rotate {
     0% {
-        transform: rotate(0);
+        transform: translateZ(0) rotate(0);
     }
 
     25% {
-        transform: rotate(90deg);
+        transform: translateZ(0) rotate(90deg);
     }
 
     50% {
-        transform: rotate(180deg);
+        transform: translateZ(0) rotate(180deg);
     }
 
     75% {
-        transform: rotate(270deg);
+        transform: translateZ(0) rotate(270deg);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: translateZ(0) rotate(360deg);
     }
 }
 </style>

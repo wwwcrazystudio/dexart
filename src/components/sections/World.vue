@@ -74,6 +74,10 @@ import { useAnimation } from '@/composables/useAnimation'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+gsap.config({
+    force3D: true,
+})
+
 const { enter, leave, hide } = useAnimation()
 
 const section = ref<HTMLElement>()
@@ -140,7 +144,7 @@ onMounted(() => {
     stepItems.value?.forEach((element, key) => {
         ScrollTrigger.create({
             trigger: element,
-            start: 'top center',
+            start: 'top 70%',
             end: 'top 120px',
             onEnter: () => {
                 currentStep.value = key + 1
@@ -176,23 +180,23 @@ const mapPosition = computed(() => {
     switch (currentStep.value) {
         case 1:
             return {
-                transform: 'scale(1.5) translate(560px, 0)',
+                transform: 'scale3d(1.5, 1.5, 1.5) translate3d(560px, 0, 0)',
             }
         case 2:
             return {
-                transform: 'scale(2.2) translate(210px, 30px)',
+                transform: 'scale3d(2.2, 2.2, 2.2) translate3d(210px, 30px, 0)',
             }
         case 3:
             return {
-                transform: 'scale(1.6) translate(-100px, -50px)',
+                transform: 'scale3d(1.6, 1.6, 1.6) translate3d(-100px, -50px, 0)',
             }
         case 4:
             return {
-                transform: 'scale(1.3) translate(390px, -20px)',
+                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(390px, -20px, 0)',
             }
         default:
             return {
-                transform: 'scale(1) translate(560px, 0)',
+                transform: 'scale3d(1 ,1, 1) translate3d(560px, 0, 0)',
             }
     }
 })
@@ -264,6 +268,7 @@ const mapPosition = computed(() => {
         color: #faf5ff;
         max-width: 595px;
         min-height: calc(100vh - 220px);
+        transform: translateZ(0);
 
         &:nth-of-type(n + 2) {
             opacity: 0;
@@ -272,8 +277,8 @@ const mapPosition = computed(() => {
 
     &__text-wrap {
         position: relative;
-        position: relative;
         z-index: 10;
+        transform: translateZ(0);
     }
 
     &__map {
@@ -285,6 +290,8 @@ const mapPosition = computed(() => {
         z-index: -1;
         width: 100%;
         height: 100%;
+        will-change: transform;
+        transform: translateZ(0);
         -webkit-transform: translate3d(0, 0, 0);
         -webkit-perspective: 1000;
         -webkit-backface-visibility: hidden;
@@ -324,6 +331,8 @@ const mapPosition = computed(() => {
             width: 100%;
             transition: 1000ms;
             transition-delay: 200ms;
+            transform: translateZ(0);
+            will-change: transform;
             -webkit-transform: translate3d(0, 0, 0);
             -webkit-perspective: 1000;
             -webkit-backface-visibility: hidden;
@@ -406,7 +415,8 @@ const mapPosition = computed(() => {
         }
 
         &:active {
-            transform: scale(0.85);
+            will-change: transform;
+            transform: translateZ(0) scale(0.85);
             transition: 350ms;
         }
     }

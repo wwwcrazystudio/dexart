@@ -13,14 +13,15 @@ import Press from '../components/sections/Press.vue'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { loadFull } from 'tsparticles'
-import { onMounted, ref } from 'vue'
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const isScrollable = ref<boolean>(true)
+gsap.config({
+    force3D: true,
+})
 
 const particlesInit = async (engine: any) => {
     await loadFull(engine)

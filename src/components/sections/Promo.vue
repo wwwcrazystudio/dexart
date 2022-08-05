@@ -20,7 +20,7 @@
                     @click="pause"
                     preload="none"
                     class="promo__video"
-                    src="@/assets/videos/promo.mp4"
+                  
                     ref="video"
                 ></video>
             </div>

@@ -61,6 +61,14 @@ import retext from '@/assets/expertise/retext.svg'
 import binance from '@/assets/expertise/binance.svg'
 import near from '@/assets/expertise/near.svg'
 
+import { useMedia } from '@/composables/useMedia'
+
+gsap.config({
+    force3D: true,
+})
+
+const { isTablet } = useMedia()
+
 const expertise = [
     {
         img: oton,
@@ -159,7 +167,7 @@ onMounted(() => {
             onLeaveBack: () => leaveCallback(),
         })
 
-    if (scene.value)
+    if (scene.value && !isTablet())
         new Parallax(scene.value, {
             scalarX: 6,
             scalarY: 6,
@@ -169,7 +177,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .expertise {
-    @include noise;
     position: relative;
     &__wrap {
         background-size: contain;
@@ -234,8 +241,12 @@ onMounted(() => {
         width: 96vw;
         position: absolute !important;
         z-index: 20;
+        transform: translateZ(0);
+        will-change: transform;
 
         img {
+            transform: translateZ(0);
+            will-change: transform;
             animation: rotate 600s linear infinite;
             animation-direction: reverse;
         }
@@ -261,6 +272,8 @@ onMounted(() => {
         position: relative;
         z-index: 10;
         transform-origin: left top;
+        transform: translateZ(0);
+        will-change: transform;
 
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
@@ -308,6 +321,8 @@ onMounted(() => {
         z-index: 10;
         max-width: 1360px;
         margin: auto;
+        transform: translateZ(0);
+        will-change: transform;
 
         @include media-breakpoint-down(xxl) {
             width: calc(100% - 64px);
@@ -446,23 +461,23 @@ onMounted(() => {
 
 @keyframes rotate {
     0% {
-        transform: rotate(0);
+        transform: translateZ(0) rotate( 0deg);
     }
 
     25% {
-        transform: rotate(90deg);
+        transform: translateZ(0) rotate( 90deg);
     }
 
     50% {
-        transform: rotate(180deg);
+        transform: translateZ(0) rotate( 180deg);
     }
 
     75% {
-        transform: rotate(270deg);
+        transform: translateZ(0) rotate( 270deg);
     }
 
     100% {
-        transform: rotate(360deg);
+        transform: translateZ(0) rotate( 360deg);
     }
 }
 </style>

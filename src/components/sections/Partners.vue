@@ -11,7 +11,8 @@
 
                     <div class="partners__description" ref="content">
                         <div class="partners__text">
-                            The Human Guild. Find out more about our partner.
+                            The Human Guild. <br />
+                            Find out more about our partner.
                         </div>
 
                         <button class="partners__btn">Watch More</button>
@@ -27,6 +28,10 @@ import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.config({
+    force3D: true,
+})
 
 const { enter, leave, hide } = useAnimation()
 
@@ -89,9 +94,16 @@ onMounted(() => {
         overflow: hidden;
 
         @include media-breakpoint-down(md) {
-            padding: rem(64px 0);
-            height: 100vh;
-            padding-top: rem(128px);
+            padding: 0;
+            height: 50vh;
+            overflow: visible;
+            background: linear-gradient(
+                180deg,
+                #0b0e28 10%,
+                rgba(#080f23, 0.3) 50%,
+                rgba(#391667, 0.6) 70%,
+                transparent 100%
+            );
         }
     }
 
@@ -110,12 +122,21 @@ onMounted(() => {
         left: 0;
         bottom: -200px;
         z-index: -1;
+        transform: translateZ(0);
+        will-change: bottom;
+        background: #391667;
 
         img {
             height: auto;
             width: 100%;
             object-fit: cover;
             object-position: bottom;
+            mix-blend-mode: lighten;
+
+            @include media-breakpoint-down(md) {
+                height: 100%;
+                object-position: center -230px;
+            }
         }
 
         @include media-breakpoint-down(lg) {
@@ -123,8 +144,9 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(md) {
-            bottom: 0 !important;
-            height: 100%;
+            bottom: unset !important;
+            height: 100vh;
+            top: 0%;
         }
     }
 

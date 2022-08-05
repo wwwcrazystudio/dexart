@@ -59,11 +59,13 @@
 
 <script setup lang="ts">
 import { useAnimation } from '@/composables/useAnimation'
+import { useMedia } from '@/composables/useMedia'
 import { onMounted, ref } from 'vue'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
 
 const { enter, leave, hide } = useAnimation()
+const { isTablet } = useMedia()
 
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
@@ -104,7 +106,7 @@ onMounted(() => {
             },
         })
 
-    if (scene.value)
+    if (scene.value && !isTablet())
         new Parallax(scene.value, {
             scalarX: 6,
             scalarY: 6,
@@ -173,11 +175,15 @@ onMounted(() => {
         bottom: 0;
         right: 0;
         z-index: 10;
+        transform: translateZ(0);
+        will-change: transform;
     }
 
     &__stone {
         position: absolute !important;
         z-index: 15;
+        transform: translateZ(0);
+        will-change: transform;
 
         &--1 {
             right: 70px !important;
@@ -186,6 +192,7 @@ onMounted(() => {
 
             img {
                 width: 40px;
+                will-change: transform;
                 animation: float 50s linear infinite;
                 animation-direction: reverse;
             }
@@ -197,6 +204,7 @@ onMounted(() => {
 
             img {
                 width: 95px;
+                will-change: transform;
                 animation: float 50s linear infinite;
             }
         }
@@ -249,23 +257,23 @@ onMounted(() => {
 
 @keyframes float {
     0% {
-        transform: translate(0, 0) rotate(0);
+        transform: translate3d(0, 0, 0) rotate(0deg);
     }
 
     25% {
-        transform: translate(-100px, 100px) rotate(45deg);
+        transform: translate3d(-100px, 100px, 0) rotate(45deg);
     }
 
     50% {
-        transform: translate(-50px, 200px) rotate(90deg);
+        transform: translate3d(-50px, 200px, 0) rotate(90deg);
     }
 
     75% {
-        transform: translate(20px, 90px) rotate(175deg);
+        transform: translate3d(20px, 90px, 0) rotate(175deg);
     }
 
     100% {
-        transform: translate(0, 0) rotate(0);
+        transform: translate3d(0, 0, 0) rotate(0deg);
     }
 }
 </style>
