@@ -2,29 +2,25 @@
     <div class="signup-banner">
         <div class="signup-banner__wrap">
             <div class="signup-banner__scene" ref="scene">
-                <div
-                    class="signup-banner__stone signup-banner__stone--1"
-                    data-depth="0.2"
-                >
+                <div class="signup-banner__stone signup-banner__stone--1" data-depth="0.2">
                     <img src="@/assets/elements/stone.svg" alt="" />
                 </div>
-                <div
-                    class="signup-banner__stone signup-banner__stone--2"
-                    data-depth="0.2"
-                >
+                <div class="signup-banner__stone signup-banner__stone--2" data-depth="0.2">
                     <img src="@/assets/elements/stone2.svg" />
                 </div>
             </div>
-            <h2 class="signup-banner__heading">
-                Join our <span>community</span>
+            <h2 class="signup-banner__heading" v-html="t('heading')">
+
             </h2>
 
             <div class="signup-banner__content">
                 <div class="signup-banner__text">
-                    To be among the first to step into DEXART!
+                    {{ t('text') }}
                 </div>
 
-                <button class="signup-banner__btn">Sign up</button>
+                <a href="https://t.me/dexartchannel" rel="nofollow" target="_blank" class="signup-banner__btn">{{
+                        t('btn')
+                }}</a>
             </div>
         </div>
     </div>
@@ -34,21 +30,39 @@
 import { onMounted, ref } from 'vue'
 import Parallax from 'parallax-js'
 import { useMedia } from '@/composables/useMedia'
+import { useI18n } from 'vue-i18n';
 
-const { isTablet } = useMedia()
+const { isMobile } = useMedia()
 
 const scene = ref<HTMLElement>()
 
+const { t } = useI18n({
+    messages: {
+        en: {
+            heading: 'Join our <span>community</span>',
+            text: 'To be among the first to step into DEXART!',
+            btn: 'Sign up',
+        },
+        ru: {
+            heading: 'Присоединяйтесь к <span>сообществу</span> ',
+            text: 'Чтобы быть первым в мире DEXART!',
+            btn: 'Подписаться',
+        }
+    }
+})
+
 onMounted(() => {
-   if (scene.value && !isTablet())
-        new Parallax(scene.value, {
-            scalarX: 6,
-            scalarY: 6,
-        })
+    if (!isMobile()) {
+        if (scene.value)
+            new Parallax(scene.value, {
+                scalarX: 6,
+                scalarY: 6,
+            })
+    }
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .signup-banner {
     &__wrap {
         background: #6a1dac;
@@ -65,11 +79,9 @@ onMounted(() => {
 
         @include media-breakpoint-down(lg) {
             padding-right: rem(48px);
-            background-image: linear-gradient(
-                    0deg,
+            background-image: linear-gradient(0deg,
                     rgba(#6a1dac, 0.4),
-                    rgba(#6a1dac, 0.4)
-                ),
+                    rgba(#6a1dac, 0.4)),
                 url('@/assets/tgbig.png');
         }
 
@@ -156,6 +168,7 @@ onMounted(() => {
 
         color: #fff;
         max-width: 470px;
+        font-size: rem(42px);
 
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
@@ -166,11 +179,9 @@ onMounted(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 98.37%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 98.37%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -178,6 +189,7 @@ onMounted(() => {
 
     &__text {
         @include p_type_1;
+        font-size: rem(26px);
 
         color: #faf5ff;
     }
@@ -191,28 +203,6 @@ onMounted(() => {
             margin-top: rem(64px);
             width: 80%;
         }
-    }
-}
-
-@keyframes rotate {
-    0% {
-        transform: translateZ(0) rotate(0);
-    }
-
-    25% {
-        transform: translateZ(0) rotate(90deg);
-    }
-
-    50% {
-        transform: translateZ(0) rotate(180deg);
-    }
-
-    75% {
-        transform: translateZ(0) rotate(270deg);
-    }
-
-    100% {
-        transform: translateZ(0) rotate(360deg);
     }
 }
 </style>

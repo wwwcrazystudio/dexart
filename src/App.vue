@@ -2,15 +2,10 @@
 import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 
-const currentSection = ref<number>()
-
-const handleSectionChange = (index: number) => {
-    currentSection.value = index
-}
 </script>
 
 <template>
-    <RouterView @onSectionChange="handleSectionChange" />
+    <RouterView />
 </template>
 
 <style lang="scss">

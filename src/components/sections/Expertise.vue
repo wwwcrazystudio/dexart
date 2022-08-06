@@ -1,47 +1,28 @@
 <template>
     <div class="expertise" ref="section">
         <div class="expertise__wrap">
-            <img
-                class="expertise__blur expertise__blur--1"
-                src="@/assets/blurs/expertiseBlur2.png"
-                alt=""
-            />
-            <img
-                class="expertise__blur expertise__blur--2"
-                src="@/assets/blurs/expertiseBlur1.png"
-                alt=""
-            />
+            <img class="expertise__blur expertise__blur--1" src="@/assets/blurs/expertiseBlur2.png" alt="" />
+            <img class="expertise__blur expertise__blur--2" src="@/assets/blurs/expertiseBlur1.png" alt="" />
             <div class="expertise__scene" ref="scene">
                 <div data-depth="0.5" class="expertise__stones">
                     <img src="@/assets/elements/expertiseStones.svg" alt="" />
                 </div>
-                <div
-                    data-depth="0.3"
-                    class="expertise__line expertise__line--1"
-                >
+                <div data-depth="0.3" class="expertise__line expertise__line--1">
                     <img src="@/assets/elements/line1.svg" ref="line1" alt="" />
                 </div>
-                <div
-                    data-depth="0.2"
-                    class="expertise__line expertise__line--2"
-                >
+                <div data-depth="0.2" class="expertise__line expertise__line--2">
                     <img src="@/assets/elements/line2.svg" ref="line2" alt="" />
                 </div>
             </div>
             <div class="container">
-                <h2 class="expertise__heading" ref="heading">Expertise</h2>
+                <h2 class="expertise__heading" ref="heading" v-html="t('heading')"></h2>
             </div>
             <div class="expertise__list-wrap">
                 <div class="expertise__list">
-                    <div
-                        ref="expertiseItem"
-                        class="expertise__item"
-                        :class="item.small && 'expertise__item--small'"
-                        v-for="item in expertise"
-                        :key="item.label"
-                    >
+                    <a target="_blank" rel="nofollow" :href="item.url" ref="expertiseItem" class="expertise__item"
+                        :class="item.small && 'expertise__item--small'" v-for="item in expertise" :key="item.label">
                         <img :src="item.img" :alt="item.label" />
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -60,43 +41,62 @@ import unity from '@/assets/expertise/unity.svg'
 import retext from '@/assets/expertise/retext.svg'
 import binance from '@/assets/expertise/binance.svg'
 import near from '@/assets/expertise/near.svg'
+import artfactory from '@/assets/expertise/artfactory.svg'
 
 import { useMedia } from '@/composables/useMedia'
+import { useI18n } from 'vue-i18n'
 
 gsap.config({
     force3D: true,
 })
 
-const { isTablet } = useMedia()
+const { isMobile } = useMedia()
 
 const expertise = [
     {
         img: oton,
         label: 'oton',
+        url: 'https://oton.technology ',
     },
     {
-        img: retext,
-        label: 'retext.ai',
+        img: artfactory,
+        label: 'artfactory',
+        url: 'https://artfactory.pro/',
     },
     {
         img: unity,
         label: 'unity',
         small: true,
+        url: 'https://unity.com',
     },
     {
         img: binance,
         label: 'binance',
+        url: 'https://www.binance.com/en ',
     },
     {
         img: near,
         label: 'near',
+        url: 'https://near.org ',
     },
     {
         img: unity,
         label: 'unity',
         small: true,
+        url: 'https://unity.com',
     },
 ]
+
+const { t } = useI18n({
+    messages: {
+        en: {
+            heading: 'Expertise',
+        },
+        ru: {
+            heading: 'Экспертиза',
+        }
+    }
+})
 
 const { enter, leave, hide } = useAnimation()
 
@@ -108,76 +108,79 @@ const line1 = ref<HTMLElement>()
 const line2 = ref<HTMLElement>()
 
 onMounted(() => {
-    heading.value && hide(heading.value)
-    line1.value && hide(line1.value)
-    line2.value && hide(line2.value)
+    if (!isMobile()) {
+        heading.value && hide(heading.value)
+        line1.value && hide(line1.value)
+        line2.value && hide(line2.value)
 
-    expertiseItem.value?.forEach((item) => {
-        hide(item)
-    })
-
-    const enterCallback = () => {
-        heading.value && enter(heading.value)
-        line1.value &&
-            gsap.to(line1.value, {
-                opacity: 1,
-                delay: 2,
-                duration: 1,
-            })
-
-        line2.value &&
-            gsap.to(line2.value, {
-                opacity: 1,
-                delay: 1.5,
-                duration: 1,
-            })
-
-        expertiseItem.value?.forEach((item, key) => {
-            enter(item, 0.25 * key)
+        expertiseItem.value?.forEach((item) => {
+            hide(item)
         })
+
+        const enterCallback = () => {
+            heading.value && enter(heading.value)
+            line1.value &&
+                gsap.to(line1.value, {
+                    opacity: 1,
+                    delay: 2,
+                    duration: 1,
+                })
+
+            line2.value &&
+                gsap.to(line2.value, {
+                    opacity: 1,
+                    delay: 1.5,
+                    duration: 1,
+                })
+
+            expertiseItem.value?.forEach((item, key) => {
+                enter(item, 0.25 * key)
+            })
+        }
+
+        const leaveCallback = () => {
+            heading.value && leave(heading.value)
+            line1.value &&
+                gsap.to(line1.value, {
+                    opacity: 0,
+                    duration: 1,
+                })
+
+            line2.value &&
+                gsap.to(line2.value, {
+                    opacity: 0,
+                    duration: 1,
+                })
+
+            expertiseItem.value?.forEach((item, key) => {
+                leave(item, 0.25 * key)
+            })
+        }
+
+        if (section.value)
+            ScrollTrigger.create({
+                trigger: section.value,
+                start: 'top bottom',
+                end: 'bottom 70%',
+                onEnter: () => enterCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onLeaveBack: () => leaveCallback(),
+            })
+
+        if (scene.value)
+            new Parallax(scene.value, {
+                scalarX: 6,
+                scalarY: 6,
+            })
     }
-
-    const leaveCallback = () => {
-        heading.value && leave(heading.value)
-        line1.value &&
-            gsap.to(line1.value, {
-                opacity: 0,
-                duration: 1,
-            })
-
-        line2.value &&
-            gsap.to(line2.value, {
-                opacity: 0,
-                duration: 1,
-            })
-
-        expertiseItem.value?.forEach((item, key) => {
-            leave(item, 0.25 * key)
-        })
-    }
-
-    if (section.value)
-        ScrollTrigger.create({
-            trigger: section.value,
-            start: 'top 65%',
-            end: 'bottom 70%',
-            onEnter: () => enterCallback(),
-            onEnterBack: () => enterCallback(),
-            onLeave: () => leaveCallback(),
-            onLeaveBack: () => leaveCallback(),
-        })
-
-    if (scene.value && !isTablet())
-        new Parallax(scene.value, {
-            scalarX: 6,
-            scalarY: 6,
-        })
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .expertise {
     position: relative;
+
     &__wrap {
         background-size: contain;
         background-repeat: no-repeat;
@@ -292,6 +295,7 @@ onMounted(() => {
         img {
             width: 200%;
         }
+
         &--1 {
             top: 190px !important;
 
@@ -364,11 +368,9 @@ onMounted(() => {
             padding: 3px;
             border-radius: 50%;
             z-index: 1;
-            background: linear-gradient(
-                173.08deg,
-                #faf5ff -66.62%,
-                rgba(250, 245, 255, 0) 94.59%
-            );
+            background: linear-gradient(173.08deg,
+                    #faf5ff -66.62%,
+                    rgba(250, 245, 255, 0) 94.59%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box,
                 linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box,
@@ -384,6 +386,11 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(md) {
+            width: 110px;
+            height: 110px;
+        }
+
+        @include media-breakpoint-down(sm) {
             width: 78px;
             height: 78px;
         }
@@ -393,11 +400,11 @@ onMounted(() => {
             height: 164px;
 
             @include media-breakpoint-down(lg) {
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 80px;
             }
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(sm) {
                 width: 64px;
                 height: 64px;
             }
@@ -427,8 +434,8 @@ onMounted(() => {
             top: 15%;
 
             @include media-breakpoint-down(md) {
-                left: 40%;
-                top: 20%;
+                left: 43%;
+                top: 26%;
             }
         }
 
@@ -447,7 +454,7 @@ onMounted(() => {
             bottom: 0;
 
             @include media-breakpoint-down(md) {
-                right: 20%;
+                right: 37%;
                 bottom: -5%;
             }
         }
@@ -456,28 +463,6 @@ onMounted(() => {
             right: 0;
             top: 0;
         }
-    }
-}
-
-@keyframes rotate {
-    0% {
-        transform: translateZ(0) rotate( 0deg);
-    }
-
-    25% {
-        transform: translateZ(0) rotate( 90deg);
-    }
-
-    50% {
-        transform: translateZ(0) rotate( 180deg);
-    }
-
-    75% {
-        transform: translateZ(0) rotate( 270deg);
-    }
-
-    100% {
-        transform: translateZ(0) rotate( 360deg);
     }
 }
 </style>

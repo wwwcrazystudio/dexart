@@ -3,27 +3,19 @@
         <div class="world__wrap">
             <div class="container">
                 <div class="world__content">
-                    <h2 class="world__heading" ref="heading">
-                        World <span>DEXART</span>
+                    <h2 class="world__heading" ref="heading" v-html="t('heading')">
+
                     </h2>
 
                     <div class="world__text-wrap" ref="text">
-                        <div
-                            class="world__text"
-                            v-for="(step, key) in steps"
-                            :key="key"
-                            v-html="step"
-                            ref="stepItems"
-                        ></div>
+                        <div class="world__text" v-for="(step, key) in steps" :key="key" v-html="step" ref="stepItems">
+                        </div>
                     </div>
 
                     <div class="world__map" ref="map">
                         <picture class="world__map-img" :style="mapPosition">
                             <img src="@/assets/map.jpg" alt="" />
-                            <source
-                                srcset="@/assets/map.webp"
-                                type="image/webp"
-                            />
+                            <source srcset="@/assets/map.webp" type="image/webp" />
                         </picture>
                     </div>
                     <!--    <div class="world__controls">
@@ -73,12 +65,26 @@ import { computed, onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useI18n } from 'vue-i18n';
+import { useMedia } from '@/composables/useMedia'
 
 gsap.config({
     force3D: true,
 })
 
 const { enter, leave, hide } = useAnimation()
+const { isMobile } = useMedia()
+
+const { t, locale } = useI18n({
+    messages: {
+        en: {
+            heading: 'World <span>DEXART</span>',
+        },
+        ru: {
+            heading: 'Мир <span>DEXART</span>',
+        }
+    }
+})
 
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
@@ -87,93 +93,107 @@ const map = ref<HTMLElement>()
 const currentStep = ref<number>(1)
 const stepItems = ref<HTMLElement[]>()
 
-const steps = [
-    `<p> DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </p> <p> Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions </p>`,
-    `<p> The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world. </p> <p> To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains. </p> <p> To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies. </p>`,
-    `<p> New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc. </p> <p> South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty). </p>`,
-    `<p> In the middle of the Great Desert lies the Oasis of the Way. </p> <p> This is the spiritual center of DEXART - here are the temples of all possible religions. </p>`,
-]
+const steps = computed(() => {
+
+    if (locale.value === 'ru') {
+        return [
+            `<p> DEXART состоит из регионов, которые присоединяются к первому и главному району - центру мира... Каждый регион полон уникальных возможностей и персонажей, которые вовлекают пользователей в игровые механики.</p>`,
+            `<p> The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world. </p> <p> To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains. </p> <p> To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies. </p>`,
+            `<p> New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc. </p> <p> South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty). </p>`,
+            `<p> In the middle of the Great Desert lies the Oasis of the Way. </p> <p> This is the spiritual center of DEXART - here are the temples of all possible religions. </p>`,
+        ]
+    }
+
+    return [
+        `<p> DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </p> <p> Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions </p>`,
+        `<p> The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world. </p> <p> To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains. </p> <p> To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies. </p>`,
+        `<p> New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc. </p> <p> South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty). </p>`,
+        `<p> In the middle of the Great Desert lies the Oasis of the Way. </p> <p> This is the spiritual center of DEXART - here are the temples of all possible religions. </p>`,
+    ]
+})
 
 onMounted(() => {
-    map.value && hide(map.value)
+    if (!isMobile()) {
+        map.value && hide(map.value)
 
-    if (section.value)
+        if (section.value)
+            ScrollTrigger.create({
+                trigger: section.value,
+                start: 'top top',
+                end: 'bottom bottom',
+                pin: map.value,
+            })
+
         ScrollTrigger.create({
             trigger: section.value,
-            start: 'top top',
-            end: 'bottom bottom',
-            pin: map.value,
-        })
-
-    ScrollTrigger.create({
-        trigger: section.value,
-        start: 'top 70%',
-        end: 'bottom bottom',
-        onEnter: () => {
-            currentStep.value = 0
-            map.value &&
-                gsap.to(map.value, {
-                    opacity: 1,
-                    duration: 1,
-                })
-        },
-        onEnterBack: () => {
-            currentStep.value = 0
-            map.value &&
-                gsap.to(map.value, {
-                    opacity: 1,
-                    duration: 1,
-                })
-        },
-        onLeave: () => {
-            map.value &&
-                gsap.to(map.value, {
-                    opacity: 0,
-                    duration: 1,
-                })
-        },
-        onLeaveBack: () => {
-            map.value &&
-                gsap.to(map.value, {
-                    opacity: 0,
-                    duration: 1,
-                })
-        },
-    })
-
-    stepItems.value?.forEach((element, key) => {
-        ScrollTrigger.create({
-            trigger: element,
             start: 'top 70%',
-            end: 'top 120px',
+            end: 'bottom bottom',
             onEnter: () => {
-                currentStep.value = key + 1
-                gsap.to(element, {
-                    opacity: 1,
-                    duration: 1,
-                })
+                currentStep.value = 0
+                map.value &&
+                    gsap.to(map.value, {
+                        opacity: 1,
+                        duration: 1,
+                    })
             },
             onEnterBack: () => {
-                currentStep.value = key + 1
-                gsap.to(element, {
-                    opacity: 1,
-                    duration: 1,
-                })
+                currentStep.value = 0
+                map.value &&
+                    gsap.to(map.value, {
+                        opacity: 1,
+                        duration: 1,
+                    })
             },
             onLeave: () => {
-                gsap.to(element, {
-                    opacity: 0,
-                    duration: 1,
-                })
+                map.value &&
+                    gsap.to(map.value, {
+                        opacity: 0,
+                        duration: 1,
+                    })
             },
             onLeaveBack: () => {
-                gsap.to(element, {
-                    opacity: 0,
-                    duration: 1,
-                })
+                map.value &&
+                    gsap.to(map.value, {
+                        opacity: 0,
+                        duration: 1,
+                    })
             },
         })
-    })
+
+        stepItems.value?.forEach((element, key) => {
+            ScrollTrigger.create({
+                trigger: element,
+                start: 'top 70%',
+                end: 'top 120px',
+                onEnter: () => {
+                    currentStep.value = key + 1
+                    gsap.to(element, {
+                        opacity: 1,
+                        duration: 1,
+                    })
+                },
+                onEnterBack: () => {
+                    currentStep.value = key + 1
+                    gsap.to(element, {
+                        opacity: 1,
+                        duration: 1,
+                    })
+                },
+                onLeave: () => {
+                    gsap.to(element, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+                },
+                onLeaveBack: () => {
+                    gsap.to(element, {
+                        opacity: 0,
+                        duration: 1,
+                    })
+                },
+            })
+        })
+    }
 })
 
 const mapPosition = computed(() => {
@@ -202,7 +222,7 @@ const mapPosition = computed(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .world {
     overflow: hidden;
 
@@ -221,18 +241,41 @@ const mapPosition = computed(() => {
             position: absolute;
             left: 0;
             top: 0;
-            background-image: linear-gradient(
-                90deg,
-                #1c0b2b 30%,
-                transparent 100%
-            );
+            background-image: linear-gradient(90deg,
+                    #1c0b2b 30%,
+                    transparent 100%);
             width: 100%;
             height: 100%;
+
+            @include media-breakpoint-down(lg) {
+                background-image: linear-gradient(90deg,
+                        #1c0b2b 50%,
+                        transparent 100%);
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            background-image: linear-gradient(178deg, #1c0b2b 30%, transparent 35%);
+            width: 100%;
+            height: 100%;
+
+            @include media-breakpoint-down(xl) {
+                content: none;
+            }
         }
 
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
             background: linear-gradient(132deg, #1c0b2b 40%, transparent 100%);
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: rem(32px 0);
         }
     }
 
@@ -252,11 +295,9 @@ const mapPosition = computed(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 98.37%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 98.37%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -270,8 +311,16 @@ const mapPosition = computed(() => {
         min-height: calc(100vh - 220px);
         transform: translateZ(0);
 
+        @include media-breakpoint-down(sm) {
+            min-height: 0;
+        }
+
         &:nth-of-type(n + 2) {
             opacity: 0;
+
+            @include media-breakpoint-down(sm) {
+                opacity: 1;
+            }
         }
     }
 
@@ -296,6 +345,7 @@ const mapPosition = computed(() => {
         -webkit-perspective: 1000;
         -webkit-backface-visibility: hidden;
 
+
         &::after {
             content: '';
             background: url('@/assets/blurs/promoBlur.png');
@@ -319,11 +369,14 @@ const mapPosition = computed(() => {
         }
 
         @include media-breakpoint-down(lg) {
-            top: 80vh !important;
             height: auto;
             left: 0;
             width: 100%;
             height: 100%;
+        }
+
+        @include media-breakpoint-down(sm) {
+            display: none;
         }
 
         img,
@@ -337,6 +390,18 @@ const mapPosition = computed(() => {
             -webkit-perspective: 1000;
             -webkit-backface-visibility: hidden;
             display: block;
+            height: 100vh;
+            object-fit: contain;
+
+            @include media-breakpoint-down(lg) {
+                position: relative;
+                left: -50px;
+            }
+
+            @include media-breakpoint-down(lg) {
+                left: -120px;
+                width: 130%;
+            }
         }
     }
 
@@ -371,12 +436,10 @@ const mapPosition = computed(() => {
             padding: 2px;
             border-radius: 8px;
             z-index: -1;
-            background: linear-gradient(
-                90deg,
-                #7c1dd3 2.02%,
-                #912eef 49.93%,
-                #ee40ff 96.86%
-            );
+            background: linear-gradient(90deg,
+                    #7c1dd3 2.02%,
+                    #912eef 49.93%,
+                    #ee40ff 96.86%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box,
                 linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box,
@@ -389,12 +452,10 @@ const mapPosition = computed(() => {
         &::after {
             content: '';
             position: absolute;
-            background: linear-gradient(
-                90deg,
-                #7c1dd3 2.02%,
-                #912eef 49.93%,
-                #ee40ff 96.86%
-            );
+            background: linear-gradient(90deg,
+                    #7c1dd3 2.02%,
+                    #912eef 49.93%,
+                    #ee40ff 96.86%);
             background-repeat: no-repeat;
             width: calc(100% - 2px);
             height: calc(100% - 2px);

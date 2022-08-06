@@ -7,15 +7,16 @@
             </picture>
             <div class="container">
                 <div class="partners__content">
-                    <h2 class="partners__heading" ref="heading">Partners</h2>
+                    <h2 class="partners__heading" ref="heading" v-html="t('heading')"></h2>
 
                     <div class="partners__description" ref="content">
                         <div class="partners__text">
                             The Human Guild. <br />
-                            Find out more about our partner.
+                            {{ t('text') }}
                         </div>
 
-                        <button class="partners__btn">Watch More</button>
+                        <a href="https://medium.com/@dexartmetaverse/dexart-metaverse-received-support-and-smart-money-from-human-guild-a6d5f0aa1604"
+                            target="_blank" rel="nofollow" class="partners__btn">{{ t('btn') }}</a>
                     </div>
                 </div>
             </div>
@@ -28,63 +29,81 @@ import { useAnimation } from '@/composables/useAnimation'
 import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useI18n } from 'vue-i18n';
+import { useMedia } from '@/composables/useMedia'
 
 gsap.config({
     force3D: true,
 })
 
 const { enter, leave, hide } = useAnimation()
+const { isMobile } = useMedia()
 
 const heading = ref<HTMLElement>()
 const content = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 const img = ref<HTMLElement>()
 
+const { t } = useI18n({
+    messages: {
+        en: {
+            heading: 'Partners',
+            text: 'Find out more about our partner.',
+            btn: 'Watch More',
+        },
+        ru: {
+            heading: 'Партнеры',
+            text: 'Узнайте о нашем партнере.',
+            btn: 'Подробнее',
+        }
+    }
+})
+
 onMounted(() => {
-    heading.value && hide(heading.value)
-    content.value && hide(content.value)
+    if (!isMobile()) {
+        heading.value && hide(heading.value)
+        content.value && hide(content.value)
 
-    const enterCallback = () => {
-        heading.value && enter(heading.value)
-        content.value && enter(content.value)
-        img.value &&
-            gsap.to(img.value, {
-                bottom: -500,
-                duration: 1,
-            })
+        const enterCallback = () => {
+            heading.value && enter(heading.value)
+            content.value && enter(content.value)
+            img.value &&
+                gsap.to(img.value, {
+                    bottom: -500,
+                    duration: 1,
+                })
+        }
+
+        const leaveCallback = () => {
+            heading.value && leave(heading.value)
+            content.value && leave(content.value)
+            img.value &&
+                gsap.to(img.value, {
+                    bottom: -200,
+                    duration: 1,
+                })
+        }
+
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top bottom',
+            end: 'bottom center',
+            onEnter: () => enterCallback(),
+            onEnterBack: () => enterCallback(),
+            onLeave: () => leaveCallback(),
+            onLeaveBack: () => leaveCallback(),
+        })
     }
-
-    const leaveCallback = () => {
-        heading.value && leave(heading.value)
-        content.value && leave(content.value)
-        img.value &&
-            gsap.to(img.value, {
-                bottom: -200,
-                duration: 1,
-            })
-    }
-
-    ScrollTrigger.create({
-        trigger: section.value,
-        start: 'top 70%',
-        end: 'bottom center',
-        onEnter: () => enterCallback(),
-        onEnterBack: () => enterCallback(),
-        onLeave: () => leaveCallback(),
-        onLeaveBack: () => leaveCallback(),
-    })
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .partners {
     &__wrap {
-        background: linear-gradient(
-            180deg,
-            #0b0e28 10%,
-            rgba(#080f23, 0.3) 40%,
-            #391667 100%
-        );
+        background: linear-gradient(180deg,
+                #0b0e28 10%,
+                rgba(#080f23, 0.3) 40%,
+                #391667 100%);
 
         padding: rem(112px 0);
         background-repeat: no-repeat;
@@ -97,13 +116,11 @@ onMounted(() => {
             padding: 0;
             height: 50vh;
             overflow: visible;
-            background: linear-gradient(
-                180deg,
-                #0b0e28 10%,
-                rgba(#080f23, 0.3) 50%,
-                rgba(#391667, 0.6) 70%,
-                transparent 100%
-            );
+            background: linear-gradient(180deg,
+                    #0b0e28 10%,
+                    rgba(#080f23, 0.3) 50%,
+                    rgba(#391667, 0.6) 70%,
+                    transparent 100%);
         }
     }
 

@@ -1,23 +1,14 @@
 <template>
     <section class="press" ref="section">
         <div class="press__wrap">
-            <!--        <picture class="press__bg">
-                <img src="@/assets/bg/pressBg.jpg" alt="" />
-                <source srcset="@/assets/bg/pressBg.webp" type="image/webp" />
-            </picture> -->
             <div class="container">
-                <h2 class="press__heading" ref="heading">
-                    Press about <span>DEXART</span>
+                <h2 class="press__heading" ref="heading" v-html="t('heading')">
+
                 </h2>
 
                 <div class="press__carousel swiper" ref="carousel">
                     <ul class="press__list swiper-wrapper">
-                        <li
-                            ref="slides"
-                            class="press__press-item swiper-slide"
-                            v-for="item in press"
-                            :key="item.title"
-                        >
+                        <li ref="slides" class="press__press-item swiper-slide" v-for="item in press" :key="item.title">
                             <div class="press-item__wrap">
                                 <div class="press-item__tag">
                                     {{ item.tag }}
@@ -25,13 +16,8 @@
                                 <div class="press-item__title">
                                     {{ item.title }}
                                 </div>
-                                <a
-                                    :href="item.link"
-                                    target="_blank"
-                                    rel="nofollow"
-                                    class="press-item__link"
-                                >
-                                    Learn More
+                                <a :href="item.link" target="_blank" rel="nofollow" class="press-item__link">
+                                    {{ t('btn') }}
                                 </a>
                             </div>
                         </li>
@@ -45,71 +31,111 @@
 <script setup lang="ts">
 import Swiper from 'swiper'
 import 'swiper/css'
-import { onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-const press = [
-    {
-        tag: 'BeinCrypto',
-        title: 'We just digitize the whole world on the blockchain',
-        link: '',
-    },
-    {
-        tag: 'BitNovosti',
-        title: 'OTON represents the workplace of the future',
-        link: '',
-    },
-    {
-        tag: 'InvestFuture',
-        title: 'Token listing',
-        link: '',
-    },
-]
+import { useI18n } from 'vue-i18n'
+import { useMedia } from '@/composables/useMedia'
 
 const { enter, leave, hide } = useAnimation()
+const { isMobile } = useMedia()
 
 const carousel = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
 const slides = ref<HTMLElement[]>()
+const carouselInstance = ref<any>()
 
-onMounted(() => {
-    heading.value && hide(heading.value)
+const { t, locale } = useI18n({
+    messages: {
+        en: {
+            heading: 'Press about <span>DEXART</span>',
+            btn: 'Learn More',
+        },
+        ru: {
+            heading: 'Пресса о <span>Dexart</span>',
+            btn: 'Подробнее',
+        }
+    }
+})
 
-    slides.value?.forEach((el) => {
-        hide(el)
-    })
-
-    const enterCallback = () => {
-        heading.value && enter(heading.value)
-        slides.value?.forEach((el: HTMLElement, key: number) => {
-            enter(el, 0.2 * key)
-        })
+const press = computed(() => {
+    if (locale.value === 'ru') {
+        return [
+            {
+                tag: 'BeinCrypto',
+                title: 'Мы просто оцифровываем весь мир на блокчейне',
+                link: 'https://ru.beincrypto.com/my-prosto-oczifrovyvaem-ves-mir-na-blokchejne-glava-proekta-oton/?ysclid=l2rkdslvli',
+            },
+            {
+                tag: 'BitNovosti',
+                title: 'OTON представляет собой место работы, за которым будущее',
+                link: 'https://bitnovosti.com/2021/06/03/sistema-monetizatsii-auditorii-oton-platforma-obucheniya/',
+            },
+            {
+                tag: 'InvestFuture',
+                title: 'Листинг токена',
+                link: 'https://investfuture.ru/news/id/ekosistema-oton-objavljaet-o-listinge-tokena-oton-na-birzhe-s3exchange',
+            },
+        ]
     }
 
-    const leaveCallback = () => {
-        heading.value && leave(heading.value)
-        slides.value?.forEach((el: HTMLElement, key: number) => {
-            leave(el, 0.2 * key)
-        })
-    }
-
-    if (section.value)
-        ScrollTrigger.create({
-            trigger: section.value,
-            start: 'top 70%',
-            end: 'bottom 30%',
-            onEnter: () => enterCallback(),
-            onLeave: () => leaveCallback(),
-            onEnterBack: () => enterCallback(),
-            onLeaveBack: () => leaveCallback(),
-        })
+    return [
+        {
+            tag: 'BeinCrypto',
+            title: 'We just digitize the whole world on the blockchain',
+            link: 'https://ru.beincrypto.com/my-prosto-oczifrovyvaem-ves-mir-na-blokchejne-glava-proekta-oton/?ysclid=l2rkdslvli',
+        },
+        {
+            tag: 'BitNovosti',
+            title: 'OTON represents the workplace of the future',
+            link: 'https://bitnovosti.com/2021/06/03/sistema-monetizatsii-auditorii-oton-platforma-obucheniya/',
+        },
+        {
+            tag: 'InvestFuture',
+            title: 'Token listing',
+            link: 'https://investfuture.ru/news/id/ekosistema-oton-objavljaet-o-listinge-tokena-oton-na-birzhe-s3exchange',
+        },
+    ]
 })
 
 onMounted(() => {
+    if (!isMobile()) {
+        heading.value && hide(heading.value)
+
+        slides.value?.forEach((el) => {
+            hide(el)
+        })
+
+        const enterCallback = () => {
+            heading.value && enter(heading.value)
+            slides.value?.forEach((el: HTMLElement, key: number) => {
+                enter(el, 0.2 * key)
+            })
+        }
+
+        const leaveCallback = () => {
+            heading.value && leave(heading.value)
+            slides.value?.forEach((el: HTMLElement, key: number) => {
+                leave(el, 0.2 * key)
+            })
+        }
+
+        if (section.value)
+            ScrollTrigger.create({
+                trigger: section.value,
+                start: 'top bottom',
+                end: 'bottom 30%',
+                onEnter: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeaveBack: () => leaveCallback(),
+            })
+
+    }
+
     if (carousel.value) {
-        new Swiper(carousel.value, {
+        carouselInstance.value = new Swiper(carousel.value, {
             slidesPerView: 1.1,
             spaceBetween: 16,
             loop: true,
@@ -127,19 +153,22 @@ onMounted(() => {
         })
     }
 })
+
+watch(() => locale.value, async () => {
+    await nextTick()
+    carouselInstance.value.update()
+})
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .press {
     &__wrap {
         background: url('@/assets/blurs/servicesBlur.png'),
-            linear-gradient(
-                180deg,
+            linear-gradient(180deg,
                 #391667 5%,
                 rgba(#381665, 0.4) 40%,
                 rgba(#381665, 0.1) 70%,
-                #140c1b 100%
-            );
+                #140c1b 100%);
         background-size: cover;
         padding: rem(128px 0);
         background-repeat: no-repeat;
@@ -151,12 +180,10 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             margin-top: -170px;
             background: url('@/assets/blurs/servicesBlur.png'),
-                linear-gradient(
-                    180deg,
+                linear-gradient(180deg,
                     rgba(#381665, 0.4) 40%,
                     rgba(#381665, 0.1) 80%,
-                    #140c1b 100%
-                );
+                    #140c1b 100%);
             background-position: -320px -355px, center;
         }
     }
@@ -185,11 +212,9 @@ onMounted(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 98.37%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 98.37%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }

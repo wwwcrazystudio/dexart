@@ -1,27 +1,15 @@
 <template>
     <div class="follow-us">
         <div class="follow-us__wrap">
-            <button
-                class="follow-us__btn"
-                :class="showDropdown && 'follow-us__btn--expanded'"
-                @click="showDropdown = !showDropdown"
-            >
-                Follow Dexart
+            <button class="follow-us__btn" :class="showDropdown && 'follow-us__btn--expanded'"
+                @click="showDropdown = !showDropdown">
+                {{ t('follow') }}
             </button>
 
             <transition name="fade">
                 <ul class="follow-us__list" v-show="showDropdown">
-                    <li
-                        class="follow-us__item"
-                        v-for="social in socials"
-                        :key="social.label"
-                    >
-                        <a
-                            :href="social.url"
-                            rel="nofollow"
-                            target="_blank"
-                            class="follow-us__link"
-                        >
+                    <li class="follow-us__item" v-for="social in socials" :key="social.label">
+                        <a :href="social.url" rel="nofollow" target="_blank" class="follow-us__link">
                             <span v-html="social.icon"></span>
                             {{ social.label }}
                         </a>
@@ -39,42 +27,92 @@ import youtube from '@/assets/icons/youtube.svg?raw'
 import tg from '@/assets/icons/tg.svg?raw'
 import medium from '@/assets/icons/medium.svg?raw'
 import reddit from '@/assets/icons/reddit.svg?raw'
-import { ref } from 'vue'
-
-const socials = [
-    {
-        icon: inst,
-        label: 'Instagram',
-        url: '',
-    },
-    {
-        icon: twitter,
-        label: 'Twitter',
-        url: '',
-    },
-    {
-        icon: youtube,
-        label: 'Youtube',
-        url: '',
-    },
-    {
-        icon: tg,
-        label: 'Telegram',
-        url: '',
-    },
-    {
-        icon: medium,
-        label: 'Medium',
-        url: '',
-    },
-    {
-        icon: reddit,
-        label: 'Reddit',
-        url: '',
-    },
-]
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const showDropdown = ref<boolean>(false)
+
+const { t, locale } = useI18n({
+    messages: {
+        en: {
+            follow: 'Follow Dexart',
+        },
+        ru: {
+            follow: 'Присоединиться',
+        }
+    }
+})
+
+
+const socials = computed(() => {
+    if (locale.value === 'ru') {
+        return [
+            {
+                icon: inst,
+                label: 'Instagram',
+                url: 'https://instagram.com/dexartmetaverse',
+            },
+            {
+                icon: twitter,
+                label: 'Twitter',
+                url: 'https://twitter.com/dexartmetaverse',
+            },
+            {
+                icon: youtube,
+                label: 'Youtube',
+                url: 'https://www.youtube.com/channel/UC13PPy2YX2d6rIbjkdveP7g/',
+            },
+            {
+                icon: tg,
+                label: 'Telegram',
+                url: 'https://t.me/dexartchannelru',
+            },
+            {
+                icon: medium,
+                label: 'Medium',
+                url: 'https://medium.com/@dexartmetaverse',
+            },
+            {
+                icon: reddit,
+                label: 'Reddit',
+                url: 'https://www.reddit.com/r/dexart/',
+            },
+        ]
+    }
+
+    return [
+        {
+            icon: inst,
+            label: 'Instagram',
+            url: 'https://instagram.com/dexartmetaverse',
+        },
+        {
+            icon: twitter,
+            label: 'Twitter',
+            url: 'https://twitter.com/dexartmetaverse',
+        },
+        {
+            icon: youtube,
+            label: 'Youtube',
+            url: 'https://www.youtube.com/channel/UC13PPy2YX2d6rIbjkdveP7g/',
+        },
+        {
+            icon: tg,
+            label: 'Telegram',
+            url: 'https://t.me/dexartchannel',
+        },
+        {
+            icon: medium,
+            label: 'Medium',
+            url: 'https://medium.com/@dexartmetaverse',
+        },
+        {
+            icon: reddit,
+            label: 'Reddit',
+            url: 'https://www.reddit.com/r/dexart/',
+        },
+    ]
+})
 </script>
 
 <style scoped lang="scss">
@@ -109,11 +147,9 @@ const showDropdown = ref<boolean>(false)
             padding: 2px;
             border-radius: 16px;
             z-index: -1;
-            background: linear-gradient(
-                96.43deg,
-                #ed3ffe 30.37%,
-                #7d1ed4 94.57%
-            );
+            background: linear-gradient(96.43deg,
+                    #ed3ffe 30.37%,
+                    #7d1ed4 94.57%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box,
                 linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box,
@@ -126,12 +162,10 @@ const showDropdown = ref<boolean>(false)
         &::after {
             content: '';
             position: absolute;
-            background-image: linear-gradient(
-                90deg,
-                #7c1dd3 2.02%,
-                #912eef 49.93%,
-                #ee40ff 96.86%
-            );
+            background-image: linear-gradient(90deg,
+                    #7c1dd3 2.02%,
+                    #912eef 49.93%,
+                    #ee40ff 96.86%);
             background-repeat: no-repeat;
             width: calc(100% - 2px);
             height: calc(100% - 2px);

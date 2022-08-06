@@ -11,18 +11,15 @@
             </div>
             <div class="container">
                 <div class="about__content" ref="content">
-                    <h2 class="about__heading" ref="heading">
-                        Metaverses create <span>a magical</span> future
+                    <h2 class="about__heading" ref="heading" v-html="t('heading')">
+
                     </h2>
                     <div class="about__text" ref="text">
                         <p>
-                            And we contribute to the new era of social media
-                            communications of Web 3.0
+                            {{ t('text1') }}
                         </p>
                         <p>
-                            We help businesses and opinion leaders to create
-                            deep and meaningful communication with their clients
-                            and communities.
+                            {{ t('text2') }}
                         </p>
                     </div>
                 </div>
@@ -37,8 +34,9 @@ import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
 import { useMedia } from '@/composables/useMedia'
+import { useI18n } from 'vue-i18n'
 
-const { isTablet } = useMedia()
+const { isMobile } = useMedia()
 
 
 const heading = ref<HTMLElement>()
@@ -48,59 +46,74 @@ const scene = ref<HTMLElement>()
 
 const { enter, leave, hide } = useAnimation()
 
+const { t } = useI18n({
+    messages: {
+        en: {
+            heading: 'Metaverses create <span>a magical</span> future',
+            text1: 'And we contribute to the new era of social media communications of Web 3.0',
+            text2: 'We help businesses and opinion leaders to create deep and meaningful communication with their clients and communities.',
+        },
+        ru: {
+            heading: 'Метавселенные создают <span>магическое</span> будущее.',
+            text1: 'И мы вносим свой вклад в новую эру социальных медиакоммуникаций Web 3.0',
+            text2: 'Мы помогаем бизнесу и лидерам мнений создать глубокую и эмоциональную коммуникацию со своими клиентами и сообществами. ',
+        }
+    }
+})
+
 onMounted(() => {
-    heading.value && hide(heading.value)
-    text.value && hide(text.value)
+    if (!isMobile()) {
+        heading.value && hide(heading.value)
+        text.value && hide(text.value)
 
-    if (content.value)
-        ScrollTrigger.create({
-            trigger: content.value,
-            start: 'top center',
-            end: 'center 30%',
-            onEnter: () => {
-                heading.value && enter(heading.value)
-                text.value && enter(text.value)
-            },
-            onLeave: () => {
-                heading.value && leave(heading.value)
-                text.value && leave(text.value)
-            },
-            onEnterBack: () => {
-                heading.value && enter(heading.value)
-                text.value && enter(text.value)
-            },
-            onLeaveBack: () => {
-                heading.value && leave(heading.value)
-                text.value && leave(text.value)
-            },
-        })
+        if (content.value)
+            ScrollTrigger.create({
+                trigger: content.value,
+                start: 'top bottom',
+                end: 'center 30%',
+                onEnter: () => {
+                    heading.value && enter(heading.value)
+                    text.value && enter(text.value)
+                },
+                onLeave: () => {
+                    heading.value && leave(heading.value)
+                    text.value && leave(text.value)
+                },
+                onEnterBack: () => {
+                    heading.value && enter(heading.value)
+                    text.value && enter(text.value)
+                },
+                onLeaveBack: () => {
+                    heading.value && leave(heading.value)
+                    text.value && leave(text.value)
+                },
+            })
 
-    if (content.value)
-        ScrollTrigger.create({
-            trigger: content.value,
-            start: 'top bottom',
-            end: 'bottom top',
-        })
+        if (content.value)
+            ScrollTrigger.create({
+                trigger: content.value,
+                start: 'top bottom',
+                end: 'bottom top',
+            })
 
-   if (scene.value && !isTablet())
-        new Parallax(scene.value, {
-            scalarX: 6,
-            scalarY: 6,
-        })
+        if (scene.value)
+            new Parallax(scene.value, {
+                scalarX: 6,
+                scalarY: 6,
+            })
+    }
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .about {
     overflow: hidden;
     position: relative;
 
     &__wrap {
-        background-image: linear-gradient(
-            180deg,
-            #19082b 1.55%,
-            rgba(49, 22, 77, 0) 56.46%
-        );
+        background-image: linear-gradient(180deg,
+                #19082b 1.55%,
+                rgba(49, 22, 77, 0) 56.46%);
         background-size: cover;
         display: flex;
         align-items: center;
@@ -114,11 +127,9 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             background-position: center;
             background-image: url('@/assets/blurs/aboutBlur.png'),
-                linear-gradient(
-                    180deg,
+                linear-gradient(180deg,
                     #19082b 1.55%,
-                    rgba(49, 22, 77, 0) 56.46%
-                );
+                    rgba(49, 22, 77, 0) 56.46%);
         }
     }
 
@@ -197,11 +208,9 @@ onMounted(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 98.37%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 98.37%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -217,28 +226,6 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             width: 100%;
         }
-    }
-}
-
-@keyframes rotate {
-    0% {
-        transform: translateZ(0) rotate( 0deg);
-    }
-
-    25% {
-        transform: translateZ(0) rotate( 90deg);
-    }
-
-    50% {
-        transform: translateZ(0) rotate( 180deg);
-    }
-
-    75% {
-        transform: translateZ(0) rotate( 270deg);
-    }
-
-    100% {
-        transform: translateZ(0) rotate( 360deg);
     }
 }
 </style>

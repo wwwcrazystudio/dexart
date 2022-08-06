@@ -4,8 +4,8 @@
             <li class="lang-switch__item">
                 <button
                     class="lang-switch__link"
-                    :class="lang === 'en' && 'lang-switch__link--active'"
-                    @click="lang = 'en'"
+                    :class="$i18n.locale === 'en' && 'lang-switch__link--active'"
+                    @click="$i18n.locale = 'en'"
                 >
                     En
                 </button>
@@ -14,8 +14,8 @@
             <li class="lang-switch__item">
                 <button
                     class="lang-switch__link"
-                    :class="lang === 'ru' && 'lang-switch__link--active'"
-                    @click="lang = 'ru'"
+                    :class="$i18n.locale === 'ru' && 'lang-switch__link--active'"
+                    @click="$i18n.locale = 'ru'"
                 >
                     Ru
                 </button>

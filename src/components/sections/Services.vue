@@ -2,18 +2,12 @@
     <section class="services" ref="section">
         <div class="services__wrap">
             <div class="services__content" ref="content">
-                <h2 class="services__heading" ref="heading">
-                    What you can <span>do in DEXART:</span>
+                <h2 class="services__heading" ref="heading" v-html="t('heading')">
                 </h2>
-
                 <div class="services__carousel" ref="carousel">
                     <ul class="services__list">
-                        <li
-                            class="services__service-item service-item"
-                            v-for="item in services"
-                            :key="item.title"
-                            ref="items"
-                        >
+                        <li class="services__service-item service-item" v-for="item in services" :key="item.img"
+                            ref="items">
                             <div class="service-item__wrap">
                                 <div class="service-item__img">
                                     <img :src="item.img" alt="" />
@@ -34,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { useMedia } from '@/composables/useMedia'
 import { gsap } from 'gsap'
@@ -45,43 +39,22 @@ import service3 from '@/assets/services/service3.svg'
 import service4 from '@/assets/services/service4.svg'
 import service5 from '@/assets/services/service5.svg'
 import service6 from '@/assets/services/service6.svg'
+import { useI18n } from 'vue-i18n'
 
 gsap.config({
     force3D: true,
 })
 
-const services = [
-    {
-        img: service1,
-        title: 'Present your product or service',
-        text: 'Your virtual demonstration can reach an unlimited number of viewers who will devote all their attention to your product or service',
-    },
-    {
-        img: service2,
-        title: 'Build audience loyalty',
-        text: 'Take your business to a metalevel and make an emotional impact: run virtual working spaces, create gamification and quests for your audience, enjoy free communication between avatars and leverage the metaworking',
-    },
-    {
-        img: service3,
-        title: 'Create gamified educational experiences',
-        text: 'Give users an opportunity to learn through play: create interactive and immersive content, rewards participants for achievements and progress',
-    },
-    {
-        img: service4,
-        title: 'Meet your audience',
-        text: 'Run immersive virtual events for your clients and followers wherever they reside. VR and 3D tools will help you build engaging interactions',
-    },
-    {
-        img: service5,
-        title: 'Leverage metaworking',
-        text: 'Meet new people and build real connections in the virtual world',
-    },
-    {
-        img: service6,
-        title: 'Express yourself and show your creativity',
-        text: 'Show your talent and monetize your art',
-    },
-]
+const { t, locale } = useI18n({
+    messages: {
+        en: {
+            heading: 'What you can <span>do in DEXART:</span>',
+        },
+        ru: {
+            heading: 'Что можно делать <span>в DEXART?</span>',
+        }
+    }
+})
 
 const carousel = ref<HTMLElement>()
 const heading = ref<HTMLElement>()
@@ -90,104 +63,192 @@ const items = ref<HTMLElement[]>()
 const content = ref<HTMLElement>()
 
 const { enter, leave, hide } = useAnimation()
-const { isTablet } = useMedia()
+const { isMobile, isTablet } = useMedia()
+
+const services = computed(() => {
+
+    if (locale.value === 'ru')
+        return [
+            {
+                img: service1,
+                title: 'Презентуйте свой продукт или услуги',
+                text: 'Вашу демонстрацию в виртуальном мире может посмотреть неограниченное количество человек. При этом внимание зрителя будет всецело с вами и вашим продуктом!',
+            },
+            {
+                img: service2,
+                title: 'Повысьте лояльность аудитории',
+                text: 'Выводите свой бизнес на метауровень и создавайте впечатления: виртуальное рабочее пространство, геймификация и квесты для аудитории, свободная коммуникация аватаров и метаворкинг',
+            },
+            {
+                img: service3,
+                title: 'Создавайте образовательные проекты в игровом формате',
+                text: 'Дайте возможность пользователям получать образование в новом формате: высокая интерактивность, глубокое погружение в контент, геймификация и награды за достижения',
+            },
+            {
+                img: service4,
+                title: 'Проводите встречи со своей аудиторией',
+                text: 'Иммерсивные виртуальные мероприятия для вашей аудитории, где бы они ни находились.VR и 3D инструменты для взаимодействия',
+            },
+            {
+                img: service5,
+                title: 'Используйте возможности метаворкинга',
+                text: 'Знакомьтесь с новыми людьми и создавайте деловые связи, находясь в виртуальном мире',
+            },
+            {
+                img: service6,
+                title: 'Самовыражайтесь и творите',
+                text: 'Проявляйте свои таланты в виртуальном мире и монетизируйте творчество',
+            },
+        ]
+
+    return [
+        {
+            img: service1,
+            title: 'Present your product or service',
+            text: 'Your virtual demonstration can reach an unlimited number of viewers who will devote all their attention to your product or service',
+        },
+        {
+            img: service2,
+            title: 'Build audience loyalty',
+            text: 'Take your business to a metalevel and make an emotional impact: run virtual working spaces, create gamification and quests for your audience, enjoy free communication between avatars and leverage the metaworking',
+        },
+        {
+            img: service3,
+            title: 'Create gamified educational experiences',
+            text: 'Give users an opportunity to learn through play: create interactive and immersive content, rewards participants for achievements and progress',
+        },
+        {
+            img: service4,
+            title: 'Meet your audience',
+            text: 'Run immersive virtual events for your clients and followers wherever they reside. VR and 3D tools will help you build engaging interactions',
+        },
+        {
+            img: service5,
+            title: 'Leverage metaworking',
+            text: 'Meet new people and build real connections in the virtual world',
+        },
+        {
+            img: service6,
+            title: 'Express yourself and show your creativity',
+            text: 'Show your talent and monetize your art',
+        },
+    ]
+
+})
 
 onMounted(() => {
-    heading.value && hide(heading.value)
-    carousel.value && hide(carousel.value)
+    if (!isMobile()) {
+        heading.value && hide(heading.value)
+        carousel.value && hide(carousel.value)
 
-    if (content.value)
-        ScrollTrigger.create({
-            trigger: content.value,
-            start: 'top 65%',
-            end: 'bottom center',
-            onEnter: () => {
-                heading.value && enter(heading.value)
-                carousel.value && enter(carousel.value)
-            },
-            onLeave: () => {
-                heading.value &&
-                    leave(heading.value, 0, {
-                        opacity: 0,
-                        duration: 1,
-                    })
-                carousel.value &&
-                    leave(carousel.value, 0, {
-                        opacity: 0,
-                        duration: 1,
-                    })
-            },
-            onEnterBack: () => {
-                heading.value && enter(heading.value)
-                carousel.value && enter(carousel.value)
-            },
-            onLeaveBack: () => {
-                heading.value &&
-                    leave(heading.value, 0, {
-                        opacity: 0,
-                        duration: 1,
-                    })
-                carousel.value &&
-                    leave(carousel.value, 0, {
-                        opacity: 0,
-                        duration: 1,
-                    })
-            },
-        })
+        if (content.value)
+            ScrollTrigger.create({
+                trigger: content.value,
+                start: 'top bottom',
+                end: 'bottom top',
+                onEnter: () => {
+                    heading.value && enter(heading.value)
+                    carousel.value && enter(carousel.value)
+                },
+                onLeave: () => {
+                    heading.value &&
+                        leave(heading.value, 0, {
+                            opacity: 0,
+                            duration: 1,
+                        })
+                    carousel.value &&
+                        leave(carousel.value, 0, {
+                            opacity: 0,
+                            duration: 1,
+                        })
+                },
+                onEnterBack: () => {
+                    heading.value && enter(heading.value)
+                    carousel.value && enter(carousel.value)
+                },
+                onLeaveBack: () => {
+                    heading.value &&
+                        leave(heading.value, 0, {
+                            opacity: 0,
+                            duration: 1,
+                        })
+                    carousel.value &&
+                        leave(carousel.value, 0, {
+                            opacity: 0,
+                            duration: 1,
+                        })
+                },
+            })
 
-    if (section.value && !isTablet())
-        ScrollTrigger.create({
-            trigger: section.value,
-            start: 'top 50px',
-            end: 'bottom center',
-            pin: heading.value,
-        })
+        if (section.value && !isTablet())
+            ScrollTrigger.create({
+                trigger: section.value,
+                start: 'top 50px',
+                end: 'bottom 80%',
+                pin: heading.value,
+            })
 
-    items.value?.forEach((element) => {
-        ScrollTrigger.create({
-            trigger: element,
-            start: 'top +=90%',
-            end: 'top +=150px',
-            onEnter: () => {
-                gsap.to(element, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.5,
-                })
-            },
-            onEnterBack: () => {
-                gsap.to(element, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.5,
-                })
-            },
-            onLeave: () => {
-                gsap.to(element, {
-                    opacity: 0,
-                    scale: 1,
-                    duration: 0.5,
-                })
-            },
-            onLeaveBack: () => {
-                gsap.to(element, {
-                    opacity: 0,
-                    scale: 0.65,
-                    duration: 0.5,
-                })
-            },
+        items.value?.forEach((element) => {
+            ScrollTrigger.create({
+                trigger: element,
+                start: 'top +=90%',
+                end: 'top +=150px',
+                onEnter: () => {
+                    gsap.to(element, {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.5,
+                    })
+                },
+                onEnterBack: () => {
+                    gsap.to(element, {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.5,
+                    })
+                },
+                onLeave: () => {
+                    gsap.to(element, {
+                        opacity: 0,
+                        scale: 1,
+                        duration: 0.5,
+                    })
+                },
+                onLeaveBack: () => {
+                    gsap.to(element, {
+                        opacity: 0,
+                        scale: 0.65,
+                        duration: 0.5,
+                    })
+                },
+            })
         })
-    })
+    }
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .services {
     &__wrap {
         min-height: 100vh;
         padding-top: rem(130px);
         padding-bottom: rem(130px);
         background-image: linear-gradient(0deg, #1c0b2b 20%, transparent 60%);
+        position: relative;
+
+
+        &::after {
+            content: '';
+            background-image: url('@/assets/blurs/servicesBlur.png');
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            background-size: contain;
+            top: 20px;
+            left: 20%;
+            background-repeat: no-repeat;
+        }
+
 
         @include media-breakpoint-down(lg) {
             min-height: 60vh;
@@ -195,6 +256,10 @@ onMounted(() => {
 
         @include media-breakpoint-down(md) {
             padding-top: rem(100px);
+        }
+
+        @include media-breakpoint-down(sm) {
+            padding: rem(40px 0);
         }
     }
 
@@ -220,18 +285,6 @@ onMounted(() => {
         max-width: 470px;
         position: relative;
 
-        &::after {
-            content: '';
-            background-image: url('@/assets/blurs/servicesBlur.png');
-            width: 600px;
-            height: 600px;
-            position: absolute;
-            background-size: contain;
-            top: -10px;
-            left: 90%;
-            background-repeat: no-repeat;
-        }
-
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
             margin-bottom: rem(40px);
@@ -241,11 +294,9 @@ onMounted(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 98.37%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 98.37%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -281,7 +332,7 @@ onMounted(() => {
         height: calc(50vh - 32px);
 
         @include media-breakpoint-down(lg) {
-            height: calc(25vh - 32px);
+            height: calc(45vh - 32px);
         }
 
         @include media-breakpoint-down(md) {
@@ -292,6 +343,11 @@ onMounted(() => {
         &:nth-of-type(n + 3) {
             opacity: 0;
             transform: scale3d(0.65, 0.65, 0.65);
+
+            @include media-breakpoint-down(sm) {
+                opacity: 1;
+                transform: none;
+            }
         }
     }
 }

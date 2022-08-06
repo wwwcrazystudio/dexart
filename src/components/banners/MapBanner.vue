@@ -2,30 +2,23 @@
     <div class="map-banner" ref="banner">
         <div class="map-banner__wrap">
             <div class="map-banner__scene" ref="scene">
-                <div
-                    class="map-banner__star map-banner__star--1"
-                    data-depth="0.2"
-                >
+                <div class="map-banner__star map-banner__star--1" data-depth="0.2">
                     <img src="@/assets/icons/star.svg" alt="" ref="star1" />
                 </div>
-                <div
-                    class="map-banner__star map-banner__star--2"
-                    data-depth="0.2"
-                >
+                <div class="map-banner__star map-banner__star--2" data-depth="0.2">
                     <img src="@/assets/icons/star.svg" ref="star2" />
                 </div>
             </div>
-            <div class="map-banner__heading">
-                Find a place <span>for your business</span> in DEXART
+            <div class="map-banner__heading" v-html="t('heading')">
+
             </div>
 
             <div class="map-banner__content">
                 <div class="map-banner__text">
-                    Take a look at the interactive map and buy you first virtual
-                    real estate
+                    {{ t('text') }}
                 </div>
 
-                <button class="map-banner__btn">See the map</button>
+                <a rel="nofollow" target="_blank" href="https://map.dex.art/" class="map-banner__btn">{{ t('btn') }}</a>
             </div>
         </div>
     </div>
@@ -38,12 +31,13 @@ import { onMounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import Parallax from 'parallax-js'
 import { useMedia } from '@/composables/useMedia'
+import { useI18n } from 'vue-i18n'
 
 gsap.config({
     force3D: true,
 })
 
-const { isTablet } = useMedia()
+const { isMobile } = useMedia()
 
 const { hide } = useAnimation()
 
@@ -52,92 +46,109 @@ const star2 = ref<HTMLElement>()
 const banner = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
 
+const { t } = useI18n({
+    messages: {
+        en: {
+            heading: 'Find a place <span>for your business</span> in DEXART',
+            text: 'Take a look at the interactive map and buy you first virtual real estate',
+            btn: 'See the map',
+        },
+        ru: {
+            heading: 'Найдите место <span>для своего бизнеса</span> в DEXART.',
+            text: 'Исследуйте интерактивную карту мира, чтобы выбрать идеальное расположение своей виртуальной недвижимости',
+            btn: 'Смотреть карту',
+        }
+    }
+})
+
 onMounted(() => {
-    star1.value && hide(star1.value)
-    star2.value && hide(star2.value)
+    if (!isMobile()) {
+        star1.value && hide(star1.value)
+        star2.value && hide(star2.value)
 
-    if (scene.value && !isTablet())
-        new Parallax(scene.value, {
-            scalarX: 6,
-            scalarY: 6,
-        })
+        if (scene.value)
+            new Parallax(scene.value, {
+                scalarX: 6,
+                scalarY: 6,
+            })
 
-    const showStars = () => {
-        star1.value &&
-            gsap.fromTo(
-                star1.value,
-                {
+        const showStars = () => {
+            star1.value &&
+                gsap.fromTo(
+                    star1.value,
+                    {
+                        translateX: 40,
+                        translateY: 60,
+                        rotate: 10,
+                        duration: 1,
+                        opacity: 0,
+                    },
+                    {
+                        translateX: 0,
+                        translateY: 0,
+                        rotate: 0,
+                        duration: 1,
+                        opacity: 1,
+                        delay: 0.5,
+                    }
+                )
+
+            star2.value &&
+                gsap.fromTo(
+                    star2.value,
+                    {
+                        translateX: -20,
+                        translateY: 80,
+                        rotate: -15,
+                        duration: 1,
+                        opacity: 0,
+                    },
+                    {
+                        translateX: 0,
+                        translateY: 0,
+                        rotate: 18,
+                        duration: 1,
+                        opacity: 1,
+                        delay: 0.5,
+                    }
+                )
+        }
+
+        const hideStars = () => {
+            star1.value &&
+                gsap.to(star1.value, {
                     translateX: 40,
                     translateY: 60,
                     rotate: 10,
                     duration: 1,
                     opacity: 0,
-                },
-                {
-                    translateX: 0,
-                    translateY: 0,
-                    rotate: 0,
-                    duration: 1,
-                    opacity: 1,
-                    delay: 0.5,
-                }
-            )
+                })
 
-        star2.value &&
-            gsap.fromTo(
-                star2.value,
-                {
+            star2.value &&
+                gsap.to(star2.value, {
                     translateX: -20,
                     translateY: 80,
                     rotate: -15,
                     duration: 1,
                     opacity: 0,
-                },
-                {
-                    translateX: 0,
-                    translateY: 0,
-                    rotate: 18,
-                    duration: 1,
-                    opacity: 1,
-                    delay: 0.5,
-                }
-            )
-    }
+                })
+        }
 
-    const hideStars = () => {
-        star1.value &&
-            gsap.to(star1.value, {
-                translateX: 40,
-                translateY: 60,
-                rotate: 10,
-                duration: 1,
-                opacity: 0,
-            })
-
-        star2.value &&
-            gsap.to(star2.value, {
-                translateX: -20,
-                translateY: 80,
-                rotate: -15,
-                duration: 1,
-                opacity: 0,
+        if (banner.value)
+            ScrollTrigger.create({
+                trigger: banner.value,
+                start: 'top bottom',
+                end: 'top top',
+                onEnter: () => showStars(),
+                onEnterBack: () => showStars(),
+                onLeave: () => hideStars(),
+                onLeaveBack: () => hideStars(),
             })
     }
-
-    if (banner.value)
-        ScrollTrigger.create({
-            trigger: banner.value,
-            start: 'top center',
-            end: 'top top',
-            onEnter: () => showStars(),
-            onEnterBack: () => showStars(),
-            onLeave: () => hideStars(),
-            onLeaveBack: () => hideStars(),
-        })
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .map-banner {
     &__wrap {
         background: #6a1dac;
@@ -220,7 +231,7 @@ onMounted(() => {
 
     &__content {
         max-width: 470px;
-        width: 60%;
+        width: 70%;
 
         @include media-breakpoint-down(md) {
             width: 100%;
@@ -231,7 +242,8 @@ onMounted(() => {
         @include h2;
 
         color: #fff;
-        max-width: 470px;
+        max-width: 440px;
+        font-size: rem(42px);
 
         @include media-breakpoint-down(md) {
             font-size: rem(38px);
@@ -242,11 +254,9 @@ onMounted(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 98.37%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 98.37%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -255,6 +265,8 @@ onMounted(() => {
     &__text {
         @include p_type_1;
 
+        font-size: rem(26px);
+
         color: #faf5ff;
     }
 
@@ -262,6 +274,7 @@ onMounted(() => {
         @extend %btn-accent;
 
         margin-top: rem(48px);
+        width: fit-content;
 
         @include media-breakpoint-down(sm) {
             margin-top: rem(64px);

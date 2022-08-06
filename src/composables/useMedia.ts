@@ -7,5 +7,9 @@ export const useMedia = () => {
         return window.matchMedia('(max-width: 767.98px)').matches
     }
 
-    return { isMobile, isTablet }
+    const isLargeTablet = () => {
+        return window.matchMedia('(max-width: 991.98px)').matches
+    }
+
+    return { isMobile, isTablet, isLargeTablet }
 }

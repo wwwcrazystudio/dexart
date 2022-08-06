@@ -2,13 +2,7 @@
     <div class="socials">
         <ul class="socials__list">
             <li class="socials__item" v-for="item in socials" :key="item.label">
-                <a
-                    :href="item.url"
-                    target="_blank"
-                    rel="nofollow"
-                    class="socials__link"
-                    v-html="item.icon"
-                >
+                <a :href="item.url" target="_blank" rel="nofollow" class="socials__link" v-html="item.icon">
                 </a>
             </li>
         </ul>
@@ -22,39 +16,81 @@ import youtube from '@/assets/icons/youtube.svg?raw'
 import tg from '@/assets/icons/tg.svg?raw'
 import medium from '@/assets/icons/medium.svg?raw'
 import reddit from '@/assets/icons/reddit.svg?raw'
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 
-const socials = [
-    {
-        icon: inst,
-        label: 'Instagram',
-        url: '',
-    },
-    {
-        icon: twitter,
-        label: 'Twitter',
-        url: '',
-    },
-    {
-        icon: youtube,
-        label: 'Youtube',
-        url: '',
-    },
-    {
-        icon: tg,
-        label: 'Telegram',
-        url: '',
-    },
-    {
-        icon: medium,
-        label: 'Medium',
-        url: '',
-    },
-    {
-        icon: reddit,
-        label: 'Reddit',
-        url: '',
-    },
-]
+const { locale } = useI18n()
+
+
+const socials = computed(() => {
+    if (locale.value === 'ru') {
+        return [
+            {
+                icon: inst,
+                label: 'Instagram',
+                url: 'https://instagram.com/dexartmetaverse',
+            },
+            {
+                icon: twitter,
+                label: 'Twitter',
+                url: 'https://twitter.com/dexartmetaverse',
+            },
+            {
+                icon: youtube,
+                label: 'Youtube',
+                url: 'https://www.youtube.com/channel/UC13PPy2YX2d6rIbjkdveP7g/',
+            },
+            {
+                icon: tg,
+                label: 'Telegram',
+                url: 'https://t.me/dexartchannelru',
+            },
+            {
+                icon: medium,
+                label: 'Medium',
+                url: 'https://medium.com/@dexartmetaverse',
+            },
+            {
+                icon: reddit,
+                label: 'Reddit',
+                url: 'https://www.reddit.com/r/dexart/',
+            },
+        ]
+    }
+
+    return [
+        {
+            icon: inst,
+            label: 'Instagram',
+            url: 'https://instagram.com/dexartmetaverse',
+        },
+        {
+            icon: twitter,
+            label: 'Twitter',
+            url: 'https://twitter.com/dexartmetaverse',
+        },
+        {
+            icon: youtube,
+            label: 'Youtube',
+            url: 'https://www.youtube.com/channel/UC13PPy2YX2d6rIbjkdveP7g/',
+        },
+        {
+            icon: tg,
+            label: 'Telegram',
+            url: 'https://t.me/dexartchannel',
+        },
+        {
+            icon: medium,
+            label: 'Medium',
+            url: 'https://medium.com/@dexartmetaverse',
+        },
+        {
+            icon: reddit,
+            label: 'Reddit',
+            url: 'https://www.reddit.com/r/dexart/',
+        },
+    ]
+})
 </script>
 
 <style scoped lang="scss">

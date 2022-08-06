@@ -1,27 +1,38 @@
 <template>
     <div class="subscription-form">
-        <div class="subscription-form__heading">Follow DEXART</div>
+        <div class="subscription-form__heading">{{ t('heading') }}</div>
         <div class="subscription-form__subheading">
-            Subscribe to the newsletter of the most important news
+            {{ t('text') }}
         </div>
 
         <form class="subscription-form__form">
-            <Input
-                class="subscription-form__input"
-                type="email"
-                label="Email"
-                v-model:value="email"
-            />
-            <button class="subscription-form__btn">Sign Up</button>
+            <Input class="subscription-form__input" type="email" label="Email" v-model:value="email" />
+            <button class="subscription-form__btn">{{ t('btn') }}</button>
         </form>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n';
 import Input from './form/Input.vue'
 
 const email = ref<string>('')
+
+const { t, locale } = useI18n({
+    messages: {
+        en: {
+            heading: 'Follow DEXART',
+            text: 'Subscribe to the newsletter of the most important news',
+            btn: 'Sign Up',
+        },
+        ru: {
+            heading: 'Следите DEXART',
+            text: 'Подпишитесь на рассылку самых важных новостей',
+            btn: 'Подписаться',
+        }
+    }
+})
 </script>
 
 <style scoped lang="scss">
@@ -56,6 +67,7 @@ const email = ref<string>('')
 
     &__input {
         flex-grow: 1;
+
         &:deep(.input__control) {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;

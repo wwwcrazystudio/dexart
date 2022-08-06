@@ -46,3 +46,67 @@ a {
 .container {
     padding: rem(0 32px);
 }
+
+@keyframes rotate {
+    0% {
+        transform: translateZ(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateZ(0) rotate(90deg);
+    }
+
+    50% {
+        transform: translateZ(0) rotate(180deg);
+    }
+
+    75% {
+        transform: translateZ(0) rotate(270deg);
+    }
+
+    100% {
+        transform: translateZ(0) rotate(360deg);
+    }
+}
+
+@keyframes pulsate {
+    from {
+        opacity: 0.5;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulsateScale {
+    from {
+        transform: scale3d(0.95, 0.95, 0.95);
+    }
+
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate3d(-100px, 100px, 0) rotate(45deg);
+    }
+
+    50% {
+        transform: translate3d(-50px, 200px, 0) rotate(90deg);
+    }
+
+    75% {
+        transform: translate3d(20px, 90px, 0) rotate(175deg);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+}

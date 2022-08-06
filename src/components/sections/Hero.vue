@@ -1,33 +1,24 @@
 <template>
-    <section class="hero">
+    <section class="hero" id="top">
         <div class="hero__wrap">
             <picture class="hero__bg">
                 <img src="@/assets/bg/hero.jpg" alt="" />
                 <source srcset="@/assets/bg/hero.webp" type="image/webp" />
             </picture>
             <div class="container">
-                <h1 class="hero__heading" ref="heading">
-                    Welcome <span>to DEXART</span>
+                <h1 class="hero__heading" ref="heading" v-html="t('heading')">
+
                 </h1>
                 <div class="hero__text" ref="text">
-                    A Virtual World with endless opportunities for people and
-                    businesses
+                    {{ t('text') }}
                 </div>
             </div>
 
             <div ref="parallaxScene" class="hero__scene">
-                <img
-                    data-depth="1"
-                    class="hero__mountain"
-                    src="@/assets/elements/mountain.svg"
-                    alt=""
-                />
-                <img
-                    data-depth="0.8"
-                    class="hero__star"
-                    ref="star"
-                    src="@/assets/bg/heroStar.svg"
-                />
+                <img data-depth="1" class="hero__mountain" src="@/assets/elements/mountain.svg" alt="" />
+                <div data-depth="0.8" class="hero__star">
+                    <img ref="star" src="@/assets/bg/heroStar.svg" />
+                </div>
                 <div data-depth="0.5" class="hero__stones">
                     <img src="@/assets/bg/heroStones.svg" alt="" />
                 </div>
@@ -42,8 +33,10 @@ import Parallax from 'parallax-js'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useMedia } from '@/composables/useMedia'
+import { useI18n } from 'vue-i18n'
+import gsap from 'gsap'
 
-const { isTablet } = useMedia()
+const { isMobile } = useMedia()
 
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
@@ -52,36 +45,59 @@ const parallaxScene = ref<HTMLElement>()
 
 const { enter, leave } = useAnimation()
 
-onMounted(() => {
-    if (heading.value) {
-        heading.value && enter(heading.value)
-        text.value && enter(text.value, 0.4)
+const { t } = useI18n({
+    messages: {
+        en: {
+            heading: 'Welcome <span>to DEXART</span>',
+            text: 'A virtual world with endless opportunities for people and businesses.',
+        },
+        ru: {
+            heading: 'Добро пожаловать <span>в DEXART</span>',
+            text: 'Портал в виртуальный мир с неограниченными возможностями для людей и бизнеса.',
+        }
+    }
+})
 
-        ScrollTrigger.create({
-            trigger: heading.value,
-            start: '-=100px',
-            end: 'bottom center',
-            onLeave: () => {
-                heading.value && leave(heading.value)
-                text.value && leave(text.value)
-            },
-            onEnterBack: () => {
-                heading.value && enter(heading.value)
-                text.value && enter(text.value)
-            },
-        })
+onMounted(() => {
+
+    heading.value && enter(heading.value)
+    text.value && enter(text.value, 0.4)
+    star.value && gsap.to(star.value, {
+        opacity: 1,
+        duration: 1,
+        delay: 0.5,
+    })
+
+    if (!isMobile()) {
+        if (heading.value) {
+            ScrollTrigger.create({
+                trigger: heading.value,
+                start: '-=100px',
+                end: 'bottom center',
+                onLeave: () => {
+                    heading.value && leave(heading.value)
+                    text.value && leave(text.value)
+                },
+                onEnterBack: () => {
+                    heading.value && enter(heading.value)
+                    text.value && enter(text.value)
+                },
+            })
+        }
+
+        if (parallaxScene.value) {
+            new Parallax(parallaxScene.value, {
+                scalarX: 7,
+                scalarY: 4,
+                frictionX: 0.075,
+            })
+        }
     }
 
-    if (parallaxScene.value && !isTablet())
-        new Parallax(parallaxScene.value, {
-            scalarX: 7,
-            scalarY: 4,
-            frictionX: 0.075,
-        })
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .hero {
     @include noise;
     position: relative;
@@ -93,12 +109,10 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background: radial-gradient(
-            105.46% 242.16% at 104.05% -9.76%,
-            #241830 0%,
-            #3a1463 34.72%,
-            #0c0316 67.57%
-        );
+        background: radial-gradient(105.46% 242.16% at 104.05% -9.76%,
+                #241830 0%,
+                #3a1463 34.72%,
+                #0c0316 67.57%);
         z-index: 10;
         overflow: hidden;
 
@@ -138,12 +152,10 @@ onMounted(() => {
         span {
             display: block;
             width: fit-content;
-            background: -webkit-linear-gradient(
-                0deg,
-                #bf81ff 1.88%,
-                #d17558 51.37%,
-                #f84fe7 97.86%
-            );
+            background: -webkit-linear-gradient(0deg,
+                    #bf81ff 1.88%,
+                    #d17558 51.37%,
+                    #f84fe7 97.86%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -170,7 +182,7 @@ onMounted(() => {
         left: 0;
         top: 0;
 
-        z-index: 10;
+        z-index: 9;
 
         @include media-breakpoint-down(md) {
             width: 200%;
@@ -185,44 +197,79 @@ onMounted(() => {
 
     &__star {
         position: absolute;
-        right: 21%;
         top: unset !important;
-        left: unset !important;
+        left: 1360px !important;
         bottom: calc(37% + 50px);
         /*  filter: drop-shadow(0px 0px 20px #752cc5)
             drop-shadow(0px 0px 60px #752cc5); */
         transform: translateZ(0);
         animation: pulsate 2s linear infinite alternate-reverse;
         z-index: 15;
-        width: 8vw;
+
+
+        img {
+            width: 8vw;
+            opacity: 0;
+        }
+
+
+        @include media-breakpoint-down(xxl) {
+            left: 1000px !important;
+            bottom: calc(33% + 50px);
+        }
+
+
+        @include media-breakpoint-down(xl) {
+            left: 800px !important;
+        }
+
 
         @include media-breakpoint-down(lg) {
-            width: 100px;
-            top: unset;
-            bottom: 220px;
-            right: 40px;
+            left: unset !important;
+            right: 18%;
+            bottom: calc(27% + 50px);
+
+            img {
+                width: 100px;
+            }
         }
+
+        @include media-breakpoint-down(sm) {
+            bottom: calc(20% + 50px);
+
+            img {
+                width: 100px;
+            }
+        }
+
     }
 
     &__mountain {
         position: absolute !important;
-        left: -100px !important;
+        left: -150px !important;
         right: 0;
         bottom: 0;
         z-index: 11;
         margin-top: auto;
         width: 200%;
-        max-height: 40vh;
+        height: 360px;
+        max-height: 50vh;
         object-position: left bottom;
         object-fit: contain;
 
         @include media-breakpoint-down(xxl) {
-            max-height: 35vh;
+            height: 300px;
             left: -250px !important;
         }
 
+
+        @include media-breakpoint-down(xl) {
+            left: -450px !important;
+        }
+
         @include media-breakpoint-down(lg) {
-            max-height: 16vh;
+            max-height: 30vh;
+            height: auto;
         }
 
         @include media-breakpoint-down(sm) {
@@ -241,12 +288,10 @@ onMounted(() => {
 
         &::after {
             content: '';
-            background: linear-gradient(
-                0deg,
-                #19082b 13.19%,
-                rgba(49, 22, 77, 0.5) 50%,
-                rgba(49, 22, 77, 0) 100%
-            );
+            background: linear-gradient(0deg,
+                    #19082b 13.19%,
+                    rgba(49, 22, 77, 0.5) 50%,
+                    rgba(49, 22, 77, 0) 100%);
             height: 20%;
             width: 100%;
             position: absolute;
@@ -258,38 +303,6 @@ onMounted(() => {
                 height: 25%;
             }
         }
-    }
-}
-
-@keyframes rotate {
-    0% {
-        transform: translateZ(0) rotate( 0deg);
-    }
-
-    25% {
-        transform: translateZ(0) rotate( 90deg);
-    }
-
-    50% {
-        transform: translateZ(0) rotate( 180deg);
-    }
-
-    75% {
-        transform: translateZ(0) rotate( 270deg);
-    }
-
-    100% {
-        transform: translateZ(0) rotate( 360deg);
-    }
-}
-
-@keyframes pulsate {
-    from {
-        opacity: 0.7;
-    }
-
-    to {
-        opacity: 1;
     }
 }
 </style>
