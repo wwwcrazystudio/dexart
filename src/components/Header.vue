@@ -34,7 +34,7 @@
                 <nav class="header__header-menu" v-show="isLargeTablet() ? showMenu : true">
                     <ul class="header-menu__list">
                         <li class="header-menu__item" v-for="link in links" :key="link.label">
-                            <a :href="link.url" class="header-menu__link">
+                            <a :href="link.url" @click.passive="handleMenuClick" class="header-menu__link">
                                 {{ link.label }}
                             </a>
                         </li>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import FollowUs from './FollowUs.vue'
 import LangSwitch from './LangSwitch.vue'
 import Socials from './Socials.vue'
@@ -136,6 +136,16 @@ const scrollHandler = () => {
     }
 
     scrolled.value = false
+}
+
+const handleMenuClick = (e: Event) => {
+    const el = e.target as HTMLLinkElement
+
+    if (isLargeTablet()) {
+        e.preventDefault()
+        showMenu.value = false
+        window.location.href = el.href
+    }
 }
 </script>
 
