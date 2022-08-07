@@ -4,9 +4,11 @@ import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import { useMedia } from '@/composables/useMedia'
 import { loadFull } from 'tsparticles'
-
+import { useI18n } from 'vue-i18n'
+import { onMounted, watch } from 'vue'
 
 const { isMobile } = useMedia()
+const { locale } = useI18n()
 
 const particlesInit = async (engine: any) => {
     await loadFull(engine)
@@ -52,6 +54,24 @@ const options = {
     },
     detectRetina: true,
 }
+
+watch(() => locale.value, () => {
+    localStorage.setItem('lang', locale.value)
+})
+
+onMounted(() => {
+    const langInStorage = localStorage.getItem('lang')
+    const browserLang = navigator.language.split('-')[0]
+
+    if (langInStorage) {
+        locale.value = langInStorage
+        return
+    }
+
+    locale.value = browserLang
+
+
+})
 
 </script>
 
