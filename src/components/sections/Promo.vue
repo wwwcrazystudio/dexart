@@ -221,6 +221,11 @@ const videoSrc = computed(() => {
             height: 112px;
         }
 
+        @media (max-width: 500px) {
+            width: 124px;
+            height: 124px;
+        }
+
         &::before {
             content: '';
             width: 120%;

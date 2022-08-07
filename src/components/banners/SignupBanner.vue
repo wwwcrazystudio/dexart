@@ -132,6 +132,10 @@ onMounted(() => {
                 right: 0px !important;
                 top: -30px !important;
             }
+
+            @include media-breakpoint-down(sm) {
+                top: -60px !important;
+            }
         }
 
         &--2 {
@@ -176,6 +180,10 @@ onMounted(() => {
             margin-bottom: rem(16px);
         }
 
+        @media (max-width: 500px) {
+            font-size: rem(26px);
+        }
+
         span {
             display: block;
             width: fit-content;
@@ -202,6 +210,10 @@ onMounted(() => {
         @include media-breakpoint-down(sm) {
             margin-top: rem(64px);
             width: 80%;
+        }
+
+        @media (max-width: '500px') {
+            width: 100%;
         }
     }
 }

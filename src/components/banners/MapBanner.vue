@@ -251,6 +251,10 @@ onMounted(() => {
             margin-bottom: rem(16px);
         }
 
+        @media (max-width: 500px) {
+            font-size: rem(26px);
+        }
+
         span {
             display: block;
             width: fit-content;

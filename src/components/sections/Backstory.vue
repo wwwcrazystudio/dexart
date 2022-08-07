@@ -76,14 +76,14 @@ const scene = ref<HTMLElement>()
 const { t } = useI18n({
     messages: {
         en: {
-            heading: 'World <span>DEXART</span>',
+            heading: 'World <span>backstory</span>',
             text1: 'When blockchain technologies started evolving in the real world, when complete decentralization became a question of time, when crypto-projects started emerging one by one a critical mass of information was formed.',
             text2: 'It became the foundation of the DEXART metaverse — it became the blockchain singularity. A compressed mass of ideas, concepts and projects that was so dense and heavy that at some point it exploded.',
             text3: 'It was the Big Flash that became the DEXART portal, opening the way to the virtual world.',
             btn: 'Learn more '
         },
         ru: {
-            heading: 'Мир <span>DEXART</span>',
+            heading: 'Легенда <span>мира</span>',
             text1: 'Когда в реальном мире начали развиваться блокчейн-технологии, когда полная децентрализация глобальной сети стала лишь вопросом времени, когда крипто-проекты стали появляться один за другим, набралась критическая масса информации, сформировавшей основу и структура мира DEXART.',
             text2: 'Это была блокчейн-сингулярность, сжатая в одну очень плотную точку, которая в конце-концов взорвалась.',
             text3: 'Эта Большая Вспышка и стала порталом в мир DEXART.',
@@ -178,6 +178,14 @@ onMounted(() => {
 
         @include media-breakpoint-down(md) {
             width: 60%;
+            height: 80%;
+            position: absolute;
+            z-index: 10;
+        }
+
+        @include media-breakpoint-down(sm) {
+            width:  100%;
+            top: 55% !important;
             height: 80%;
             position: absolute;
             z-index: 10;
