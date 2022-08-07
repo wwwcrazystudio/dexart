@@ -66,16 +66,10 @@ import Socials from './Socials.vue'
 import { useMedia } from '@/composables/useMedia'
 import { useI18n } from 'vue-i18n'
 
-export interface Props {
-    currentSection?: number
-}
-
-const props = defineProps<Props>()
-
 const showMenu = ref<boolean>(false)
 const scrolled = ref<boolean>(false)
 
-const { isMobile, isLargeTablet } = useMedia()
+const { isLargeTablet } = useMedia()
 
 onMounted(() => {
     document.addEventListener('scroll', scrollHandler)
@@ -97,7 +91,7 @@ const links = computed(() => {
         return [
             {
                 label: 'О мире',
-                url: '#backstory',
+                url: '/#backstory',
             },
             {
                 label: 'Карта участков',
@@ -109,7 +103,7 @@ const links = computed(() => {
     return [
         {
             label: 'World Backstory',
-            url: '#backstory',
+            url: '/#backstory',
         },
         {
             label: 'Map',

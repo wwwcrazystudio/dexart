@@ -27,6 +27,7 @@
     border-radius: 50px;
     color: #fff;
     position: relative;
+    text-decoration: none;
     z-index: 10;
 
     &::before {
@@ -50,6 +51,7 @@
     }
 
     &:hover {
+        color: #fff;
         &::before {
             opacity: 1;
             transition: 350ms;

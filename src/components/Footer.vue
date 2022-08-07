@@ -114,7 +114,7 @@ const menu1 = computed(() => {
         return [
             {
                 label: 'WhitePaper',
-                url: '',
+                url: '/empty',
             },
             {
                 label: 'Политика конфиденциальности',
@@ -134,7 +134,7 @@ const menu1 = computed(() => {
     return [
         {
             label: 'WhitePaper',
-            url: '',
+            url: '/empty',
         },
         {
             label: 'Privacy Policy',
@@ -164,7 +164,7 @@ const menu2 = computed(() => {
             },
             {
                 label: 'История мира',
-                url: '#backstory',
+                url: '/#backstory',
             },
             {
                 label: 'Токен',

@@ -18,42 +18,6 @@
                             <source srcset="@/assets/map.webp" type="image/webp" />
                         </picture>
                     </div>
-                    <!--    <div class="world__controls">
-                        <button
-                            class="world__control"
-                            @click="currentStep >= 1 && currentStep--"
-                        >
-                            <svg
-                                width="13"
-                                height="18"
-                                viewBox="0 0 13 18"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M1.18761 8.17781L11.4308 1.08638C12.094 0.627216 13 1.10191 13 1.90857V16.0914C13 16.8981 12.094 17.3728 11.4308 16.9136L1.18761 9.82219C0.613224 9.42454 0.613223 8.57546 1.18761 8.17781Z"
-                                    fill="#E9D4FF"
-                                />
-                            </svg>
-                        </button>
-                        <button
-                            class="world__control"
-                            @click="currentStep < 4 && currentStep++"
-                        >
-                            <svg
-                                width="13"
-                                height="18"
-                                viewBox="0 0 13 18"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M11.8124 8.17781L1.56921 1.08638C0.905979 0.627216 0 1.10191 0 1.90857V16.0914C0 16.8981 0.905977 17.3728 1.56921 16.9136L11.8124 9.82219C12.3868 9.42454 12.3868 8.57546 11.8124 8.17781Z"
-                                    fill="#E9D4FF"
-                                />
-                            </svg>
-                        </button>
-                    </div> -->
                 </div>
             </div>
         </div>
