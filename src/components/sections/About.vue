@@ -3,10 +3,10 @@
         <div class="about__wrap">
             <div class="about__scene" ref="scene">
                 <div data-depth="0.4" class="about__stone about__stone--1">
-                    <img src="@/assets/elements/stone.svg" alt="" />
+                    <img src="@/assets/elements/stone.png" />
                 </div>
                 <div data-depth="0.2" class="about__stone about__stone--2">
-                    <img src="@/assets/elements/stone2.svg" alt="" />
+                    <img src="@/assets/elements/stone2.png" />
                 </div>
             </div>
             <div class="container">

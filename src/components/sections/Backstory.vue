@@ -3,10 +3,10 @@
         <div class="backstory__wrap">
             <div class="backstory__scene" ref="scene">
                 <div data-depth="0.7" class="backstory__stone backstory__stone--1">
-                    <img src="@/assets/elements/stone.svg" alt="" />
+                    <img src="@/assets/elements/stone.png" />
                 </div>
                 <div data-depth="0.4" class="backstory__stone backstory__stone--2">
-                    <img src="@/assets/elements/stone2.svg" alt="" />
+                    <img src="@/assets/elements/stone2.png" />
                 </div>
                 <picture data-depth="0.6" class="backstory__stones backstory__stones--1">
                     <img src="@/assets/elements/slice-1.png" alt="" />
@@ -184,7 +184,7 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(sm) {
-            width:  100%;
+            width: 100%;
             top: 55% !important;
             height: 80%;
             position: absolute;

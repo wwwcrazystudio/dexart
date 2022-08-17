@@ -9,9 +9,10 @@
                         <li class="services__service-item service-item" v-for="item in services" :key="item.img"
                             ref="items">
                             <div class="service-item__wrap">
-                                <div class="service-item__img">
+                                <picture class="service-item__img">
                                     <img :src="item.img" alt="" />
-                                </div>
+                                    <source :srcset="`${item.img}.webp`" type="image/webp" />
+                                </picture>
                                 <h3 class="service-item__heading">
                                     {{ item.title }}
                                 </h3>
@@ -33,12 +34,12 @@ import { useAnimation } from '@/composables/useAnimation'
 import { useMedia } from '@/composables/useMedia'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import service1 from '@/assets/services/service1.svg'
-import service2 from '@/assets/services/service2.svg'
-import service3 from '@/assets/services/service3.svg'
-import service4 from '@/assets/services/service4.svg'
-import service5 from '@/assets/services/service5.svg'
-import service6 from '@/assets/services/service6.svg'
+import service1 from '@/assets/services/service1.png'
+import service2 from '@/assets/services/service2.png'
+import service3 from '@/assets/services/service3.png'
+import service4 from '@/assets/services/service4.png'
+import service5 from '@/assets/services/service5.png'
+import service6 from '@/assets/services/service6.png'
 import { useI18n } from 'vue-i18n'
 
 gsap.config({

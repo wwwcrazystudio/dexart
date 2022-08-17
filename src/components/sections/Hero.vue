@@ -15,13 +15,15 @@
             </div>
 
             <div ref="parallaxScene" class="hero__scene">
-                <img data-depth="1" class="hero__mountain" src="@/assets/elements/mountain.svg" alt="" />
+                <picture data-depth="1" class="hero__mountain">
+                    <img src="@/assets/elements/mountain.png" alt="" />
+                </picture>
                 <div data-depth="0.8" class="hero__star">
                     <img ref="star" src="@/assets/bg/heroStar.svg" />
                 </div>
-                <div data-depth="0.5" class="hero__stones">
-                    <img src="@/assets/bg/heroStones.svg" alt="" />
-                </div>
+                <picture data-depth="0.5" class="hero__stones">
+                    <img src="@/assets/elements/heroStones.png" alt="" />
+                </picture>
             </div>
         </div>
     </section>
@@ -251,15 +253,24 @@ onMounted(() => {
         bottom: 0;
         z-index: 11;
         margin-top: auto;
-        width: 200%;
-        height: 360px;
-        max-height: 50vh;
-        object-position: left bottom;
-        object-fit: contain;
+        display: flex !important;
+        align-items: flex-end;
+
+        img {
+            width: 200%;
+            height: 360px;
+            max-height: 50vh;
+            object-position: left bottom;
+            object-fit: contain;
+        }
+
 
         @include media-breakpoint-down(xxl) {
-            height: 300px;
             left: -250px !important;
+
+            img {
+                height: 300px;
+            }
         }
 
 
@@ -268,14 +279,20 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(lg) {
-            max-height: 30vh;
-            height: auto;
+
+            img {
+                max-height: 30vh;
+                height: auto;
+            }
         }
 
         @include media-breakpoint-down(sm) {
             left: -460px !important;
-            width: 300%;
-            max-height: 22vh;
+
+            img {
+                width: 300%;
+                max-height: 22vh;
+            }
         }
     }
 
