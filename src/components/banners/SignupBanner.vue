@@ -3,10 +3,10 @@
         <div class="signup-banner__wrap">
             <div class="signup-banner__scene" ref="scene">
                 <div class="signup-banner__stone signup-banner__stone--1" data-depth="0.2">
-                    <img src="@/assets/elements/stone.png" alt="" />
+                    <img src="@/assets/elements/stone.svg" alt="" />
                 </div>
                 <div class="signup-banner__stone signup-banner__stone--2" data-depth="0.2">
-                    <img src="@/assets/elements/stone2.png" />
+                    <img src="@/assets/elements/stone2.svg" />
                 </div>
             </div>
             <h2 class="signup-banner__heading" v-html="t('heading')">

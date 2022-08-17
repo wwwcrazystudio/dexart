@@ -45,6 +45,7 @@ const star1 = ref<HTMLElement>()
 const star2 = ref<HTMLElement>()
 const banner = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
+const parallaxInstance = ref<any>()
 
 const { t } = useI18n({
     messages: {
@@ -56,7 +57,7 @@ const { t } = useI18n({
         ru: {
             heading: 'Найдите место <span>для своего бизнеса</span> в DEXART.',
             text: 'Исследуйте интерактивную карту мира, чтобы выбрать идеальное расположение своей виртуальной недвижимости',
-            btn: 'Смотреть карту',
+            btn: 'Посмотреть карту',
         }
     }
 })
@@ -66,13 +67,18 @@ onMounted(() => {
         star1.value && hide(star1.value)
         star2.value && hide(star2.value)
 
-        if (scene.value)
-            new Parallax(scene.value, {
-                scalarX: 6,
-                scalarY: 6,
-            })
 
-        const showStars = () => {
+
+        const enterCallback = () => {
+            if (scene.value && !parallaxInstance.value) {
+                parallaxInstance.value = new Parallax(scene.value, {
+                    scalarX: 6,
+                    scalarY: 6,
+                })
+            }
+
+            parallaxInstance.value && parallaxInstance.value.enable()
+
             star1.value &&
                 gsap.fromTo(
                     star1.value,
@@ -114,7 +120,8 @@ onMounted(() => {
                 )
         }
 
-        const hideStars = () => {
+        const leaveCallback = () => {
+            parallaxInstance.value && parallaxInstance.value.disable()
             star1.value &&
                 gsap.to(star1.value, {
                     translateX: 40,
@@ -139,10 +146,10 @@ onMounted(() => {
                 trigger: banner.value,
                 start: 'top bottom',
                 end: 'top top',
-                onEnter: () => showStars(),
-                onEnterBack: () => showStars(),
-                onLeave: () => hideStars(),
-                onLeaveBack: () => hideStars(),
+                onEnter: () => enterCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onLeaveBack: () => leaveCallback(),
             })
     }
 })

@@ -74,17 +74,17 @@ const advantages = computed(() => {
             {
                 icon: advantage1,
                 title: 'DEFI инструменты',
-                text: 'для продаж и инвестиций',
+                text: 'Для продаж и инвестиций',
             },
             {
                 icon: advantage2,
                 title: 'Игровые механики и квесты',
-                text: 'для глубокого вовлечения аудитории',
+                text: 'Для глубокого вовлечения аудитории',
             },
             {
                 icon: advantage3,
                 title: 'Технология распределенного',
-                text: 'хранения данных',
+                text: 'Хранения данных',
             },
             {
                 icon: advantage4,
@@ -97,18 +97,18 @@ const advantages = computed(() => {
         {
             icon: advantage1,
             title: 'DEFI tools',
-            text: 'for sales and investment',
+            text: 'For sales and investment',
         },
         {
             icon: advantage2,
             title: 'Game mechanics and quests',
-            text: 'for deep audience engagement ',
+            text: 'For deep audience engagement ',
         },
 
         {
             icon: advantage3,
             title: 'Distributed data',
-            text: 'storage technology',
+            text: 'Storage technology',
         },
         {
             icon: advantage4,

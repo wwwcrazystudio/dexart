@@ -106,6 +106,7 @@ const expertiseItem = ref<HTMLElement[]>()
 const scene = ref<HTMLElement>()
 const line1 = ref<HTMLElement>()
 const line2 = ref<HTMLElement>()
+const parallaxInstance = ref<any>()
 
 onMounted(() => {
     if (!isMobile()) {
@@ -118,6 +119,13 @@ onMounted(() => {
         })
 
         const enterCallback = () => {
+            if (scene.value && !parallaxInstance.value) {
+                parallaxInstance.value = new Parallax(scene.value, {
+                    scalarX: 6,
+                    scalarY: 6,
+                })
+            }
+            parallaxInstance.value && parallaxInstance.value.enable()
             heading.value && enter(heading.value)
             line1.value &&
                 gsap.to(line1.value, {
@@ -139,6 +147,7 @@ onMounted(() => {
         }
 
         const leaveCallback = () => {
+            parallaxInstance.value && parallaxInstance.value.disable()
             heading.value && leave(heading.value)
             line1.value &&
                 gsap.to(line1.value, {
@@ -166,12 +175,6 @@ onMounted(() => {
                 onEnterBack: () => enterCallback(),
                 onLeave: () => leaveCallback(),
                 onLeaveBack: () => leaveCallback(),
-            })
-
-        if (scene.value)
-            new Parallax(scene.value, {
-                scalarX: 6,
-                scalarY: 6,
             })
     }
 })
@@ -261,12 +264,11 @@ onMounted(() => {
     }
 
     &__scene {
-        overflow: hidden;
         z-index: 10;
         position: absolute;
         width: 100%;
         height: 100%;
-        top: 10%;
+        top: 30%;
     }
 
     &__heading {

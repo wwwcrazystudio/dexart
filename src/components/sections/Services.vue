@@ -1,27 +1,29 @@
 <template>
     <section class="services" ref="section">
         <div class="services__wrap">
-            <div class="services__content" ref="content">
-                <h2 class="services__heading" ref="heading" v-html="t('heading')">
-                </h2>
-                <div class="services__carousel" ref="carousel">
-                    <ul class="services__list">
-                        <li class="services__service-item service-item" v-for="item in services" :key="item.img"
-                            ref="items">
-                            <div class="service-item__wrap">
-                                <picture class="service-item__img">
-                                    <img :src="item.img" alt="" />
-                                    <source :srcset="`${item.img}.webp`" type="image/webp" />
-                                </picture>
-                                <h3 class="service-item__heading">
-                                    {{ item.title }}
-                                </h3>
-                                <div class="service-item__text">
-                                    {{ item.text }}
+            <div class="container">
+                <div class="services__content" ref="content">
+                    <h2 class="services__heading" ref="heading" v-html="t('heading')">
+                    </h2>
+                    <div class="services__carousel" ref="carousel">
+                        <ul class="services__list">
+                            <li class="services__service-item service-item" v-for="item in services" :key="item.img"
+                                ref="items">
+                                <div class="service-item__wrap">
+                                    <picture class="service-item__img">
+                                        <img :src="item.img" alt="" />
+                                        <source :srcset="`${item.img}.webp`" type="image/webp" />
+                                    </picture>
+                                    <h3 class="service-item__heading">
+                                        {{ item.title }}
+                                    </h3>
+                                    <div class="service-item__text">
+                                        {{ item.text }}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,6 +140,24 @@ const services = computed(() => {
 })
 
 onMounted(() => {
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        carousel.value && enter(carousel.value)
+    }
+
+    const leaveCallback = () => {
+        heading.value &&
+            leave(heading.value, 0, {
+                opacity: 0,
+                duration: 1,
+            })
+        carousel.value &&
+            leave(carousel.value, 0, {
+                opacity: 0,
+                duration: 1,
+            })
+    }
+
     if (!isMobile()) {
         heading.value && hide(heading.value)
         carousel.value && hide(carousel.value)
@@ -147,38 +167,10 @@ onMounted(() => {
                 trigger: content.value,
                 start: 'top bottom',
                 end: 'bottom top',
-                onEnter: () => {
-                    heading.value && enter(heading.value)
-                    carousel.value && enter(carousel.value)
-                },
-                onLeave: () => {
-                    heading.value &&
-                        leave(heading.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                    carousel.value &&
-                        leave(carousel.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                },
-                onEnterBack: () => {
-                    heading.value && enter(heading.value)
-                    carousel.value && enter(carousel.value)
-                },
-                onLeaveBack: () => {
-                    heading.value &&
-                        leave(heading.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                    carousel.value &&
-                        leave(carousel.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                },
+                onEnter: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeaveBack: () => leaveCallback(),
             })
 
         if (section.value && !isTablet())
@@ -246,7 +238,7 @@ onMounted(() => {
             position: absolute;
             background-size: contain;
             top: 20px;
-            left: 20%;
+            left: 35%;
             background-repeat: no-repeat;
         }
 
@@ -267,17 +259,10 @@ onMounted(() => {
     &__content {
         display: flex;
         justify-content: space-between;
-        max-width: 1350px;
-        width: calc(100% - 64px);
-        margin: auto;
 
-        @include media-breakpoint-down(lg) {
-            max-width: 720px;
-        }
 
         @include media-breakpoint-down(md) {
             flex-direction: column;
-            max-width: 540px;
         }
     }
 
@@ -355,7 +340,7 @@ onMounted(() => {
 
 .service-item {
     &__wrap {
-        padding-right: 35%;
+        padding-right: 30%;
         position: relative;
 
         @include media-breakpoint-down(md) {
@@ -379,6 +364,7 @@ onMounted(() => {
         @include p_type_3;
 
         color: #d7b2ff;
+        font-size: rem(20px);
 
         @include media-breakpoint-down(md) {
             font-size: rem(16px);
@@ -392,7 +378,7 @@ onMounted(() => {
         top: 0;
         bottom: 0;
         margin: auto;
-        max-width: 45%;
+        max-width: 35%;
         height: fit-content;
 
         @include media-breakpoint-down(md) {

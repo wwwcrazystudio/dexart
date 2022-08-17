@@ -3,10 +3,10 @@
         <div class="about__wrap">
             <div class="about__scene" ref="scene">
                 <div data-depth="0.4" class="about__stone about__stone--1">
-                    <img src="@/assets/elements/stone.png" />
+                    <img src="@/assets/elements/stone.svg" />
                 </div>
                 <div data-depth="0.2" class="about__stone about__stone--2">
-                    <img src="@/assets/elements/stone2.png" />
+                    <img src="@/assets/elements/stone2.svg" />
                 </div>
             </div>
             <div class="container">
@@ -43,6 +43,7 @@ const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const content = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
+const parallaxInstance = ref<any>()
 
 const { enter, leave, hide } = useAnimation()
 
@@ -62,6 +63,24 @@ const { t } = useI18n({
 })
 
 onMounted(() => {
+    const enterCallback = () => {
+        if (scene.value && !parallaxInstance.value) {
+            parallaxInstance.value = new Parallax(scene.value, {
+                scalarX: 6,
+                scalarY: 6,
+            })
+        }
+
+        heading.value && enter(heading.value)
+        text.value && enter(text.value)
+    }
+
+    const leaveCallback = () => {
+        parallaxInstance.value && parallaxInstance.value.disable()
+        heading.value && leave(heading.value)
+        text.value && leave(text.value)
+    }
+
     if (!isMobile()) {
         heading.value && hide(heading.value)
         text.value && hide(text.value)
@@ -70,23 +89,11 @@ onMounted(() => {
             ScrollTrigger.create({
                 trigger: content.value,
                 start: 'top bottom',
-                end: 'center 30%',
-                onEnter: () => {
-                    heading.value && enter(heading.value)
-                    text.value && enter(text.value)
-                },
-                onLeave: () => {
-                    heading.value && leave(heading.value)
-                    text.value && leave(text.value)
-                },
-                onEnterBack: () => {
-                    heading.value && enter(heading.value)
-                    text.value && enter(text.value)
-                },
-                onLeaveBack: () => {
-                    heading.value && leave(heading.value)
-                    text.value && leave(text.value)
-                },
+                end: 'bottom top',
+                onEnter: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeaveBack: () => leaveCallback(),
             })
 
         if (content.value)
@@ -94,12 +101,6 @@ onMounted(() => {
                 trigger: content.value,
                 start: 'top bottom',
                 end: 'bottom top',
-            })
-
-        if (scene.value)
-            new Parallax(scene.value, {
-                scalarX: 6,
-                scalarY: 6,
             })
     }
 })

@@ -93,7 +93,7 @@ const timeline = computed(() => {
             },
             {
                 title: '2 квартал 2022 года',
-                text: `Объявление проекта
+                text: `<p>Объявление проекта</p>
                 <ul>
                     <li>Запуск бета-версии платформы Avatars</li>
                     <li>Сбросы NFT для сообщества DEXART</li>
@@ -133,7 +133,7 @@ const timeline = computed(() => {
         },
         {
             title: 'Q2 2022',
-            text: `Project announcement
+            text: `<p>Project announcement</p>
         <ul>
             <li>Avatars platform beta launch</li>
             <li>NFT drops for DEXART community</li>
@@ -167,6 +167,32 @@ const timeline = computed(() => {
 })
 
 onMounted(() => {
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        controls.value && enter(controls.value, 0.4)
+
+        slides.value?.forEach((slide, key) => {
+            gsap.to(slide, {
+                opacity: 1,
+                duration: 1,
+                delay: 0.4 * key,
+            })
+        })
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        controls.value && leave(controls.value, 0.4)
+
+        slides.value?.forEach((slide, key) => {
+            gsap.to(slide, {
+                opacity: 0,
+                duration: 1,
+                delay: 0.2 * key,
+            })
+        })
+    }
+
     if (!isMobile()) {
         heading.value && hide(heading.value)
         controls.value && hide(controls.value)
@@ -175,60 +201,18 @@ onMounted(() => {
             hide(slide)
         })
 
+
+
         if (section.value && carousel.value)
             ScrollTrigger.create({
                 trigger: section.value,
                 endTrigger: carousel.value,
                 start: 'top center',
                 end: 'top 30%',
-                onEnter: () => {
-                    heading.value && enter(heading.value)
-                    controls.value && enter(controls.value, 0.4)
-
-                    slides.value?.forEach((slide, key) => {
-                        gsap.to(slide, {
-                            opacity: 1,
-                            duration: 1,
-                            delay: 0.4 * key,
-                        })
-                    })
-                },
-                onEnterBack: () => {
-                    heading.value && enter(heading.value)
-                    controls.value && enter(controls.value, 0.4)
-
-                    slides.value?.forEach((slide, key) => {
-                        gsap.to(slide, {
-                            opacity: 1,
-                            duration: 1,
-                            delay: 0.4 * key,
-                        })
-                    })
-                },
-                onLeave: () => {
-                    heading.value && leave(heading.value)
-                    controls.value && leave(controls.value, 0.4)
-
-                    slides.value?.forEach((slide, key) => {
-                        gsap.to(slide, {
-                            opacity: 0,
-                            duration: 1,
-                            delay: 0.2 * key,
-                        })
-                    })
-                },
-                onLeaveBack: () => {
-                    heading.value && leave(heading.value)
-                    controls.value && leave(controls.value, 0.4)
-
-                    slides.value?.forEach((slide, key) => {
-                        gsap.to(slide, {
-                            opacity: 0,
-                            duration: 1,
-                            delay: 0.2 * key,
-                        })
-                    })
-                },
+                onEnter: () => enterCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onLeaveBack: () => leaveCallback(),
             })
     }
 
@@ -457,6 +441,10 @@ watch(() => locale.value, async () => {
             line-height: 120%;
             color: #d7b2ff;
             font-family: 'StyreneAWeb', sans-serif;
+
+            li, p {
+                margin-bottom: rem(12px);
+            }
 
             @include media-breakpoint-down(md) {
                 font-size: rem(14px);

@@ -9,20 +9,19 @@
                 <h1 class="hero__heading" ref="heading" v-html="t('heading')">
 
                 </h1>
-                <div class="hero__text" ref="text">
-                    {{ t('text') }}
+                <div class="hero__text" ref="text" v-html="t('text')">
                 </div>
             </div>
 
             <div ref="parallaxScene" class="hero__scene">
                 <picture data-depth="1" class="hero__mountain">
-                    <img src="@/assets/elements/mountain.png" alt="" />
+                    <img src="@/assets/elements/mountain.svg" alt="" />
                 </picture>
                 <div data-depth="0.8" class="hero__star">
                     <img ref="star" src="@/assets/bg/heroStar.svg" />
                 </div>
                 <picture data-depth="0.5" class="hero__stones">
-                    <img src="@/assets/elements/heroStones.png" alt="" />
+                    <img src="@/assets/elements/heroStones.svg" alt="" />
                 </picture>
             </div>
         </div>
@@ -44,6 +43,7 @@ const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const star = ref<HTMLElement>()
 const parallaxScene = ref<HTMLElement>()
+const parallaxInstance = ref<any>()
 
 const { enter, leave } = useAnimation()
 
@@ -51,16 +51,28 @@ const { t } = useI18n({
     messages: {
         en: {
             heading: 'Welcome <span>to DEXART</span>',
-            text: 'A virtual world with endless opportunities for people and businesses.',
+            text: 'A virtual world </br> with endless opportunities </br> for people and businesses.',
         },
         ru: {
             heading: 'Добро пожаловать <span>в DEXART</span>',
-            text: 'Портал в виртуальный мир с неограниченными возможностями для людей и бизнеса.',
+            text: 'Портал в виртуальный мир </br> с неограниченными возможностями </br> для людей и бизнеса.',
         }
     }
 })
 
 onMounted(() => {
+
+    const enterCallback = () => {
+        parallaxInstance.value.enable()
+        heading.value && enter(heading.value)
+        text.value && enter(text.value)
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        text.value && leave(text.value)
+        parallaxInstance.value && parallaxInstance.value.disable()
+    }
 
     heading.value && enter(heading.value)
     text.value && enter(text.value, 0.4)
@@ -76,19 +88,13 @@ onMounted(() => {
                 trigger: heading.value,
                 start: '-=100px',
                 end: 'bottom center',
-                onLeave: () => {
-                    heading.value && leave(heading.value)
-                    text.value && leave(text.value)
-                },
-                onEnterBack: () => {
-                    heading.value && enter(heading.value)
-                    text.value && enter(text.value)
-                },
+                onLeave: () => leaveCallback(),
+                onEnterBack: () => enterCallback(),
             })
         }
 
-        if (parallaxScene.value) {
-            new Parallax(parallaxScene.value, {
+        if (parallaxScene.value && !parallaxInstance.value) {
+            parallaxInstance.value = new Parallax(parallaxScene.value, {
                 scalarX: 7,
                 scalarY: 4,
                 frictionX: 0.075,
@@ -166,8 +172,7 @@ onMounted(() => {
     &__text {
         @include p_type_2;
 
-        color: #f3e7ff;
-        opacity: 0.8;
+        color: rgba(#f3e7ff, 0.8);
         max-width: 520px;
         position: relative;
         z-index: 10;
@@ -215,7 +220,7 @@ onMounted(() => {
         }
 
 
-        @include media-breakpoint-down(xxl) {
+        @media (max-width: 1600px) {
             left: 1000px !important;
             bottom: calc(33% + 50px);
         }
@@ -265,7 +270,7 @@ onMounted(() => {
         }
 
 
-        @include media-breakpoint-down(xxl) {
+        @media (max-width: 1600px) {
             left: -250px !important;
 
             img {

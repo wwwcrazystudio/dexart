@@ -53,7 +53,7 @@ const { t, locale } = useI18n({
             btn: 'Learn More',
         },
         ru: {
-            heading: 'Пресса о <span>Dexart</span>',
+            heading: 'Пресса <span>о Dexart</span>',
             btn: 'Подробнее',
         }
     }
@@ -222,6 +222,7 @@ watch(() => locale.value, async () => {
 
     &__carousel {
         overflow: visible;
+        z-index: 10;
     }
 
     &__list {
@@ -230,6 +231,8 @@ watch(() => locale.value, async () => {
 
     &__press-item {
         height: auto;
+        z-index: 10;
+        position: relative;
     }
 }
 

@@ -265,8 +265,7 @@ const menu2 = computed(() => {
     &__disclaimer {
         font-size: rem(12px);
         margin-top: rem(16px);
-        color: #fff;
-        opacity: 0.3;
+        color: rgba(#fff, 0.3);
         max-width: 300px;
     }
 
@@ -290,8 +289,7 @@ const menu2 = computed(() => {
         font-weight: 300;
         font-size: rem(18px);
         line-height: 120%;
-        color: #ffffff;
-        opacity: 0.8;
+        color: rgba(#ffffff, 0.8);
         margin-bottom: rem(28px);
 
         @include media-breakpoint-down(md) {

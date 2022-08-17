@@ -69,7 +69,7 @@ onMounted(() => {
             content.value && enter(content.value)
             img.value &&
                 gsap.to(img.value, {
-                    bottom: -500,
+                    bottom: '-25vw',
                     duration: 1,
                 })
         }

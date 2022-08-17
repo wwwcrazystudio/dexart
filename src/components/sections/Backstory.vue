@@ -3,10 +3,10 @@
         <div class="backstory__wrap">
             <div class="backstory__scene" ref="scene">
                 <div data-depth="0.7" class="backstory__stone backstory__stone--1">
-                    <img src="@/assets/elements/stone.png" />
+                    <img src="@/assets/elements/stone.svg" />
                 </div>
                 <div data-depth="0.4" class="backstory__stone backstory__stone--2">
-                    <img src="@/assets/elements/stone2.png" />
+                    <img src="@/assets/elements/stone2.svg" />
                 </div>
                 <picture data-depth="0.6" class="backstory__stones backstory__stones--1">
                     <img src="@/assets/elements/slice-1.png" alt="" />
@@ -33,14 +33,11 @@
 
                     <div class="backstory__text">
                         <div ref="text">
-                            <p>
-                                {{ t('text1') }}
+                            <p v-html="t('text1')">
                             </p>
-                            <p>
-                                {{ t('text2') }}
+                            <p v-html="t('text2')">
                             </p>
-                            <p>
-                                {{ t('text3') }}
+                            <p v-html="t('text3')">
                             </p>
                         </div>
 
@@ -72,6 +69,7 @@ const text = ref<HTMLElement>()
 const btn = ref<HTMLElement>()
 const content = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
+const parallaxInstance = ref<any>()
 
 const { t } = useI18n({
     messages: {
@@ -84,15 +82,38 @@ const { t } = useI18n({
         },
         ru: {
             heading: 'Легенда <span>мира</span>',
-            text1: 'Когда в реальном мире начали развиваться блокчейн-технологии, когда полная децентрализация глобальной сети стала лишь вопросом времени, когда крипто-проекты стали появляться один за другим, набралась критическая масса информации, сформировавшей основу и структура мира DEXART.',
+            text1: 'Когда в реальном мире начали развиваться блокчейн-технологии, когда полная децентрализация глобальной сети стала лишь вопросом времени, когда крипто-проекты стали появляться один за другим, набралась критическая масса информации, сформировавшей основу </br> и структура мира DEXART.',
             text2: 'Это была блокчейн-сингулярность, сжатая в одну очень плотную точку, которая в конце-концов взорвалась.',
-            text3: 'Эта Большая Вспышка и стала порталом в мир DEXART.',
-            btn: 'Читать легенду'
+            text3: 'Эта Большая Вспышка и стала порталом </br> в мир DEXART.',
+            btn: 'Прочесть легенду'
         }
     }
 })
 
 onMounted(() => {
+
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        text.value && enter(text.value, 0.4)
+        btn.value && enter(btn.value, 0.6)
+
+        if (scene.value && !parallaxInstance.value) {
+            parallaxInstance.value = new Parallax(scene.value, {
+                scalarX: 6,
+                scalarY: 6,
+            })
+        }
+
+        parallaxInstance.value && parallaxInstance.value.enable()
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        text.value && leave(text.value)
+        btn.value && leave(btn.value)
+        parallaxInstance.value && parallaxInstance.value.disable()
+    }
+
     if (!isMobile()) {
         heading.value && hide(heading.value)
         text.value && hide(text.value)
@@ -103,33 +124,13 @@ onMounted(() => {
                 trigger: content.value,
                 start: 'top bottom',
                 end: 'bottom center',
-                onEnter: () => {
-                    heading.value && enter(heading.value)
-                    text.value && enter(text.value, 0.4)
-                    btn.value && enter(btn.value, 0.6)
-                },
-                onLeave: () => {
-                    heading.value && leave(heading.value)
-                    text.value && leave(text.value)
-                    btn.value && leave(btn.value)
-                },
-                onEnterBack: () => {
-                    heading.value && enter(heading.value)
-                    text.value && enter(text.value, 0.4)
-                    btn.value && enter(btn.value, 0.6)
-                },
-                onLeaveBack: () => {
-                    heading.value && leave(heading.value)
-                    text.value && leave(text.value)
-                    btn.value && leave(btn.value)
-                },
+                onEnter: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeaveBack: () => leaveCallback(),
             })
 
-        if (scene.value)
-            new Parallax(scene.value, {
-                scalarX: 6,
-                scalarY: 6,
-            })
+
     }
 })
 </script>

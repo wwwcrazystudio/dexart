@@ -13,7 +13,7 @@
                     </div>
                 </transition>
 
-                <video @click="pause" :src="videoSrc" preload="none" class="promo__video" ref="video">
+                <video @click="pause" :src="lazySrc" preload="none" class="promo__video" ref="video">
 
                 </video>
             </div>
@@ -36,6 +36,7 @@ const section = ref<HTMLElement>()
 const video = ref<HTMLVideoElement>()
 const btn = ref<HTMLElement>()
 const isPlaying = ref<boolean>(false)
+const isInViewport = ref<boolean>(false)
 
 const { isMobile } = useMedia()
 const { enter, leave, hide } = useAnimation()
@@ -54,6 +55,34 @@ const { t, locale } = useI18n({
 })
 
 onMounted(() => {
+    const enterCallback = () => {
+        heading.value && enter(heading.value)
+        btn.value &&
+            enter(btn.value, 0, {
+                opacity: 0,
+                duration: 1,
+            })
+    }
+
+    const leaveCallback = () => {
+        heading.value && leave(heading.value)
+        btn.value &&
+            leave(btn.value, 0, {
+                opacity: 0,
+                duration: 1,
+            })
+    }
+
+    if (section.value)
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top bottom',
+            onEnter: () => {
+                isInViewport.value = true
+            }
+        })
+
+
     if (!isMobile()) {
         heading.value && hide(heading.value)
         btn.value && hide(btn.value)
@@ -63,38 +92,10 @@ onMounted(() => {
                 trigger: heading.value,
                 start: 'top bottom',
                 end: 'bottom top',
-                onEnter: () => {
-                    heading.value && enter(heading.value)
-                    btn.value &&
-                        enter(btn.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                },
-                onLeave: () => {
-                    heading.value && leave(heading.value)
-                    btn.value &&
-                        leave(btn.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                },
-                onEnterBack: () => {
-                    heading.value && enter(heading.value)
-                    btn.value &&
-                        enter(btn.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                },
-                onLeaveBack: () => {
-                    heading.value && leave(heading.value)
-                    btn.value &&
-                        leave(btn.value, 0, {
-                            opacity: 0,
-                            duration: 1,
-                        })
-                },
+                onEnter: () => enterCallback(),
+                onLeave: () => leaveCallback(),
+                onEnterBack: () => enterCallback(),
+                onLeaveBack: () => leaveCallback(),
             })
     }
 
@@ -155,6 +156,10 @@ const videoSrc = computed(() => {
     if (locale.value === 'ru') return promoRu
 
     return promoEn
+})
+
+const lazySrc = computed(() => {
+    return isInViewport.value ? videoSrc.value : ''
 })
 </script>
 

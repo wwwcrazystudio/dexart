@@ -28,13 +28,11 @@ export const useAnimation = () => {
 
     const leave = (el: HTMLElement, delay?: number, options?: object) => {
         const animOptions = options || {
-            scale: 0.95,
             opacity: 0,
             duration: 1,
             delay: delay || 0,
             onComplete: () => {
                 gsap.set(el, {
-                    scale: 1,
                     opacity: 0,
                 })
             },
