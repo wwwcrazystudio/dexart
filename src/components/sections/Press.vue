@@ -178,13 +178,12 @@ watch(() => locale.value, async () => {
         overflow: hidden;
 
         @include media-breakpoint-down(md) {
-            margin-top: -170px;
-            background: url('@/assets/blurs/servicesBlur.png'),
-                linear-gradient(180deg,
+            margin-top: -50px;
+            background: linear-gradient(180deg,
+                    rgba(#391667, 0.1) 0%,
                     rgba(#381665, 0.4) 40%,
                     rgba(#381665, 0.1) 80%,
                     #160d1f 100%);
-            background-position: -320px -355px, center;
         }
 
 
@@ -197,6 +196,10 @@ watch(() => locale.value, async () => {
             width: 100%;
             height: 50%;
             z-index: 10;
+
+            @include media-breakpoint-down(md) {
+                height: 100%;
+            }
         }
     }
 
@@ -219,7 +222,7 @@ watch(() => locale.value, async () => {
         max-width: 470px;
         margin-bottom: rem(64px);
         position: relative;
-        z-index: 10;
+        z-index: 11;
 
         span {
             display: block;

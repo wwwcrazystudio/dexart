@@ -114,6 +114,10 @@ onMounted(() => {
         align-items: center;
         overflow: hidden;
 
+        @include media-breakpoint-down(lg) {
+            height: 40vh;
+        }
+
         @include media-breakpoint-down(md) {
             height: 50vh;
             overflow: visible;

@@ -79,7 +79,7 @@ const handleInput = (e: Event) => {
         transition: 350ms;
 
         @include media-breakpoint-down(md) {
-            font-size: rem(14px);
+            font-size: rem(16px);
             padding: rem(17px 12px);
         }
 

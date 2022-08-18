@@ -44,7 +44,7 @@ const { t } = useI18n({
             btn: 'Sign up',
         },
         ru: {
-            heading: 'Присоединяйтесь к <span>сообществу</span> ',
+            heading: 'Присоединяйтесь  <span>к сообществу</span> ',
             text: 'Чтобы быть первым в мире DEXART!',
             btn: 'Подписаться',
         }

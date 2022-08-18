@@ -205,7 +205,7 @@ onMounted(() => {
             /*  filter: drop-shadow(20px 0px 20px #752cc5); */
 
             @include media-breakpoint-down(lg) {
-                top: 22px !important;
+                top: -100px !important;
                 right: 0px !important;
                 transform: translateZ(0) rotate(15deg);
                 width: 85px;
@@ -289,7 +289,7 @@ onMounted(() => {
 
         @include media-breakpoint-down(sm) {
             margin-top: rem(64px);
-            width: 80%;
+            width: 100%;
         }
     }
 }

@@ -358,6 +358,10 @@ onMounted(() => {
             margin-bottom: rem(8px);
             max-width: 80%;
         }
+
+        @include media-breakpoint-down(sm) {
+            max-width: 100%;
+        }
     }
 
     &__text {
@@ -369,6 +373,10 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             font-size: rem(16px);
             max-width: 90%;
+        }
+
+        @include media-breakpoint-down(sm) {
+            max-width: 100%;
         }
     }
 
@@ -387,7 +395,7 @@ onMounted(() => {
             width: 120px;
             height: 120px;
             margin: 0;
-            transform: translate3d(-20px, 0, 0);
+            transform: translate3d(-20px, 10px, 0);
         }
 
         img {

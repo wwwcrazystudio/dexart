@@ -37,7 +37,7 @@ gsap.config({
 })
 
 const { enter, leave, hide } = useAnimation()
-const { isMobile } = useMedia()
+const { isMobile, isLargeTablet } = useMedia()
 
 const { t, locale } = useI18n({
     messages: {
@@ -215,22 +215,47 @@ onMounted(() => {
 })
 
 const mapPosition = computed(() => {
+    if (!isLargeTablet()) {
+        switch (currentStep.value) {
+            case 1:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(40vw, 150px, 0)',
+                }
+            case 2:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(20vw, 200px, 0)',
+                }
+            case 3:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(4vw, 250px, 0)',
+                }
+            case 4:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(5vw, -30px, 0)',
+                }
+            default:
+                return {
+                    transform: 'scale3d(1 ,1, 1) translate3d(560px, 0, 0)',
+                }
+        }
+    }
+
     switch (currentStep.value) {
         case 1:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(40vw, 150px, 0)',
+                transform: 'scale3d(2.5, 2.5, 2.5) translate3d(24vw, -160px, 0)',
             }
         case 2:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(20vw, 200px, 0)',
+                transform: 'scale3d(3, 3, 3) translate3d(-3vw, -190px, 0px)',
             }
         case 3:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(4vw, 250px, 0)',
+                transform: 'scale3d(3, 3, 3) translate3d(-15vw, -170px, 0)',
             }
         case 4:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(5vw, -30px, 0)',
+                transform: 'scale3d(2, 2, 2) translate3d(-15vw, -170px, 0)',
             }
         default:
             return {
@@ -330,6 +355,10 @@ const mapPosition = computed(() => {
                 width: 100vw;
                 height: 24vh;
             }
+
+            @include media-breakpoint-down(sm) {
+                height: 35vh;
+            }
         }
 
 
@@ -363,14 +392,14 @@ const mapPosition = computed(() => {
             width: auto;
         }
 
-        /*   @include media-breakpoint-down(sm) {
-            min-height: 0;
-        } */
+        @include media-breakpoint-down(sm) {
+            font-size: rem(18px);
+        }
 
         &:nth-of-type(n + 2) {
             opacity: 0;
 
-        /*     @include media-breakpoint-down(sm) {
+            /*     @include media-breakpoint-down(sm) {
                 opacity: 1;
             } */
         }
@@ -456,8 +485,11 @@ const mapPosition = computed(() => {
             object-fit: contain;
 
             @include media-breakpoint-down(lg) {
-                transform: none !important;
                 object-position: bottom;
+            }
+
+            @include media-breakpoint-down(sm) {
+                position: static;
             }
         }
     }

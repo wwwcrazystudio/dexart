@@ -13,9 +13,11 @@ import Press from '../components/sections/Press.vue'
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 
 
 gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollToPlugin)
 
 gsap.config({
     force3D: true,
@@ -46,15 +48,6 @@ gsap.config({
 .frontpage {
     position: relative;
     overflow: hidden;
-
-    &__bg {
-        position: absolute;
-        z-index: 1;
-        height: 100%;
-        top: 0;
-        bottom: 0;
-        pointer-events: none;
-    }
 
     &__section {
         overflow: hidden;

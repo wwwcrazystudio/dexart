@@ -30,6 +30,7 @@ import { useI18n } from 'vue-i18n';
 import promoEn from '@/assets/videos/promo_en.mp4'
 import promoRu from '@/assets/videos/promo_ru.mp4'
 import { useMedia } from '../../composables/useMedia';
+import gsap from 'gsap';
 
 const heading = ref<HTMLElement>()
 const section = ref<HTMLElement>()
@@ -48,7 +49,7 @@ const { t, locale } = useI18n({
             play: 'Play',
         },
         ru: {
-            heading: 'Посмотрите на <span>метавселенную</span> Dexart.',
+            heading: 'Посмотрите на <span>мета&shyвселенную</span> Dexart.',
             play: 'Запустить',
         }
     }
@@ -86,6 +87,17 @@ onMounted(() => {
     if (!isMobile()) {
         heading.value && hide(heading.value)
         btn.value && hide(btn.value)
+
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top bottom',
+            onEnter: () => {
+                gsap.to(window, {
+                    scrollTo: section.value?.offsetTop,
+                    duration: 1.5,
+                })
+            }
+        })
 
         if (heading.value)
             ScrollTrigger.create({

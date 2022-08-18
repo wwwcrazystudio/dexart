@@ -1,5 +1,5 @@
 <template>
-    <section class="about">
+    <section class="about" ref="section">
         <div class="about__wrap">
             <div class="about__scene" ref="scene">
                 <div data-depth="0.4" class="about__stone about__stone--1">
@@ -35,6 +35,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
 import { useMedia } from '@/composables/useMedia'
 import { useI18n } from 'vue-i18n'
+import gsap from 'gsap'
 
 const { isMobile } = useMedia()
 
@@ -42,6 +43,7 @@ const { isMobile } = useMedia()
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const content = ref<HTMLElement>()
+const section = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
 const parallaxInstance = ref<any>()
 
@@ -55,7 +57,7 @@ const { t } = useI18n({
             text2: 'We help businesses and opinion leaders to create deep and meaningful communication with their clients and communities.',
         },
         ru: {
-            heading: 'Метавселенные создают <span>магическое</span> будущее.',
+            heading: 'Мета&shyвселенные создают <span>магическое</span> будущее.',
             text1: 'И мы вносим свой вклад в новую эру социальных медиакоммуникаций Web 3.0',
             text2: 'Мы помогаем бизнесу и лидерам мнений создать глубокую и эмоциональную коммуникацию со своими клиентами и сообществами. ',
         }
@@ -85,22 +87,24 @@ onMounted(() => {
         heading.value && hide(heading.value)
         text.value && hide(text.value)
 
-        if (content.value)
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top bottom',
+            onEnter: () => gsap.to(window, {
+                scrollTo: section.value?.offsetTop,
+                duration: 1.5,
+            })
+        })
+
+        if (section.value)
             ScrollTrigger.create({
-                trigger: content.value,
+                trigger: section.value,
                 start: 'top bottom',
                 end: 'bottom top',
                 onEnter: () => enterCallback(),
                 onLeave: () => leaveCallback(),
                 onEnterBack: () => enterCallback(),
                 onLeaveBack: () => leaveCallback(),
-            })
-
-        if (content.value)
-            ScrollTrigger.create({
-                trigger: content.value,
-                start: 'top bottom',
-                end: 'bottom top',
             })
     }
 })
