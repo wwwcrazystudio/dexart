@@ -183,8 +183,20 @@ watch(() => locale.value, async () => {
                 linear-gradient(180deg,
                     rgba(#381665, 0.4) 40%,
                     rgba(#381665, 0.1) 80%,
-                    #140c1b 100%);
+                    #160d1f 100%);
             background-position: -320px -355px, center;
+        }
+
+
+        &::after {
+            content: '';
+            background: linear-gradient(180deg, transparent 0%, #160d1f 100%);
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 50%;
+            z-index: 10;
         }
     }
 
@@ -222,7 +234,7 @@ watch(() => locale.value, async () => {
 
     &__carousel {
         overflow: visible;
-        z-index: 10;
+        z-index: 12;
     }
 
     &__list {
@@ -295,6 +307,10 @@ watch(() => locale.value, async () => {
         color: #d7b2ff;
         margin-top: auto;
         text-decoration: none;
+
+        &:hover {
+            color: #E9D4FF;
+        }
 
         @include media-breakpoint-down(md) {
             font-size: rem(14px);

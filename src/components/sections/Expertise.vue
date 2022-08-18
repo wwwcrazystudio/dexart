@@ -357,7 +357,7 @@ onMounted(() => {
 
         img {
             max-width: 65%;
-            max-height: 65%;
+            max-height: 35%;
         }
 
         &::before {

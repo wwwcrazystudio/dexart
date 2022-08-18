@@ -69,7 +69,7 @@ onMounted(() => {
             content.value && enter(content.value)
             img.value &&
                 gsap.to(img.value, {
-                    bottom: '-25vw',
+                    bottom: '-16vw',
                     duration: 1,
                 })
         }
@@ -79,15 +79,15 @@ onMounted(() => {
             content.value && leave(content.value)
             img.value &&
                 gsap.to(img.value, {
-                    bottom: -200,
+                    bottom: -700,
                     duration: 1,
                 })
         }
 
         ScrollTrigger.create({
             trigger: section.value,
-            start: 'top bottom',
-            end: 'bottom center',
+            start: 'top center',
+            end: 'bottom top',
             onEnter: () => enterCallback(),
             onEnterBack: () => enterCallback(),
             onLeave: () => leaveCallback(),
@@ -102,18 +102,19 @@ onMounted(() => {
     &__wrap {
         background: linear-gradient(180deg,
                 #0b0e28 10%,
-                rgba(#080f23, 0.3) 40%,
+                rgba(#080f23, 0.3) 65%,
                 #391667 100%);
 
-        padding: rem(112px 0);
         background-repeat: no-repeat;
         background-size: cover;
         transition: 350ms;
         position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
         overflow: hidden;
 
         @include media-breakpoint-down(md) {
-            padding: 0;
             height: 50vh;
             overflow: visible;
             background: linear-gradient(180deg,
@@ -142,6 +143,7 @@ onMounted(() => {
         transform: translateZ(0);
         will-change: bottom;
         background: #391667;
+        width: 100%;
 
         img {
             height: auto;
