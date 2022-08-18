@@ -14,7 +14,7 @@
 
                     <div class="world__map" ref="map">
                         <picture class="world__map-img" :style="mapPosition">
-                            <img src="@/assets/map.jpg" alt="" />
+                            <img src="@/assets/map.png" alt="" />
                             <source srcset="@/assets/map.webp" type="image/webp" />
                         </picture>
                     </div>
@@ -61,18 +61,60 @@ const steps = computed(() => {
 
     if (locale.value === 'ru') {
         return [
-            `<p> DEXART состоит из регионов, которые присоединяются к первому и главному району - центру мира... Каждый регион полон уникальных возможностей и персонажей, которые вовлекают пользователей в игровые механики.</p>`,
-            `<p> The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world. </p> <p> To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains. </p> <p> To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies. </p>`,
-            `<p> New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc. </p> <p> South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty). </p>`,
-            `<p> In the middle of the Great Desert lies the Oasis of the Way. </p> <p> This is the spiritual center of DEXART - here are the temples of all possible religions. </p>`,
+            `<p>
+                DEXART состоит из регионов, которые присоединяются к первому и главному району - центру мира... </br>
+                Каждый регион полон уникальных возможностей и персонажей, которые вовлекают пользователей в игровые механики.
+            </p>`,
+            `<p>
+                В центре мира – портал DEXART. К западу от него лежат равнины, застроенные городами, открытые первопроходцами в поисках новых возможностей для развития бизнеса и технологических компаний. Они заканчиваются у единственного в мире моря DEXART.
+            </p>
+            <p>
+                К востоку от портала DEXART расположились горные районы, где в вышине парят необычные поселения и города.
+            </p> 
+            <p>
+                К северу от портала DEXART лежит огромный лес, а за ним лежат городские районы.
+            </p>`,
+            `<p>
+                Новые городские районы представляют собой жилую застройку будущего и развлекательные центры. Здесь много необычной недвижимости и возможностей для создания центров развлечений, игровых зон...
+            </p>
+            <p>
+                К югу от портала DEXART находится Великая пустыня. Это несколько регионов, объединенных засушливым климатом и разнообразным пустынным ландшафтом.
+            </p>`,
+            `<p>
+                Посреди Великой Пустыни находится Оазис Пути
+            </p>
+            <p>
+                Это духовный центр DEXART – здесь находятся храмы всех возможных религий.
+            </p>`,
         ]
     }
 
     return [
-        `<p> DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </p> <p> Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions </p>`,
-        `<p> The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world. </p> <p> To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains. </p> <p> To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies. </p>`,
-        `<p> New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc. </p> <p> South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty). </p>`,
-        `<p> In the middle of the Great Desert lies the Oasis of the Way. </p> <p> This is the spiritual center of DEXART - here are the temples of all possible religions. </p>`,
+        `<p>
+            DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </br>
+            Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions. 
+        </p>`,
+        `<p>
+            The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world.
+        </p>
+        <p>
+            To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains.
+        </p> 
+        <p>
+            To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies.
+        </p>`,
+        `<p>
+            New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc.
+        </p> 
+        <p>
+            South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty).
+        </p>`,
+        `<p>
+            In the middle of the Great Desert lies the Oasis of the Way.
+        </p>
+        <p>
+            This is the spiritual center of DEXART - here are the temples of all possible religions.
+        </p>`,
     ]
 })
 
@@ -80,103 +122,115 @@ onMounted(() => {
     if (!isMobile()) {
         map.value && hide(map.value)
 
-        if (section.value)
+        if (section.value) {
+
+            ScrollTrigger.create({
+                trigger: section.value,
+                start: 'top 70%',
+                end: 'bottom bottom',
+                onEnter: () => {
+                    map.value &&
+                        gsap.to(map.value, {
+                            opacity: 1,
+                            duration: 0.5,
+                        })
+                },
+                onEnterBack: () => {
+                    map.value &&
+                        gsap.to(map.value, {
+                            opacity: 1,
+                            duration: 0.5,
+                        })
+                },
+                onLeave: () => {
+                    map.value &&
+                        gsap.to(map.value, {
+                            opacity: 0,
+                            duration: 0.5,
+                        })
+                },
+                onLeaveBack: () => {
+                    map.value &&
+                        gsap.to(map.value, {
+                            opacity: 0,
+                            duration: 0.5,
+                        })
+                },
+            })
+        }
+    }
+
+    if (section.value) {
+
+        ScrollTrigger.create({
+            trigger: section.value,
+            start: 'top top',
+            end: 'bottom bottom',
+            pin: map.value,
+        })
+
+        if (heading.value) {
             ScrollTrigger.create({
                 trigger: section.value,
                 start: 'top top',
                 end: 'bottom bottom',
-                pin: map.value,
+                pin: heading.value,
             })
+        }
+    }
 
+    stepItems.value?.forEach((element, key) => {
         ScrollTrigger.create({
-            trigger: section.value,
+            trigger: element,
             start: 'top 70%',
-            end: 'bottom bottom',
+            end: 'top 120px',
             onEnter: () => {
-                currentStep.value = 0
-                map.value &&
-                    gsap.to(map.value, {
-                        opacity: 1,
-                        duration: 1,
-                    })
+                currentStep.value = key + 1
+                gsap.to(element, {
+                    opacity: 1,
+                    duration: 1,
+                })
             },
             onEnterBack: () => {
-                currentStep.value = 0
-                map.value &&
-                    gsap.to(map.value, {
-                        opacity: 1,
-                        duration: 1,
-                    })
+                currentStep.value = key + 1
+                gsap.to(element, {
+                    opacity: 1,
+                    duration: 1,
+                })
             },
             onLeave: () => {
-                map.value &&
-                    gsap.to(map.value, {
-                        opacity: 0,
-                        duration: 1,
-                    })
+                gsap.to(element, {
+                    opacity: 0,
+                    duration: 1,
+                })
             },
             onLeaveBack: () => {
-                map.value &&
-                    gsap.to(map.value, {
-                        opacity: 0,
-                        duration: 1,
-                    })
+                gsap.to(element, {
+                    opacity: 0,
+                    duration: 1,
+                })
             },
         })
-
-        stepItems.value?.forEach((element, key) => {
-            ScrollTrigger.create({
-                trigger: element,
-                start: 'top 70%',
-                end: 'top 120px',
-                onEnter: () => {
-                    currentStep.value = key + 1
-                    gsap.to(element, {
-                        opacity: 1,
-                        duration: 1,
-                    })
-                },
-                onEnterBack: () => {
-                    currentStep.value = key + 1
-                    gsap.to(element, {
-                        opacity: 1,
-                        duration: 1,
-                    })
-                },
-                onLeave: () => {
-                    gsap.to(element, {
-                        opacity: 0,
-                        duration: 1,
-                    })
-                },
-                onLeaveBack: () => {
-                    gsap.to(element, {
-                        opacity: 0,
-                        duration: 1,
-                    })
-                },
-            })
-        })
-    }
+    })
 })
 
 const mapPosition = computed(() => {
     switch (currentStep.value) {
         case 1:
             return {
-                transform: 'scale3d(1.5, 1.5, 1.5) translate3d(560px, 0, 0)',
+                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(40vw, 150px, 0)',
             }
         case 2:
             return {
-                transform: 'scale3d(2.2, 2.2, 2.2) translate3d(210px, 30px, 0)',
+                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(20vw, 200px, 0)',
             }
         case 3:
             return {
-                transform: 'scale3d(1.6, 1.6, 1.6) translate3d(-100px, -50px, 0)',
+                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(4vw, 250px, 0)',
             }
         case 4:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(390px, -20px, 0)',
+                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(5vw, -30px, 0)',
             }
         default:
             return {
@@ -197,7 +251,6 @@ const mapPosition = computed(() => {
 
         display: grid;
         overflow: hidden;
-        z-index: 10;
         background: #1c0b2b;
 
         &::before {
@@ -206,19 +259,18 @@ const mapPosition = computed(() => {
             left: 0;
             top: 0;
             background-image: linear-gradient(90deg,
-                    #1c0b2b 30%,
+                    #1c0b2b 45%,
                     transparent 100%);
             width: 100%;
             height: 100%;
+            z-index: 11;
 
             @include media-breakpoint-down(lg) {
-                background-image: linear-gradient(90deg,
-                        #1c0b2b 50%,
-                        transparent 100%);
+                content: none;
             }
         }
 
-        &::after {
+        /*   &::after {
             content: '';
             position: absolute;
             left: 0;
@@ -232,7 +284,7 @@ const mapPosition = computed(() => {
                 content: none;
             }
         }
-
+ */
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
             background: linear-gradient(132deg, #1c0b2b 40%, transparent 100%);
@@ -252,9 +304,35 @@ const mapPosition = computed(() => {
     &__heading {
         color: #fff;
         max-width: 470px;
-        margin-bottom: rem(32px);
+        margin-top: rem(24px);
+        margin-bottom: rem(84px);
         position: relative;
-        z-index: 10;
+        z-index: 12;
+
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: -10vw;
+            top: -80px;
+            background-image: linear-gradient(180deg, #1c0b2b 60%, transparent 80%);
+            width: 43vw;
+            height: 34vh;
+            z-index: -1;
+            filter: blur(30px);
+
+            @media (max-width: 1600px) {
+                width: 50vw;
+                height: 38vh;
+            }
+
+            @include media-breakpoint-down(lg) {
+                width: 100vw;
+                height: 24vh;
+            }
+        }
+
+
 
         span {
             display: block;
@@ -272,25 +350,35 @@ const mapPosition = computed(() => {
 
         color: #faf5ff;
         max-width: 595px;
+        width: 35vw;
         min-height: calc(100vh - 220px);
         transform: translateZ(0);
+        font-size: rem(28px);
 
-        @include media-breakpoint-down(sm) {
-            min-height: 0;
+        @media (max-width: 1600px) {
+            font-size: rem(24px);
         }
+
+        @include media-breakpoint-down(lg) {
+            width: auto;
+        }
+
+        /*   @include media-breakpoint-down(sm) {
+            min-height: 0;
+        } */
 
         &:nth-of-type(n + 2) {
             opacity: 0;
 
-            @include media-breakpoint-down(sm) {
+            /*      @include media-breakpoint-down(sm) {
                 opacity: 1;
-            }
+            } */
         }
     }
 
     &__text-wrap {
         position: relative;
-        z-index: 10;
+        z-index: 11;
         transform: translateZ(0);
     }
 
@@ -300,7 +388,7 @@ const mapPosition = computed(() => {
         top: 0;
         right: 0;
         bottom: 0;
-        z-index: -1;
+        z-index: 10;
         width: 100%;
         height: 100%;
         will-change: transform;
@@ -332,16 +420,26 @@ const mapPosition = computed(() => {
             }
         }
 
-        @include media-breakpoint-down(lg) {
-            height: auto;
-            left: 0;
+        &::before {
+            content: none;
             width: 100%;
-            height: 100%;
+            top: 50vh;
+            height: 50vh;
+            background-image: linear-gradient(0deg,
+                    #1c0b2b 0%,
+                    transparent 70%);
+            position: absolute;
+            z-index: 1;
+
+            @include media-breakpoint-down(lg) {
+                content: '';
+            }
         }
 
-        @include media-breakpoint-down(sm) {
+
+        /*        @include media-breakpoint-down(sm) {
             display: none;
-        }
+        } */
 
         img,
         picture {
@@ -358,13 +456,8 @@ const mapPosition = computed(() => {
             object-fit: contain;
 
             @include media-breakpoint-down(lg) {
-                position: relative;
-                left: -50px;
-            }
-
-            @include media-breakpoint-down(lg) {
-                left: -120px;
-                width: 130%;
+                transform: none !important;
+                object-position: bottom;
             }
         }
     }

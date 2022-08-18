@@ -78,17 +78,17 @@ const advantages = computed(() => {
             },
             {
                 icon: advantage2,
-                title: 'Игровые механики и квесты',
+                title: 'Игры и квесты',
                 text: 'Для глубокого вовлечения аудитории',
             },
             {
                 icon: advantage3,
-                title: 'Технология распределенного',
-                text: 'Хранения данных',
+                title: 'Распределенное',
+                text: 'Хранение данных',
             },
             {
                 icon: advantage4,
-                title: 'Децентрализация & DAO',
+                title: 'WEB 3.0 и DAO',
             },
         ]
     }
