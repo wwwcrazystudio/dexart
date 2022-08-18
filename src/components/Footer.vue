@@ -36,17 +36,6 @@
                     <div class="footer__copyright">Dexart (c) 2022</div>
 
                     <Socials class="footer__socials" />
-
-                    <div class="footer__disclaimer">
-                        No Investment Advice
-                        The information provided on this website is for information purpose only, you should not
-                        construe any such information or other material as investment advice, financial advice, trading
-                        advice, or any other sort of advice and you should not treat any of the website's content as
-                        such. Nothing contained on DEXART website constitutes a solicitation, recommendation,
-                        endorsement, or offer by DEXART that any cryptocurrency should be bought, sold, or held by you.
-                        Do conduct your own due diligence and consult your financial advisor before making any
-                        investment decisions
-                    </div>
                 </div>
 
                 <div class="footer__col footer__col--b">
@@ -79,6 +68,17 @@
 
                 <div class="footer__col footer__col--d">
                     <SubscriptionForm class="footer__subscription-form" />
+
+                    <div class="footer__disclaimer">
+                        No Investment Advice
+                        The information provided on this website is for information purpose only, you should not
+                        construe any such information or other material as investment advice, financial advice, trading
+                        advice, or any other sort of advice and you should not treat any of the website's content as
+                        such. Nothing contained on DEXART website constitutes a solicitation, recommendation,
+                        endorsement, or offer by DEXART that any cryptocurrency should be bought, sold, or held by you.
+                        Do conduct your own due diligence and consult your financial advisor before making any
+                        investment decisions
+                    </div>
                 </div>
             </div>
 
@@ -254,19 +254,20 @@ const menu2 = computed(() => {
 
         &--d {
             grid-area: d;
-
-            @include media-breakpoint-down(lg) {
-                display: flex;
-                align-items: flex-end;
-            }
         }
     }
 
     &__disclaimer {
-        font-size: rem(12px);
-        margin-top: rem(16px);
-        color: rgba(#fff, 0.3);
-        max-width: 300px;
+        font-size: rem(10px);
+        margin-top: rem(30px);
+        color: rgba(#fff, 0.4);
+        font-weight: 300;
+
+        @include media-breakpoint-down(md) {
+            padding-bottom: rem(32px);
+            border-bottom: 1px solid;
+            border-image-source: linear-gradient(rgba(#ece7fa, 0), #ece7fa);
+        }
     }
 
     &__logo {
@@ -312,13 +313,6 @@ const menu2 = computed(() => {
         }
     }
 
-    &__subscription-form {
-        @include media-breakpoint-down(md) {
-            padding-bottom: rem(32px);
-            border-bottom: 1px solid;
-            border-image-source: linear-gradient(rgba(#ece7fa, 0), #ece7fa);
-        }
-    }
 
     &__created-by {
         font-size: rem(14px);

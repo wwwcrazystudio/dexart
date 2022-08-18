@@ -380,6 +380,7 @@ onMounted(() => {
         margin: auto;
         max-width: 35%;
         height: fit-content;
+        display: block;
 
         @include media-breakpoint-down(md) {
             position: static;

@@ -234,7 +234,7 @@ onMounted(() => {
         @include media-breakpoint-down(lg) {
             left: unset !important;
             right: 18%;
-            bottom: calc(27% + 50px);
+            bottom: calc(21% + 50px);
 
             img {
                 width: 100px;
@@ -242,7 +242,7 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(sm) {
-            bottom: calc(20% + 50px);
+            right: 2%;
 
             img {
                 width: 100px;
@@ -271,22 +271,22 @@ onMounted(() => {
 
 
         @media (max-width: 1600px) {
-            left: -250px !important;
+            left: -180px !important;
 
             img {
-                height: 300px;
+                height: 280px;
             }
         }
 
 
         @include media-breakpoint-down(xl) {
-            left: -450px !important;
+            left: -430px !important;
         }
 
         @include media-breakpoint-down(lg) {
 
             img {
-                max-height: 30vh;
+                max-height: 21vh;
                 height: auto;
             }
         }
@@ -296,7 +296,6 @@ onMounted(() => {
 
             img {
                 width: 300%;
-                max-height: 22vh;
             }
         }
     }

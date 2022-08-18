@@ -251,6 +251,7 @@ onMounted(() => {
         will-change: transform;
 
         img {
+            width: 100%;
             transform: translateZ(0);
             will-change: transform;
             animation: rotate 600s linear infinite;
@@ -258,8 +259,7 @@ onMounted(() => {
         }
 
         @include media-breakpoint-down(lg) {
-            width: 200vw;
-            left: -350px;
+            top: 140px;
         }
     }
 
@@ -268,7 +268,7 @@ onMounted(() => {
         position: absolute;
         width: 100%;
         height: 100%;
-        top: 30%;
+        top: 10%;
     }
 
     &__heading {
@@ -456,7 +456,7 @@ onMounted(() => {
             bottom: 0;
 
             @include media-breakpoint-down(md) {
-                right: 37%;
+                right: 25%;
                 bottom: -5%;
             }
         }

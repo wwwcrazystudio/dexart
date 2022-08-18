@@ -370,7 +370,7 @@ const mapPosition = computed(() => {
         &:nth-of-type(n + 2) {
             opacity: 0;
 
-            /*      @include media-breakpoint-down(sm) {
+        /*     @include media-breakpoint-down(sm) {
                 opacity: 1;
             } */
         }
@@ -427,7 +427,7 @@ const mapPosition = computed(() => {
             height: 50vh;
             background-image: linear-gradient(0deg,
                     #1c0b2b 0%,
-                    transparent 70%);
+                    transparent 100%);
             position: absolute;
             z-index: 1;
 

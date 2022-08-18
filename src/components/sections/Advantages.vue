@@ -203,7 +203,7 @@ onMounted(() => {
 .advantages {
     &__wrap {
         /*  @include noise; */
-        background: url('@/assets/blurs/advantagesBlur.png') center,
+        background:
             linear-gradient(180deg,
                 #11071b 0%,
                 #3b1661 25%,
