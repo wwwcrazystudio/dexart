@@ -5,17 +5,7 @@
                 <h2 class="promo__heading" ref="heading" v-html="t('heading')">
 
                 </h2>
-                <transition name="fade">
-                    <div class="promo__play-btn-wrap" v-if="!isPlaying">
-                        <button @click="play" ref="btn" class="promo__play-btn">
-                            {{ t('play') }}
-                        </button>
-                    </div>
-                </transition>
-
-                <video @click="pause" :src="lazySrc" preload="none" class="promo__video" ref="video">
-
-                </video>
+                <Video :src="videoSrc" animateBtn />
             </div>
         </div>
     </section>
@@ -26,18 +16,17 @@ import { useAnimation } from '@/composables/useAnimation'
 import { computed, onMounted, ref } from 'vue'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useI18n } from 'vue-i18n';
+import Video from '../Video.vue';
 
 import promoEn from '@/assets/videos/promo_en.mp4'
 import promoRu from '@/assets/videos/promo_ru.mp4'
 import { useMedia } from '../../composables/useMedia';
 import gsap from 'gsap';
 
+
 const heading = ref<HTMLElement>()
 const section = ref<HTMLElement>()
-const video = ref<HTMLVideoElement>()
-const btn = ref<HTMLElement>()
-const isPlaying = ref<boolean>(false)
-const isInViewport = ref<boolean>(false)
+
 
 const { isMobile } = useMedia()
 const { enter, leave, hide } = useAnimation()
@@ -46,47 +35,30 @@ const { t, locale } = useI18n({
     messages: {
         en: {
             heading: 'Watch Dexart <span>Metaverse</span>',
-            play: 'Play',
         },
         ru: {
             heading: 'Посмотрите на <span>мета&shyвселенную</span> Dexart.',
-            play: 'Запустить',
         }
     }
+})
+
+const videoSrc = computed(() => {
+    if (locale.value === 'ru') return promoRu
+
+    return promoEn
 })
 
 onMounted(() => {
     const enterCallback = () => {
         heading.value && enter(heading.value)
-        btn.value &&
-            enter(btn.value, 0, {
-                opacity: 0,
-                duration: 1,
-            })
     }
 
     const leaveCallback = () => {
         heading.value && leave(heading.value)
-        btn.value &&
-            leave(btn.value, 0, {
-                opacity: 0,
-                duration: 1,
-            })
     }
-
-    if (section.value)
-        ScrollTrigger.create({
-            trigger: section.value,
-            start: 'top bottom',
-            onEnter: () => {
-                isInViewport.value = true
-            }
-        })
-
 
     if (!isMobile()) {
         heading.value && hide(heading.value)
-        btn.value && hide(btn.value)
 
         ScrollTrigger.create({
             trigger: section.value,
@@ -110,68 +82,6 @@ onMounted(() => {
                 onLeaveBack: () => leaveCallback(),
             })
     }
-
-    if (video.value) {
-        video.value.volume = 0.3
-        video.value.addEventListener('ended', () => {
-            isPlaying.value = false
-        })
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.intersectionRatio !== 1) {
-                        if (video.value) {
-                            video.value.style.opacity = '0'
-                            setTimeout(() => {
-                                if (video.value) {
-                                    video.value.pause()
-                                    video.value.currentTime = 0
-                                    isPlaying.value = false
-                                }
-                            }, 350)
-
-                            return
-                        }
-                    }
-                })
-            },
-            { threshold: 0.2 }
-        )
-        observer.observe(video.value)
-    }
-})
-
-const play = () => {
-    if (video.value) {
-        video.value.play()
-        video.value.style.opacity = '1'
-        isPlaying.value = true
-    }
-}
-
-const pause = () => {
-    if (video.value) {
-        video.value.pause()
-        isPlaying.value = false
-    }
-}
-
-const videoSrc = computed(() => {
-
-    if (video.value) {
-        video.value.pause()
-        video.value.currentTime = 0
-        isPlaying.value = false
-    }
-
-    if (locale.value === 'ru') return promoRu
-
-    return promoEn
-})
-
-const lazySrc = computed(() => {
-    return isInViewport.value ? videoSrc.value : ''
 })
 </script>
 
@@ -201,101 +111,39 @@ const lazySrc = computed(() => {
         }
     }
 
-    &__play-btn-wrap {
-        animation: pulsateScale 1.5s linear infinite;
-        animation-direction: alternate-reverse;
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    &__play-btn {
-        background: linear-gradient(90deg,
-                #7c1dd3 2.02%,
-                #912eef 49.93%,
-                #ee40ff 96.86%);
-        width: 170px;
-        height: 170px;
-        box-shadow: inset -1px 2px 8px #ece7fa;
-        border-radius: 50%;
-        color: #faf5ff;
-        font-weight: 700;
-        font-size: rem(20px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        transition: 350ms;
-        position: relative;
-
-        @include media-breakpoint-down(md) {
-            width: 112px;
-            height: 112px;
-        }
-
-        @media (max-width: 500px) {
-            width: 124px;
-            height: 124px;
-        }
-
-        &::before {
-            content: '';
-            width: 120%;
-            height: 120%;
-            border: 1px solid #d7b2ff;
+    &__video {
+        &::deep(.video__container) {
             position: absolute;
-            left: -10%;
-            top: -10%;
-            border-radius: 50%;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: -1;
             transition: 350ms;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
         }
 
-        &:hover {
-            &::before {
-                width: 115%;
-                height: 115%;
-                left: -7.5%;
-                top: -7.5%;
-                transition: 350ms;
+        &::deep(.video__btn) {
+            width: 170px;
+            height: 170px;
+
+            @media (max-width: 500px) {
+                width: 124px;
+                height: 124px;
+            }
+
+            &:active {
+                @media (max-width: 500px) {
+                    width: 120px;
+                    height: 120px;
+                }
             }
         }
-
-        &:active {
-            width: 120px;
-            height: 120px;
-            transition: 350ms;
-        }
     }
 
-    &__video {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        z-index: -1;
-        transition: 350ms;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-}
-</style>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
 }
 </style>

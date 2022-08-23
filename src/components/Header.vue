@@ -34,9 +34,13 @@
                 <nav class="header__header-menu" v-show="isLargeTablet() ? showMenu : true">
                     <ul class="header-menu__list">
                         <li class="header-menu__item" v-for="link in links" :key="link.label">
-                            <a :href="link.url" @click.passive="handleMenuClick" class="header-menu__link">
+                            <a :href="link.url" target="_blank" class="header-menu__link" v-if="link.url.includes('http')">
                                 {{ link.label }}
                             </a>
+                            <RouterLink class="header-menu__link" active-class="header-menu__link--active"
+                                :to="link.url" v-else>
+                                {{ link.label }}
+                            </RouterLink>
                         </li>
                     </ul>
 
@@ -59,15 +63,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import FollowUs from './FollowUs.vue'
 import LangSwitch from './LangSwitch.vue'
 import Socials from './Socials.vue'
 import { useMedia } from '@/composables/useMedia'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const showMenu = ref<boolean>(false)
 const scrolled = ref<boolean>(false)
+
+const route = useRoute()
 
 const { isLargeTablet } = useMedia()
 
@@ -91,7 +98,7 @@ const links = computed(() => {
         return [
             {
                 label: 'О мире',
-                url: '/#backstory',
+                url: '/history',
             },
             {
                 label: 'Карта участков',
@@ -103,7 +110,7 @@ const links = computed(() => {
     return [
         {
             label: 'World Backstory',
-            url: '/#backstory',
+            url: '/history',
         },
         {
             label: 'Map',
@@ -132,15 +139,22 @@ const scrollHandler = () => {
     scrolled.value = false
 }
 
-const handleMenuClick = (e: Event) => {
-    const el = e.target as HTMLLinkElement
 
-    if (isLargeTablet()) {
-        e.preventDefault()
-        showMenu.value = false
-        window.location.href = el.href
-    }
-}
+watch(() => [route.hash, route.name], () => {
+    showMenu.value = false
+})
+
+
+/* const handleMenuClick = (e: Event) => {
+    const el = e.target as HTMLLinkElement | HTMLAnchorElement
+
+    if (el.hash)
+
+        if (isLargeTablet()) {
+            e.preventDefault()
+
+        }
+} */
 </script>
 
 <style scoped lang="scss">
@@ -335,6 +349,10 @@ const handleMenuClick = (e: Event) => {
         @include media-breakpoint-down(lg) {
             font-size: rem(28px);
             color: #fff;
+        }
+
+        &--active {
+            font-weight: 700;
         }
 
         &:hover {

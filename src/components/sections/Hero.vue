@@ -14,15 +14,15 @@
             </div>
 
             <div ref="parallaxScene" class="hero__scene">
-                <picture data-depth="1" class="hero__mountain">
+                <div data-depth="1" class="hero__mountain">
                     <img src="@/assets/elements/mountain.svg" alt="" />
-                </picture>
+                </div>
                 <div data-depth="0.8" class="hero__star">
                     <img ref="star" src="@/assets/bg/heroStar.svg" />
                 </div>
-                <picture data-depth="0.5" class="hero__stones">
+                <div data-depth="0.5" class="hero__stones">
                     <img src="@/assets/elements/heroStones.svg" alt="" />
-                </picture>
+                </div>
             </div>
         </div>
     </section>
