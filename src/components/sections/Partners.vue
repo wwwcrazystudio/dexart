@@ -12,7 +12,7 @@
                     <div class="partners__description" ref="content">
                         <div class="partners__text">
                             The Human Guild. <br />
-                            {{ t('text') }}
+                            <span v-html="t('text')"></span>
                         </div>
 
                         <a href="https://medium.com/@dexartmetaverse/dexart-metaverse-received-support-and-smart-money-from-human-guild-a6d5f0aa1604"
@@ -53,7 +53,7 @@ const { t } = useI18n({
         },
         ru: {
             heading: 'Партнеры',
-            text: 'Узнайте о нашем партнере.',
+            text: 'Узнайте о&nbsp;нашем партнере.',
             btn: 'Подробнее',
         }
     }

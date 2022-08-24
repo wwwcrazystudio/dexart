@@ -1,7 +1,7 @@
 <template>
     <header class="header" :class="scrolled && 'header--fixed'">
         <div class="header__wrap">
-            <a href="/#top" class="header__logo">
+            <a href="/dexart/#top" class="header__logo">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 995.6 326.6" xml:space="preserve"
                     width="125" height="65">
                     <path fill="#ffffff" d="M974.5,117l5.1,1.9c0.8,0.3,0.8,1.8,0,2.1l-5.1,1.9c-20.8,7.8-36.5,31.2-40.2,60.1l-5.2,40.4
@@ -143,18 +143,6 @@ const scrollHandler = () => {
 watch(() => [route.hash, route.name], () => {
     showMenu.value = false
 })
-
-
-/* const handleMenuClick = (e: Event) => {
-    const el = e.target as HTMLLinkElement | HTMLAnchorElement
-
-    if (el.hash)
-
-        if (isLargeTablet()) {
-            e.preventDefault()
-
-        }
-} */
 </script>
 
 <style scoped lang="scss">

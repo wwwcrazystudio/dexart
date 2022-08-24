@@ -15,11 +15,9 @@
 
                     </h2>
                     <div class="about__text" ref="text">
-                        <p>
-                            {{ t('text1') }}
+                        <p v-html="t('text1')">
                         </p>
-                        <p>
-                            {{ t('text2') }}
+                        <p v-html="t('text2')">
                         </p>
                     </div>
                 </div>
@@ -29,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
@@ -47,6 +45,8 @@ const section = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
 const parallaxInstance = ref<any>()
 
+const isPassedThrough = ref<boolean>(false)
+
 const { enter, leave, hide } = useAnimation()
 
 const { t } = useI18n({
@@ -58,11 +58,20 @@ const { t } = useI18n({
         },
         ru: {
             heading: 'Мета&shyвселенные создают <span>магическое</span> будущее.',
-            text1: 'И мы вносим свой вклад в новую эру социальных медиакоммуникаций Web 3.0',
-            text2: 'Мы помогаем бизнесу и лидерам мнений создать глубокую и эмоциональную коммуникацию со своими клиентами и сообществами. ',
+            text1: 'И&nbsp;мы&nbsp;вносим свой вклад в&nbsp;новую эру социальных медиакоммуникаций Web&nbsp;3.0',
+            text2: 'Мы&nbsp;помогаем бизнесу и&nbsp;лидерам мнений создать глубокую и&nbsp;эмоциональную коммуникацию со&nbsp;своими клиентами и&nbsp;сообществами.',
         }
     }
 })
+
+
+const handleScroll = () => {
+    /*   isScrolling.value = true
+  
+      setTimeout(() =>{
+          isScrolling.value = false
+      }, 300) */
+}
 
 onMounted(() => {
     const enterCallback = () => {
@@ -81,6 +90,7 @@ onMounted(() => {
         parallaxInstance.value && parallaxInstance.value.disable()
         heading.value && leave(heading.value)
         text.value && leave(text.value)
+        isPassedThrough.value = true
     }
 
     if (!isMobile()) {
@@ -90,10 +100,14 @@ onMounted(() => {
         ScrollTrigger.create({
             trigger: section.value,
             start: 'top bottom',
-            onEnter: () => gsap.to(window, {
-                scrollTo: section.value?.offsetTop,
-                duration: 1.5,
-            })
+            onEnter: () => {
+                if (!isPassedThrough.value) {
+                    gsap.to(window, {
+                        scrollTo: section.value?.offsetTop,
+                        duration: 1.5,
+                    })
+                }
+            }
         })
 
         if (section.value)
@@ -107,7 +121,14 @@ onMounted(() => {
                 onLeaveBack: () => leaveCallback(),
             })
     }
+
+    document.addEventListener('scroll', handleScroll)
 })
+
+onUnmounted(() => {
+    document.removeEventListener('scroll', handleScroll)
+})
+
 </script>
 
 <style lang="scss">

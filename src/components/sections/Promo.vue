@@ -27,6 +27,8 @@ import gsap from 'gsap';
 const heading = ref<HTMLElement>()
 const section = ref<HTMLElement>()
 
+const isPassedThrough = ref<boolean>(false)
+
 
 const { isMobile } = useMedia()
 const { enter, leave, hide } = useAnimation()
@@ -55,6 +57,7 @@ onMounted(() => {
 
     const leaveCallback = () => {
         heading.value && leave(heading.value)
+        isPassedThrough.value = true
     }
 
     if (!isMobile()) {
@@ -64,10 +67,12 @@ onMounted(() => {
             trigger: section.value,
             start: 'top bottom',
             onEnter: () => {
-                gsap.to(window, {
-                    scrollTo: section.value?.offsetTop,
-                    duration: 1.5,
-                })
+                if (!isPassedThrough.value) {
+                    gsap.to(window, {
+                        scrollTo: section.value?.offsetTop,
+                        duration: 1.5,
+                    })
+                }
             }
         })
 

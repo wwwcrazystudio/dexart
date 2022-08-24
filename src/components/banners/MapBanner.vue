@@ -14,8 +14,7 @@
             </div>
 
             <div class="map-banner__content">
-                <div class="map-banner__text">
-                    {{ t('text') }}
+                <div class="map-banner__text" v-html="t('text')">
                 </div>
 
                 <a rel="nofollow" target="_blank" href="https://map.dex.art/" class="map-banner__btn">{{ t('btn') }}</a>

@@ -57,13 +57,15 @@ const banner2 = ref<InstanceType<typeof SignupBanner>>()
 const content = ref<HTMLElement>()
 const slides = ref<HTMLElement[]>()
 
+
+
 const { t, locale } = useI18n({
     messages: {
         en: {
             heading: 'DEXART: one platform - endless <span>opportunities</span>',
         },
         ru: {
-            heading: 'DEXART:  одна платформа – бесконечный <span>потенциал</span>',
+            heading: 'DEXART: одна платформа&nbsp;&mdash; бесконечный <span>потенциал</span>',
         }
     }
 })

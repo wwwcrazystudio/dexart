@@ -38,7 +38,7 @@ const { t, locale } = useI18n({
             play: 'Play',
         },
         ru: {
-            play: 'Запустить',
+            play: 'Запуск',
         }
     }
 })

@@ -14,8 +14,7 @@
             </h2>
 
             <div class="signup-banner__content">
-                <div class="signup-banner__text">
-                    {{ t('text') }}
+                <div class="signup-banner__text" v-html="t('text')">
                 </div>
 
                 <a href="https://t.me/dexartchannel" rel="nofollow" target="_blank" class="signup-banner__btn">{{
@@ -45,7 +44,7 @@ const { t } = useI18n({
         },
         ru: {
             heading: 'Присоединяйтесь  <span>к сообществу</span> ',
-            text: 'Чтобы быть первым в мире DEXART!',
+            text: 'Чтобы быть первым в&nbsp;мире DEXART!',
             btn: 'Подписаться',
         }
     }

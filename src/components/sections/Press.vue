@@ -13,8 +13,8 @@
                                 <div class="press-item__tag">
                                     {{ item.tag }}
                                 </div>
-                                <div class="press-item__title">
-                                    {{ item.title }}
+                                <div class="press-item__title" v-html="item.title">
+                                    
                                 </div>
                                 <a :href="item.link" target="_blank" rel="nofollow" class="press-item__link">
                                     {{ t('btn') }}
@@ -64,12 +64,12 @@ const press = computed(() => {
         return [
             {
                 tag: 'BeinCrypto',
-                title: 'Мы просто оцифровываем весь мир на блокчейне',
+                title: 'Мы&nbsp;просто оцифровываем весь мир на&nbsp;блокчейне',
                 link: 'https://ru.beincrypto.com/my-prosto-oczifrovyvaem-ves-mir-na-blokchejne-glava-proekta-oton/?ysclid=l2rkdslvli',
             },
             {
                 tag: 'BitNovosti',
-                title: 'OTON представляет собой место работы, за которым будущее',
+                title: 'OTON представляет собой место работы, за&nbsp;которым будущее',
                 link: 'https://bitnovosti.com/2021/06/03/sistema-monetizatsii-auditorii-oton-platforma-obucheniya/',
             },
             {
