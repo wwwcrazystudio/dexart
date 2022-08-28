@@ -106,27 +106,27 @@ const services = computed(() => {
         {
             img: service1,
             title: 'Present your product or service',
-            text: 'Your virtual demonstration can reach an unlimited number of viewers who will devote all their attention to your product or service',
+            text: 'Your virtual demonstration can reach an&nbsp;unlimited number of&nbsp;viewers who will devote all their attention to&nbsp;your product or&nbsp;service',
         },
         {
             img: service2,
             title: 'Build audience loyalty',
-            text: 'Take your business to a metalevel and make an emotional impact: run virtual working spaces, create gamification and quests for your audience, enjoy free communication between avatars and leverage the metaworking',
+            text: 'Take your business to&nbsp;a&nbsp;metalevel and make an&nbsp;emotional impact: run virtual working spaces, create gamification and quests for your audience, enjoy free communication between avatars and leverage the metaworking',
         },
         {
             img: service3,
             title: 'Create gamified educational experiences',
-            text: 'Give users an opportunity to learn through play: create interactive and immersive content, rewards participants for achievements and progress',
+            text: 'Give users an&nbsp;opportunity to&nbsp;learn through play: create interactive and immersive content, rewards participants for achievements and progress',
         },
         {
             img: service4,
             title: 'Meet your audience',
-            text: 'Run immersive virtual events for your clients and followers wherever they reside. VR and 3D tools will help you build engaging interactions',
+            text: 'Run immersive virtual events for your clients and followers wherever they reside. VR&nbsp;and 3D&nbsp;tools will help you build engaging interactions',
         },
         {
             img: service5,
             title: 'Leverage metaworking',
-            text: 'Meet new people and build real connections in the virtual world',
+            text: 'Meet new people and build real connections in&nbsp;the virtual world',
         },
         {
             img: service6,

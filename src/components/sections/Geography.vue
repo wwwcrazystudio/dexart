@@ -35,12 +35,12 @@ const { t, locale } = useI18n({
     messages: {
         en: {
             heading: 'Geography <span>of DEXART</span>',
-            text1: 'DEXART consists of 25 districts that surround the central district. Each district has its own landscape features, topography and level of urbanization.',
-            text2: 'The center of the world is the DEXART Portal. It is located in the Central District.<br/> This is the starting point for all new users.<br/>The entire metaverse is filled with portals, life is bustling around them. They are the key attraction points in all districts.',
-            text3: 'To the west and southwest of it there are valleys filled with modern cities. These valleys stretch out to the only sea that exists in DEXART. These are the most developed and economically active areas; the offices of the largest companies and brands are concentrated here. This is where the Business District is located.',
-            text4: 'To the northeast of the DEXART Portal lie mountain regions, which contain unusual settlements and cities floating above the mountains. It is home to universities and other learning centers of DEXART. In the foothills of Mount Zenian you can find the Education District.',
-            text5: 'To the northwest of the DEXART Portal lie urban areas suitable for business development and technology companies. Here the Entertainment District is located.',
-            text6: 'Southeast of the DEXART Portal is the Great Desert. At its southeast end the Oasis of the Path is hiding. This is the mystical center DEXART, where all kinds of spiritual practices are reflected.',
+            text1: 'DEXART consists of&nbsp;25&nbsp;districts that surround the central district. Each district has its own landscape features, topography and level of&nbsp;urbanization.',
+            text2: 'The center of&nbsp;the world is&nbsp;the DEXART Portal. It&nbsp;is&nbsp;located in&nbsp;the Central District.<br/> This is&nbsp;the starting point for all new users.<br/>The entire metaverse is&nbsp;filled with portals, life is&nbsp;bustling around them. They are the key attraction points in&nbsp;all districts.',
+            text3: 'To&nbsp;the west and southwest of&nbsp;it&nbsp;there are valleys filled with modern cities. These valleys stretch out to&nbsp;the only sea that exists in&nbsp;DEXART. These are the most developed and economically active areas; the offices of&nbsp;the largest companies and brands are concentrated here. This is&nbsp;where the Business District is&nbsp;located.',
+            text4: 'To&nbsp;the northeast of&nbsp;the DEXART Portal lie mountain regions, which contain unusual settlements and cities floating above the mountains. It&nbsp;is&nbsp;home to&nbsp;universities and other learning centers of&nbsp;DEXART. In&nbsp;the foothills of&nbsp;Mount Zenian you can find the Education District.',
+            text5: 'To&nbsp;the northwest of&nbsp;the DEXART Portal lie urban areas suitable for business development and technology companies. Here the Entertainment District is&nbsp;located.',
+            text6: 'Southeast of&nbsp;the DEXART Portal is&nbsp;the Great Desert. At&nbsp;its southeast end the Oasis of&nbsp;the Path is&nbsp;hiding. This is&nbsp;the mystical center DEXART, where all kinds of&nbsp;spiritual practices are reflected.',
             btn: 'To the world map',
         },
         ru: {

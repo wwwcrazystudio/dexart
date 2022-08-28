@@ -83,12 +83,12 @@ const press = computed(() => {
     return [
         {
             tag: 'BeinCrypto',
-            title: 'We just digitize the whole world on the blockchain',
+            title: 'We&nbsp;just digitize the whole world on&nbsp;the blockchain',
             link: 'https://ru.beincrypto.com/my-prosto-oczifrovyvaem-ves-mir-na-blokchejne-glava-proekta-oton/?ysclid=l2rkdslvli',
         },
         {
             tag: 'BitNovosti',
-            title: 'OTON represents the workplace of the future',
+            title: 'OTON represents the workplace of&nbsp;the future',
             link: 'https://bitnovosti.com/2021/06/03/sistema-monetizatsii-auditorii-oton-platforma-obucheniya/',
         },
         {

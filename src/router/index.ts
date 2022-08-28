@@ -15,6 +15,14 @@ const router = createRouter({
         { path: '/404', component: NotFound,  name: '404' },  
         { path: '/:pathMatch(.*)*', component: NotFound }
     ],
+
+    scrollBehavior (to, from, savedPosition) {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'auto',
+          });
+      }
     
 })
 

@@ -33,7 +33,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
 import { useMedia } from '@/composables/useMedia'
 import { useI18n } from 'vue-i18n'
-import gsap from 'gsap'
 
 const { isMobile } = useMedia()
 
@@ -53,8 +52,8 @@ const { t } = useI18n({
     messages: {
         en: {
             heading: 'Metaverses create <span>a magical</span> future',
-            text1: 'And we contribute to the new era of social media communications of Web 3.0',
-            text2: 'We help businesses and opinion leaders to create deep and meaningful communication with their clients and communities.',
+            text1: 'And we&nbsp;contribute to&nbsp;the new era of&nbsp;social media communications of&nbsp;Web&nbsp;3.0',
+            text2: 'We&nbsp;help businesses and opinion leaders to&nbsp;create deep and meaningful communication with their clients and communities.',
         },
         ru: {
             heading: 'Мета&shyвселенные создают <span>магическое</span> будущее.',
@@ -64,14 +63,6 @@ const { t } = useI18n({
     }
 })
 
-
-const handleScroll = () => {
-    /*   isScrolling.value = true
-  
-      setTimeout(() =>{
-          isScrolling.value = false
-      }, 300) */
-}
 
 onMounted(() => {
     const enterCallback = () => {
@@ -97,19 +88,6 @@ onMounted(() => {
         heading.value && hide(heading.value)
         text.value && hide(text.value)
 
-        ScrollTrigger.create({
-            trigger: section.value,
-            start: 'top bottom',
-            onEnter: () => {
-                if (!isPassedThrough.value) {
-                    gsap.to(window, {
-                        scrollTo: section.value?.offsetTop,
-                        duration: 1.5,
-                    })
-                }
-            }
-        })
-
         if (section.value)
             ScrollTrigger.create({
                 trigger: section.value,
@@ -121,12 +99,6 @@ onMounted(() => {
                 onLeaveBack: () => leaveCallback(),
             })
     }
-
-    document.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-    document.removeEventListener('scroll', handleScroll)
 })
 
 </script>

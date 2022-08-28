@@ -31,9 +31,9 @@ const { t, locale } = useI18n({
     messages: {
         en: {
             heading: 'History <span>of DEXART</span>',
-            text1: 'When blockchain technologies began to develop in the real world, when the decentralization of the global network became only a matter of time, when crypto projects began to appear one after another, a critical mass of information was accumulated that formed the basis for the future virtual world. ',
-            text2: 'It was the blockchain singularity. And then the Big Flare happened and gave birth to DEXART.',
-            text3: 'In DEXART, users can choose any role they wish. There are no limits and restrictions, but in order to succeed in the chosen activity, it is worth devoting some time to it and creating a community around your business, service, creative or educational project.',
+            text1: 'When blockchain technologies began to&nbsp;develop in&nbsp;the real world, when the decentralization of&nbsp;the global network became only a&nbsp;matter of&nbsp;time, when crypto projects began to&nbsp;appear one after another, a&nbsp;critical mass of&nbsp;information was accumulated that formed the basis for the future virtual world.',
+            text2: 'It&nbsp;was the blockchain singularity. And then the Big Flare happened and gave birth to&nbsp;DEXART.',
+            text3: 'In&nbsp;DEXART, users can choose any role they wish. There are no&nbsp;limits and restrictions, but in&nbsp;order to&nbsp;succeed in&nbsp;the chosen activity, it&nbsp;is&nbsp;worth devoting some time to&nbsp;it&nbsp;and creating a&nbsp;community around your business, service, creative or&nbsp;educational project.',
         },
         ru: {
             heading: 'История <span>мира DEXART</span>',

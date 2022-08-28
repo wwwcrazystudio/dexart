@@ -5,7 +5,7 @@
                 <h2 class="promo__heading" ref="heading" v-html="t('heading')">
 
                 </h2>
-                <Video :src="videoSrc" animateBtn />
+                <Video :src="videoSrc" class="promo__video" animateBtn />
             </div>
         </div>
     </section>
@@ -63,19 +63,6 @@ onMounted(() => {
     if (!isMobile()) {
         heading.value && hide(heading.value)
 
-        ScrollTrigger.create({
-            trigger: section.value,
-            start: 'top bottom',
-            onEnter: () => {
-                if (!isPassedThrough.value) {
-                    gsap.to(window, {
-                        scrollTo: section.value?.offsetTop,
-                        duration: 1.5,
-                    })
-                }
-            }
-        })
-
         if (heading.value)
             ScrollTrigger.create({
                 trigger: heading.value,
@@ -96,7 +83,7 @@ onMounted(() => {
         min-height: 100vh;
         background-size: cover;
         position: relative;
-        padding: rem(64px 0);
+        padding: rem(88px 0);
         background-position: center;
         z-index: 10;
     }
@@ -117,7 +104,7 @@ onMounted(() => {
     }
 
     &__video {
-        &::deep(.video__container) {
+        .video__container {
             position: absolute;
             left: 0;
             top: 0;
@@ -131,7 +118,7 @@ onMounted(() => {
             object-position: center;
         }
 
-        &::deep(.video__btn) {
+        .video__btn {
             width: 170px;
             height: 170px;
 

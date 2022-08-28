@@ -91,29 +91,29 @@ const steps = computed(() => {
 
     return [
         `<p>
-            DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </br>
-            Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions. 
+            DEXART consists of&nbsp;regions surrounding the main district in&nbsp;the center. Each region is&nbsp;divided into districts and has its own unique landscape, topography and urbanization. </br>
+            Each region is&nbsp;full of&nbsp;different possibilities and is&nbsp;inhabited by&nbsp;various characters, who engage the users into game interactions.
         </p>`,
         `<p>
-            The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world.
+           The center of&nbsp;the world is&nbsp;the DEXART Portal. To&nbsp;the west of&nbsp;it&nbsp;lie flat lands, built up&nbsp;with cities. They go&nbsp;to&nbsp;the only DEXART sea in&nbsp;the world.
         </p>
         <p>
-            To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains.
+            To&nbsp;the north of&nbsp;the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains.
         </p> 
         <p>
-            To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies.
+            To&nbsp;the east of&nbsp;the DEXART Portal lies a&nbsp;huge forest, beyond which lie urban areas discovered by&nbsp;pioneers in&nbsp;search of&nbsp;new land for the development of&nbsp;business and technology companies.
         </p>`,
         `<p>
-            New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc.
+           New urban areas are a&nbsp;mixture of&nbsp;futuristic living spaces and entertainment centers. There is&nbsp;a&nbsp;lot of&nbsp;unusual real estate and opportunities for creating leisure centers, interactive arcades, etc.
         </p> 
         <p>
-            South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty).
+            South of&nbsp;the DEXART Portal is&nbsp;the Great Desert. These are several regions united by&nbsp;an&nbsp;arid climate and a&nbsp;diverse desert landscape (from sandy desert to&nbsp;rocky and salty).
         </p>`,
         `<p>
-            In the middle of the Great Desert lies the Oasis of the Way.
+            In&nbsp;the middle of&nbsp;the Great Desert lies the Oasis of&nbsp;the Way.
         </p>
         <p>
-            This is the spiritual center of DEXART - here are the temples of all possible religions.
+           This is&nbsp;the spiritual center of&nbsp;DEXART&nbsp;&mdash; here are the temples of&nbsp;all possible religions.
         </p>`,
     ]
 })

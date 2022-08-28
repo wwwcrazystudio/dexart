@@ -14,13 +14,13 @@
             </div>
 
             <div ref="parallaxScene" class="hero__scene">
-                <div data-depth="1" class="hero__mountain">
+                <div data-depth="0.2" class="hero__mountain">
                     <img src="@/assets/elements/mountain.svg" alt="" />
                 </div>
-                <div data-depth="0.8" class="hero__star">
+                <div data-depth="0.6" class="hero__star">
                     <img ref="star" src="@/assets/bg/heroStar.svg" />
                 </div>
-                <div data-depth="0.5" class="hero__stones">
+                <div data-depth="0.8" class="hero__stones">
                     <img src="@/assets/elements/heroStones.svg" alt="" />
                 </div>
             </div>
@@ -51,7 +51,7 @@ const { t } = useI18n({
     messages: {
         en: {
             heading: 'Welcome <span>to DEXART</span>',
-            text: 'A virtual world </br> with endless opportunities </br> for people and businesses.',
+            text: 'A&nbsp;virtual world </br> with endless opportunities </br> for people and businesses.',
         },
         ru: {
             heading: 'Добро пожаловать <span>в DEXART</span>',
