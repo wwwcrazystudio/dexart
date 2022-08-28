@@ -162,6 +162,10 @@ onMounted(() => {
         z-index: 20;
         top: 20%;
 
+        @include media-breakpoint-down(sm) {
+            top: 50%;
+        }
+
         img {
             animation: ufo 10s linear infinite;
             animation-fill-mode: both;

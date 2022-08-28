@@ -41,10 +41,10 @@
                             </p>
                         </div>
 
-                        <a target="_blank" rel="nofollow" href="https://dex.art/historyoftheworld"
+                        <RouterLink to="/history"
                             class="backstory__btn" ref="btn">
                             {{ t('btn') }}
-                        </a>
+                        </RouterLink>
                     </div>
                 </div>
             </div>
@@ -75,16 +75,16 @@ const { t } = useI18n({
     messages: {
         en: {
             heading: 'World <span>backstory</span>',
-            text1: 'When blockchain technologies started evolving in the real world, when complete decentralization became a question of time, when crypto-projects started emerging one by one a critical mass of information was formed.',
-            text2: 'It became the foundation of the DEXART metaverse — it became the blockchain singularity. A compressed mass of ideas, concepts and projects that was so dense and heavy that at some point it exploded.',
-            text3: 'It was the Big Flash that became the DEXART portal, opening the way to the virtual world.',
+            text1: 'When blockchain technologies started evolving in&nbsp;the real world, when complete decentralization became a&nbsp;question of&nbsp;time, when crypto-projects started emerging one by&nbsp;one a&nbsp;critical mass of&nbsp;information was formed.',
+            text2: 'It&nbsp;became the foundation of&nbsp;the DEXART metaverse&nbsp;&mdash; it&nbsp;became the blockchain singularity. A&nbsp;compressed mass of&nbsp;ideas, concepts and projects that was so&nbsp;dense and heavy that at&nbsp;some point it&nbsp;exploded.',
+            text3: 'It&nbsp;was the Big Flash that became the DEXART portal, opening the way to&nbsp;the virtual world.',
             btn: 'Learn more '
         },
         ru: {
             heading: 'Легенда <span>мира</span>',
-            text1: 'Когда в реальном мире начали развиваться блокчейн-технологии, когда полная децентрализация глобальной сети стала лишь вопросом времени, когда крипто-проекты стали появляться один за другим, набралась критическая масса информации, сформировавшей основу </br> и структура мира DEXART.',
-            text2: 'Это была блокчейн-сингулярность, сжатая в одну очень плотную точку, которая в конце-концов взорвалась.',
-            text3: 'Эта Большая Вспышка и стала порталом </br> в мир DEXART.',
+            text1: 'Когда в&nbsp;реальном мире начали развиваться блокчейн-технологии, когда полная децентрализация глобальной сети стала лишь вопросом времени, когда крипто-проекты стали появляться один за&nbsp;другим, набралась критическая масса информации, сформировавшей основу </br> и&nbsp;структура мира DEXART.',
+            text2: 'Это была блокчейн-сингулярность, сжатая в&nbsp;одну очень плотную точку, которая в&nbsp;конце-концов взорвалась.',
+            text3: 'Эта Большая Вспышка и&nbsp;стала порталом </br> в&nbsp;мир DEXART.',
             btn: 'Прочесть легенду'
         }
     }

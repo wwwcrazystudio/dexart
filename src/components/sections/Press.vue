@@ -13,8 +13,8 @@
                                 <div class="press-item__tag">
                                     {{ item.tag }}
                                 </div>
-                                <div class="press-item__title">
-                                    {{ item.title }}
+                                <div class="press-item__title" v-html="item.title">
+                                    
                                 </div>
                                 <a :href="item.link" target="_blank" rel="nofollow" class="press-item__link">
                                     {{ t('btn') }}
@@ -64,12 +64,12 @@ const press = computed(() => {
         return [
             {
                 tag: 'BeinCrypto',
-                title: 'Мы просто оцифровываем весь мир на блокчейне',
+                title: 'Мы&nbsp;просто оцифровываем весь мир на&nbsp;блокчейне',
                 link: 'https://ru.beincrypto.com/my-prosto-oczifrovyvaem-ves-mir-na-blokchejne-glava-proekta-oton/?ysclid=l2rkdslvli',
             },
             {
                 tag: 'BitNovosti',
-                title: 'OTON представляет собой место работы, за которым будущее',
+                title: 'OTON представляет собой место работы, за&nbsp;которым будущее',
                 link: 'https://bitnovosti.com/2021/06/03/sistema-monetizatsii-auditorii-oton-platforma-obucheniya/',
             },
             {
@@ -83,12 +83,12 @@ const press = computed(() => {
     return [
         {
             tag: 'BeinCrypto',
-            title: 'We just digitize the whole world on the blockchain',
+            title: 'We&nbsp;just digitize the whole world on&nbsp;the blockchain',
             link: 'https://ru.beincrypto.com/my-prosto-oczifrovyvaem-ves-mir-na-blokchejne-glava-proekta-oton/?ysclid=l2rkdslvli',
         },
         {
             tag: 'BitNovosti',
-            title: 'OTON represents the workplace of the future',
+            title: 'OTON represents the workplace of&nbsp;the future',
             link: 'https://bitnovosti.com/2021/06/03/sistema-monetizatsii-auditorii-oton-platforma-obucheniya/',
         },
         {
@@ -178,13 +178,12 @@ watch(() => locale.value, async () => {
         overflow: hidden;
 
         @include media-breakpoint-down(md) {
-            margin-top: -170px;
-            background: url('@/assets/blurs/servicesBlur.png'),
-                linear-gradient(180deg,
+            margin-top: -50px;
+            background: linear-gradient(180deg,
+                    rgba(#391667, 0.1) 0%,
                     rgba(#381665, 0.4) 40%,
                     rgba(#381665, 0.1) 80%,
                     #160d1f 100%);
-            background-position: -320px -355px, center;
         }
 
 
@@ -197,6 +196,10 @@ watch(() => locale.value, async () => {
             width: 100%;
             height: 50%;
             z-index: 10;
+
+            @include media-breakpoint-down(md) {
+                height: 100%;
+            }
         }
     }
 
@@ -219,7 +222,7 @@ watch(() => locale.value, async () => {
         max-width: 470px;
         margin-bottom: rem(64px);
         position: relative;
-        z-index: 10;
+        z-index: 11;
 
         span {
             display: block;

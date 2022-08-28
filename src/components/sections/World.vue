@@ -37,7 +37,7 @@ gsap.config({
 })
 
 const { enter, leave, hide } = useAnimation()
-const { isMobile } = useMedia()
+const { isMobile, isLargeTablet } = useMedia()
 
 const { t, locale } = useI18n({
     messages: {
@@ -62,58 +62,58 @@ const steps = computed(() => {
     if (locale.value === 'ru') {
         return [
             `<p>
-                DEXART состоит из регионов, которые присоединяются к первому и главному району - центру мира... </br>
-                Каждый регион полон уникальных возможностей и персонажей, которые вовлекают пользователей в игровые механики.
+                DEXART состоит из&nbsp;регионов, которые присоединяются к&nbsp;первому и&nbsp;главному району&nbsp;&mdash; центру мира... </br>
+                Каждый регион полон уникальных возможностей и&nbsp;персонажей, которые вовлекают пользователей в&nbsp;игровые механики.
             </p>`,
             `<p>
-                В центре мира – портал DEXART. К западу от него лежат равнины, застроенные городами, открытые первопроходцами в поисках новых возможностей для развития бизнеса и технологических компаний. Они заканчиваются у единственного в мире моря DEXART.
+                В&nbsp;центре мира&nbsp;&mdash; портал DEXART. К&nbsp;западу от&nbsp;него лежат равнины, застроенные городами, открытые первопроходцами в&nbsp;поисках новых возможностей для развития бизнеса и&nbsp;технологических компаний. Они заканчиваются у&nbsp;единственного в&nbsp;мире моря DEXART.
             </p>
             <p>
-                К востоку от портала DEXART расположились горные районы, где в вышине парят необычные поселения и города.
+                К&nbsp;востоку от&nbsp;портала DEXART расположились горные районы, где в&nbsp;вышине парят необычные поселения и&nbsp;города.
             </p> 
             <p>
-                К северу от портала DEXART лежит огромный лес, а за ним лежат городские районы.
+                К&nbsp;северу от&nbsp;портала DEXART лежит огромный лес, а&nbsp;за&nbsp;ним лежат городские районы.
             </p>`,
             `<p>
-                Новые городские районы представляют собой жилую застройку будущего и развлекательные центры. Здесь много необычной недвижимости и возможностей для создания центров развлечений, игровых зон...
+                Новые городские районы представляют собой жилую застройку будущего и&nbsp;развлекательные центры. Здесь много необычной недвижимости и&nbsp;возможностей для создания центров развлечений, игровых зон...
             </p>
             <p>
-                К югу от портала DEXART находится Великая пустыня. Это несколько регионов, объединенных засушливым климатом и разнообразным пустынным ландшафтом.
+                К&nbsp;югу от&nbsp;портала DEXART находится Великая пустыня. Это несколько регионов, объединенных засушливым климатом и&nbsp;разнообразным пустынным ландшафтом.
             </p>`,
             `<p>
                 Посреди Великой Пустыни находится Оазис Пути
             </p>
             <p>
-                Это духовный центр DEXART – здесь находятся храмы всех возможных религий.
+                Это духовный центр DEXART&nbsp;&mdash; здесь находятся храмы всех возможных религий.
             </p>`,
         ]
     }
 
     return [
         `<p>
-            DEXART consists of regions surrounding the main district in the center. Each region is divided into districts and has its own unique landscape, topography and urbanization. </br>
-            Each region is full of different possibilities and is inhabited by various characters, who engage the users into game interactions. 
+            DEXART consists of&nbsp;regions surrounding the main district in&nbsp;the center. Each region is&nbsp;divided into districts and has its own unique landscape, topography and urbanization. </br>
+            Each region is&nbsp;full of&nbsp;different possibilities and is&nbsp;inhabited by&nbsp;various characters, who engage the users into game interactions.
         </p>`,
         `<p>
-            The center of the world is the DEXART Portal. To the west of it lie flat lands, built up with cities. They go to the only DEXART sea in the world.
+           The center of&nbsp;the world is&nbsp;the DEXART Portal. To&nbsp;the west of&nbsp;it&nbsp;lie flat lands, built up&nbsp;with cities. They go&nbsp;to&nbsp;the only DEXART sea in&nbsp;the world.
         </p>
         <p>
-            To the north of the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains.
+            To&nbsp;the north of&nbsp;the DEXART Portal lie mountainous regions, where unusual settlements and cities soar above the mountains.
         </p> 
         <p>
-            To the east of the DEXART Portal lies a huge forest, beyond which lie urban areas discovered by pioneers in search of new land for the development of business and technology companies.
+            To&nbsp;the east of&nbsp;the DEXART Portal lies a&nbsp;huge forest, beyond which lie urban areas discovered by&nbsp;pioneers in&nbsp;search of&nbsp;new land for the development of&nbsp;business and technology companies.
         </p>`,
         `<p>
-            New urban areas are a mixture of futuristic living spaces and entertainment centers. There is a lot of unusual real estate and opportunities for creating leisure centers, interactive arcades, etc.
+           New urban areas are a&nbsp;mixture of&nbsp;futuristic living spaces and entertainment centers. There is&nbsp;a&nbsp;lot of&nbsp;unusual real estate and opportunities for creating leisure centers, interactive arcades, etc.
         </p> 
         <p>
-            South of the DEXART Portal is the Great Desert. These are several regions united by an arid climate and a diverse desert landscape (from sandy desert to rocky and salty).
+            South of&nbsp;the DEXART Portal is&nbsp;the Great Desert. These are several regions united by&nbsp;an&nbsp;arid climate and a&nbsp;diverse desert landscape (from sandy desert to&nbsp;rocky and salty).
         </p>`,
         `<p>
-            In the middle of the Great Desert lies the Oasis of the Way.
+            In&nbsp;the middle of&nbsp;the Great Desert lies the Oasis of&nbsp;the Way.
         </p>
         <p>
-            This is the spiritual center of DEXART - here are the temples of all possible religions.
+           This is&nbsp;the spiritual center of&nbsp;DEXART&nbsp;&mdash; here are the temples of&nbsp;all possible religions.
         </p>`,
     ]
 })
@@ -172,7 +172,7 @@ onMounted(() => {
         if (heading.value) {
             ScrollTrigger.create({
                 trigger: section.value,
-                start: 'top top',
+                start: 'top 20px',
                 end: 'bottom bottom',
                 pin: heading.value,
             })
@@ -215,22 +215,47 @@ onMounted(() => {
 })
 
 const mapPosition = computed(() => {
+    if (!isLargeTablet()) {
+        switch (currentStep.value) {
+            case 1:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(40vw, 150px, 0)',
+                }
+            case 2:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(20vw, 200px, 0)',
+                }
+            case 3:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(4vw, 250px, 0)',
+                }
+            case 4:
+                return {
+                    transform: 'scale3d(1.3, 1.3, 1.3) translate3d(5vw, -30px, 0)',
+                }
+            default:
+                return {
+                    transform: 'scale3d(1 ,1, 1) translate3d(560px, 0, 0)',
+                }
+        }
+    }
+
     switch (currentStep.value) {
         case 1:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(40vw, 150px, 0)',
+                transform: 'scale3d(2.5, 2.5, 2.5) translate3d(24vw, -160px, 0)',
             }
         case 2:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(20vw, 200px, 0)',
+                transform: 'scale3d(3, 3, 3) translate3d(-3vw, -190px, 0px)',
             }
         case 3:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(4vw, 250px, 0)',
+                transform: 'scale3d(3, 3, 3) translate3d(-15vw, -170px, 0)',
             }
         case 4:
             return {
-                transform: 'scale3d(1.3, 1.3, 1.3) translate3d(5vw, -30px, 0)',
+                transform: 'scale3d(2, 2, 2) translate3d(-15vw, -170px, 0)',
             }
         default:
             return {
@@ -330,6 +355,10 @@ const mapPosition = computed(() => {
                 width: 100vw;
                 height: 24vh;
             }
+
+            @include media-breakpoint-down(sm) {
+                height: 35vh;
+            }
         }
 
 
@@ -363,14 +392,14 @@ const mapPosition = computed(() => {
             width: auto;
         }
 
-        /*   @include media-breakpoint-down(sm) {
-            min-height: 0;
-        } */
+        @include media-breakpoint-down(sm) {
+            font-size: rem(18px);
+        }
 
         &:nth-of-type(n + 2) {
             opacity: 0;
 
-        /*     @include media-breakpoint-down(sm) {
+            /*     @include media-breakpoint-down(sm) {
                 opacity: 1;
             } */
         }
@@ -456,8 +485,11 @@ const mapPosition = computed(() => {
             object-fit: contain;
 
             @include media-breakpoint-down(lg) {
-                transform: none !important;
                 object-position: bottom;
+            }
+
+            @include media-breakpoint-down(sm) {
+                position: static;
             }
         }
     }

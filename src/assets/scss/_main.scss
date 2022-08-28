@@ -3,6 +3,7 @@
 html {
     font-size: 16px;
     overflow: auto;
+    scroll-behavior: auto;
     scrollbar-width: none;
     /*     -webkit-overflow-scrolling: auto; */
 
@@ -40,6 +41,14 @@ body {
 a {
     &:hover {
         color: $accent;
+    }
+}
+
+p {
+    margin-bottom: rem(48px);
+
+    @include media-breakpoint-down(lg) {
+        margin-bottom: rem(24px);
     }
 }
 

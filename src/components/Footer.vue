@@ -44,9 +44,14 @@
                     <nav class="footer__footer-menu footer-menu">
                         <ul class="footer-menu__list">
                             <li class="footer-menu__item" v-for="item in menu1" :key="item.label">
-                                <a :href="item.url" class="footer-menu__link">
+                                <a :href="item.url" target="_blank" class="gooter-menu__link"
+                                    v-if="item.url.includes('http')">
                                     {{ item.label }}
                                 </a>
+                                <RouterLink class="header-menu__link" active-class="footer-menu__link--active"
+                                    :to="item.url" v-else>
+                                    {{ item.label }}
+                                </RouterLink>
                             </li>
                         </ul>
                     </nav>
@@ -58,9 +63,14 @@
                     <nav class="footer__footer-menu footer-menu">
                         <ul class="footer-menu__list">
                             <li class="footer-menu__item" v-for="item in menu2" :key="item.label">
-                                <a :href="item.url" class="footer-menu__link">
+                                <a :href="item.url" target="_blank" class="gooter-menu__link"
+                                    v-if="item.url.includes('http')">
                                     {{ item.label }}
                                 </a>
+                                <RouterLink class="header-menu__link" active-class="footer-menu__link--active"
+                                    :to="item.url" v-else>
+                                    {{ item.label }}
+                                </RouterLink>
                             </li>
                         </ul>
                     </nav>
@@ -164,7 +174,7 @@ const menu2 = computed(() => {
             },
             {
                 label: 'История мира',
-                url: '/#backstory',
+                url: '/history',
             },
             {
                 label: 'Токен',
@@ -184,7 +194,7 @@ const menu2 = computed(() => {
         },
         {
             label: 'World backstory',
-            url: '#backstory',
+            url: '/history',
         },
         {
             label: 'Token',

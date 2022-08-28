@@ -1,7 +1,7 @@
 <template>
     <header class="header" :class="scrolled && 'header--fixed'">
         <div class="header__wrap">
-            <a href="/#top" class="header__logo">
+            <a href="/dexart/#top" class="header__logo">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 995.6 326.6" xml:space="preserve"
                     width="125" height="65">
                     <path fill="#ffffff" d="M974.5,117l5.1,1.9c0.8,0.3,0.8,1.8,0,2.1l-5.1,1.9c-20.8,7.8-36.5,31.2-40.2,60.1l-5.2,40.4
@@ -34,9 +34,13 @@
                 <nav class="header__header-menu" v-show="isLargeTablet() ? showMenu : true">
                     <ul class="header-menu__list">
                         <li class="header-menu__item" v-for="link in links" :key="link.label">
-                            <a :href="link.url" @click.passive="handleMenuClick" class="header-menu__link">
+                            <a :href="link.url" target="_blank" class="header-menu__link" v-if="link.url.includes('http')">
                                 {{ link.label }}
                             </a>
+                            <RouterLink class="header-menu__link" active-class="header-menu__link--active"
+                                :to="link.url" v-else>
+                                {{ link.label }}
+                            </RouterLink>
                         </li>
                     </ul>
 
@@ -59,15 +63,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import FollowUs from './FollowUs.vue'
 import LangSwitch from './LangSwitch.vue'
 import Socials from './Socials.vue'
 import { useMedia } from '@/composables/useMedia'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const showMenu = ref<boolean>(false)
 const scrolled = ref<boolean>(false)
+
+const route = useRoute()
 
 const { isLargeTablet } = useMedia()
 
@@ -91,7 +98,7 @@ const links = computed(() => {
         return [
             {
                 label: 'О мире',
-                url: '/#backstory',
+                url: '/history',
             },
             {
                 label: 'Карта участков',
@@ -103,7 +110,7 @@ const links = computed(() => {
     return [
         {
             label: 'World Backstory',
-            url: '/#backstory',
+            url: '/history',
         },
         {
             label: 'Map',
@@ -132,15 +139,10 @@ const scrollHandler = () => {
     scrolled.value = false
 }
 
-const handleMenuClick = (e: Event) => {
-    const el = e.target as HTMLLinkElement
 
-    if (isLargeTablet()) {
-        e.preventDefault()
-        showMenu.value = false
-        window.location.href = el.href
-    }
-}
+watch(() => [route.hash, route.name], () => {
+    showMenu.value = false
+})
 </script>
 
 <style scoped lang="scss">
@@ -335,6 +337,10 @@ const handleMenuClick = (e: Event) => {
         @include media-breakpoint-down(lg) {
             font-size: rem(28px);
             color: #fff;
+        }
+
+        &--active {
+            font-weight: 700;
         }
 
         &:hover {

@@ -14,11 +14,9 @@
                                         <img :src="item.img" alt="" />
                                         <source :srcset="`${item.img}.webp`" type="image/webp" />
                                     </picture>
-                                    <h3 class="service-item__heading">
-                                        {{ item.title }}
+                                    <h3 class="service-item__heading" v-html="item.title">
                                     </h3>
-                                    <div class="service-item__text">
-                                        {{ item.text }}
+                                    <div class="service-item__text" v-html="item.text">
                                     </div>
                                 </div>
                             </li>
@@ -80,27 +78,27 @@ const services = computed(() => {
             {
                 img: service2,
                 title: 'Повысьте лояльность аудитории',
-                text: 'Выводите свой бизнес на метауровень и создавайте впечатления: виртуальное рабочее пространство, геймификация и квесты для аудитории, свободная коммуникация аватаров и метаворкинг',
+                text: 'Выводите свой бизнес на&nbsp;метауровень и&nbsp;создавайте впечатления: виртуальное рабочее пространство, геймификация и&nbsp;квесты для аудитории, свободная коммуникация аватаров и&nbsp;метаворкинг',
             },
             {
                 img: service3,
                 title: 'Создавайте образовательные проекты в игровом формате',
-                text: 'Дайте возможность пользователям получать образование в новом формате: высокая интерактивность, глубокое погружение в контент, геймификация и награды за достижения',
+                text: 'Дайте возможность пользователям получать образование в&nbsp;новом формате: высокая интерактивность, глубокое погружение в&nbsp;контент, геймификация и&nbsp;награды за&nbsp;достижения',
             },
             {
                 img: service4,
                 title: 'Проводите встречи со своей аудиторией',
-                text: 'Иммерсивные виртуальные мероприятия для вашей аудитории, где бы они ни находились.VR и 3D инструменты для взаимодействия',
+                text: 'Иммерсивные виртуальные мероприятия для вашей аудитории, где&nbsp;бы они ни&nbsp;находились.VR и&nbsp;3D&nbsp;инструменты для взаимодействия',
             },
             {
                 img: service5,
                 title: 'Используйте возможности метаворкинга',
-                text: 'Знакомьтесь с новыми людьми и создавайте деловые связи, находясь в виртуальном мире',
+                text: 'Знакомьтесь с&nbsp;новыми людьми и&nbsp;создавайте деловые связи, находясь в&nbsp;виртуальном мире',
             },
             {
                 img: service6,
                 title: 'Самовыражайтесь и творите',
-                text: 'Проявляйте свои таланты в виртуальном мире и монетизируйте творчество',
+                text: 'Проявляйте свои таланты в&nbsp;виртуальном мире и&nbsp;монетизируйте творчество',
             },
         ]
 
@@ -108,27 +106,27 @@ const services = computed(() => {
         {
             img: service1,
             title: 'Present your product or service',
-            text: 'Your virtual demonstration can reach an unlimited number of viewers who will devote all their attention to your product or service',
+            text: 'Your virtual demonstration can reach an&nbsp;unlimited number of&nbsp;viewers who will devote all their attention to&nbsp;your product or&nbsp;service',
         },
         {
             img: service2,
             title: 'Build audience loyalty',
-            text: 'Take your business to a metalevel and make an emotional impact: run virtual working spaces, create gamification and quests for your audience, enjoy free communication between avatars and leverage the metaworking',
+            text: 'Take your business to&nbsp;a&nbsp;metalevel and make an&nbsp;emotional impact: run virtual working spaces, create gamification and quests for your audience, enjoy free communication between avatars and leverage the metaworking',
         },
         {
             img: service3,
             title: 'Create gamified educational experiences',
-            text: 'Give users an opportunity to learn through play: create interactive and immersive content, rewards participants for achievements and progress',
+            text: 'Give users an&nbsp;opportunity to&nbsp;learn through play: create interactive and immersive content, rewards participants for achievements and progress',
         },
         {
             img: service4,
             title: 'Meet your audience',
-            text: 'Run immersive virtual events for your clients and followers wherever they reside. VR and 3D tools will help you build engaging interactions',
+            text: 'Run immersive virtual events for your clients and followers wherever they reside. VR&nbsp;and 3D&nbsp;tools will help you build engaging interactions',
         },
         {
             img: service5,
             title: 'Leverage metaworking',
-            text: 'Meet new people and build real connections in the virtual world',
+            text: 'Meet new people and build real connections in&nbsp;the virtual world',
         },
         {
             img: service6,
@@ -176,7 +174,7 @@ onMounted(() => {
         if (section.value && !isTablet())
             ScrollTrigger.create({
                 trigger: section.value,
-                start: 'top 50px',
+                start: 'top top',
                 end: 'bottom 80%',
                 pin: heading.value,
             })
@@ -358,6 +356,10 @@ onMounted(() => {
             margin-bottom: rem(8px);
             max-width: 80%;
         }
+
+        @include media-breakpoint-down(sm) {
+            max-width: 100%;
+        }
     }
 
     &__text {
@@ -369,6 +371,10 @@ onMounted(() => {
         @include media-breakpoint-down(md) {
             font-size: rem(16px);
             max-width: 90%;
+        }
+
+        @include media-breakpoint-down(sm) {
+            max-width: 100%;
         }
     }
 
@@ -387,7 +393,7 @@ onMounted(() => {
             width: 120px;
             height: 120px;
             margin: 0;
-            transform: translate3d(-20px, 0, 0);
+            transform: translate3d(-20px, 10px, 0);
         }
 
         img {

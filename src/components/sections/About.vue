@@ -1,5 +1,5 @@
 <template>
-    <section class="about">
+    <section class="about" ref="section">
         <div class="about__wrap">
             <div class="about__scene" ref="scene">
                 <div data-depth="0.4" class="about__stone about__stone--1">
@@ -15,11 +15,9 @@
 
                     </h2>
                     <div class="about__text" ref="text">
-                        <p>
-                            {{ t('text1') }}
+                        <p v-html="t('text1')">
                         </p>
-                        <p>
-                            {{ t('text2') }}
+                        <p v-html="t('text2')">
                         </p>
                     </div>
                 </div>
@@ -29,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useAnimation } from '@/composables/useAnimation'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Parallax from 'parallax-js'
@@ -42,8 +40,11 @@ const { isMobile } = useMedia()
 const heading = ref<HTMLElement>()
 const text = ref<HTMLElement>()
 const content = ref<HTMLElement>()
+const section = ref<HTMLElement>()
 const scene = ref<HTMLElement>()
 const parallaxInstance = ref<any>()
+
+const isPassedThrough = ref<boolean>(false)
 
 const { enter, leave, hide } = useAnimation()
 
@@ -51,16 +52,17 @@ const { t } = useI18n({
     messages: {
         en: {
             heading: 'Metaverses create <span>a magical</span> future',
-            text1: 'And we contribute to the new era of social media communications of Web 3.0',
-            text2: 'We help businesses and opinion leaders to create deep and meaningful communication with their clients and communities.',
+            text1: 'And we&nbsp;contribute to&nbsp;the new era of&nbsp;social media communications of&nbsp;Web&nbsp;3.0',
+            text2: 'We&nbsp;help businesses and opinion leaders to&nbsp;create deep and meaningful communication with their clients and communities.',
         },
         ru: {
-            heading: 'Метавселенные создают <span>магическое</span> будущее.',
-            text1: 'И мы вносим свой вклад в новую эру социальных медиакоммуникаций Web 3.0',
-            text2: 'Мы помогаем бизнесу и лидерам мнений создать глубокую и эмоциональную коммуникацию со своими клиентами и сообществами. ',
+            heading: 'Мета&shyвселенные создают <span>магическое</span> будущее.',
+            text1: 'И&nbsp;мы&nbsp;вносим свой вклад в&nbsp;новую эру социальных медиакоммуникаций Web&nbsp;3.0',
+            text2: 'Мы&nbsp;помогаем бизнесу и&nbsp;лидерам мнений создать глубокую и&nbsp;эмоциональную коммуникацию со&nbsp;своими клиентами и&nbsp;сообществами.',
         }
     }
 })
+
 
 onMounted(() => {
     const enterCallback = () => {
@@ -79,15 +81,16 @@ onMounted(() => {
         parallaxInstance.value && parallaxInstance.value.disable()
         heading.value && leave(heading.value)
         text.value && leave(text.value)
+        isPassedThrough.value = true
     }
 
     if (!isMobile()) {
         heading.value && hide(heading.value)
         text.value && hide(text.value)
 
-        if (content.value)
+        if (section.value)
             ScrollTrigger.create({
-                trigger: content.value,
+                trigger: section.value,
                 start: 'top bottom',
                 end: 'bottom top',
                 onEnter: () => enterCallback(),
@@ -95,15 +98,9 @@ onMounted(() => {
                 onEnterBack: () => enterCallback(),
                 onLeaveBack: () => leaveCallback(),
             })
-
-        if (content.value)
-            ScrollTrigger.create({
-                trigger: content.value,
-                start: 'top bottom',
-                end: 'bottom top',
-            })
     }
 })
+
 </script>
 
 <style lang="scss">
