@@ -183,31 +183,31 @@ onMounted(() => {
         ScrollTrigger.create({
             trigger: element,
             start: 'top 70%',
-            end: 'top 120px',
+            end: 'top 200px',
             onEnter: () => {
                 currentStep.value = key + 1
                 gsap.to(element, {
                     opacity: 1,
-                    duration: 1,
+                    duration: 0.5,
                 })
             },
             onEnterBack: () => {
                 currentStep.value = key + 1
                 gsap.to(element, {
                     opacity: 1,
-                    duration: 1,
+                    duration: 0.5,
                 })
             },
             onLeave: () => {
                 gsap.to(element, {
                     opacity: 0,
-                    duration: 1,
+                    duration: 0.5,
                 })
             },
             onLeaveBack: () => {
                 gsap.to(element, {
                     opacity: 0,
-                    duration: 1,
+                    duration: 0.5,
                 })
             },
         })
@@ -295,21 +295,6 @@ const mapPosition = computed(() => {
             }
         }
 
-        /*   &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            background-image: linear-gradient(178deg, #1c0b2b 30%, transparent 35%);
-            width: 100%;
-            height: 100%;
-
-            @include media-breakpoint-down(xl) {
-                content: none;
-            }
-        }
- */
         @include media-breakpoint-down(md) {
             padding: rem(64px 0);
             background: linear-gradient(132deg, #1c0b2b 40%, transparent 100%);
@@ -344,10 +329,36 @@ const mapPosition = computed(() => {
             width: 43vw;
             height: 34vh;
             z-index: -1;
-            filter: blur(30px);
+            /*      filter: blur(30px); */
 
             @media (max-width: 1600px) {
-                width: 50vw;
+                width: 42vw;
+                height: 38vh;
+            }
+
+            @include media-breakpoint-down(lg) {
+                width: 100vw;
+                height: 24vh;
+            }
+
+            @include media-breakpoint-down(sm) {
+                height: 35vh;
+            }
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: -10vw;
+            top: -200px;
+            background-image: linear-gradient(180deg, #1c0b2b 60%, transparent 80%);
+            width: 43vw;
+            height: 200px;
+            z-index: -1;
+            /*      filter: blur(30px); */
+
+            @media (max-width: 1600px) {
+                width: 42vw;
                 height: 38vh;
             }
 
@@ -379,7 +390,7 @@ const mapPosition = computed(() => {
 
         color: #faf5ff;
         max-width: 595px;
-        width: 35vw;
+        width: 28vw;
         min-height: calc(100vh - 220px);
         transform: translateZ(0);
         font-size: rem(28px);
