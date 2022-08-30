@@ -326,7 +326,7 @@ const mapPosition = computed(() => {
             left: -10vw;
             top: -80px;
             background-image: linear-gradient(180deg, #1c0b2b 60%, transparent 80%);
-            width: 43vw;
+            width: 35vw;
             height: 34vh;
             z-index: -1;
             /*      filter: blur(30px); */
@@ -352,7 +352,7 @@ const mapPosition = computed(() => {
             left: -10vw;
             top: -200px;
             background-image: linear-gradient(180deg, #1c0b2b 60%, transparent 80%);
-            width: 43vw;
+            width: 35vw;
             height: 200px;
             z-index: -1;
             /*      filter: blur(30px); */
@@ -390,7 +390,7 @@ const mapPosition = computed(() => {
 
         color: #faf5ff;
         max-width: 595px;
-        width: 28vw;
+        width: 24vw;
         min-height: calc(100vh - 220px);
         transform: translateZ(0);
         font-size: rem(28px);
