@@ -45,7 +45,7 @@ a {
 }
 
 p {
-    margin-bottom: rem(48px);
+    margin-bottom: rem(32px);
 
     @include media-breakpoint-down(lg) {
         margin-bottom: rem(24px);
