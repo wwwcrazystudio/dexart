@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Frontpage from '../views/Frontpage.vue'
-import History from '../views/History.vue'
-import NotFound from '../views/NotFound.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +9,20 @@ const router = createRouter({
             name: 'frontpage',
             component: Frontpage,
         },
-        { path: '/history', component: History, name: 'history' },  
-        { path: '/404', component: NotFound,  name: '404' },  
-        { path: '/:pathMatch(.*)*', component: NotFound }
+        { 
+            path: '/history', 
+            component: () => import('../views/History.vue'),  
+            name: 'history' 
+        },  
+        { 
+            path: '/404',
+            component: () => import('../views/NotFound.vue'),  
+            name: '404'
+        },  
+        {
+            path: '/:pathMatch(.*)*', 
+            component: () => import('../views/NotFound.vue'),  
+        }
     ],
 
     scrollBehavior (to, from, savedPosition) {

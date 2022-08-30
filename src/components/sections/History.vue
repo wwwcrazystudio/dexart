@@ -140,7 +140,7 @@ const videoSrc = computed(() => {
             position: absolute;
             right: -50px;
             top: -50px;
-            filter: drop-shadow(0px 0px 10px #752CC5) drop-shadow(0px 0px 10px #752CC5);
+        /*     filter: drop-shadow(0px 0px 10px #752CC5) drop-shadow(0px 0px 10px #752CC5); */
 
             @include media-breakpoint-down(md) {
                 width: 38px;
